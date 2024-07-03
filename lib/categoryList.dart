@@ -12,6 +12,7 @@ enum itemCategory {
 
 List<String> menuCategoryList = [
   "items"
+  "settings"
 ];
 
 List<String> itemCategory2List = [
