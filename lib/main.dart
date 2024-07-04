@@ -1,5 +1,4 @@
-import 'package:ffixv/CategoryList.dart';
-import 'package:ffixv/views/app_menu_drawers.dart';
+import 'package:ffixv/viewModels/item_info_page.dart';
 import 'package:flutter/material.dart';
 
 
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const AppMenuDrawers(),
+      home: const ItemInfoPage(),
     );
   }
 
