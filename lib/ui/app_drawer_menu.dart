@@ -3,14 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class AppMenuDrawers extends StatefulWidget {
+class AppMenuDrawers extends StatelessWidget {
   const AppMenuDrawers({super.key});
 
-  @override
-  State<AppMenuDrawers> createState() => _AppMenuDrawersState();
-}
-
-class _AppMenuDrawersState extends State<AppMenuDrawers> { //나중에 stateless로 해야 할까?
   @override
   Widget build(BuildContext context) {  
     return Scaffold(
