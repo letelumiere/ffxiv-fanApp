@@ -1,4 +1,4 @@
-import 'package:ffixv/viewModels/item_info_page.dart';
+import 'package:ffixv/ui/item_info_page.dart';
 import 'package:flutter/material.dart';
 
 

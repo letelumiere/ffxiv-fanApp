@@ -1,4 +1,4 @@
-import 'package:ffixv/viewModels/widgets/item_init_container.dart';
+import 'package:ffixv/ui/item_listview_container.dart';
 import 'package:flutter/material.dart';
 
 class ItemInfoPage extends StatefulWidget {
@@ -14,7 +14,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     return ListView.builder(
       itemCount: 3, //후에 list의 길이에 따라 stateful
       itemBuilder: (context, index){
-        return ItemInitContainer();
+        return const ItemListviewContainer();
       });
   }
 }

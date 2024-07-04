@@ -1,4 +1,4 @@
-import 'package:ffixv/category_list.dart';
+import 'package:ffixv/data/datasources/category_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,9 +10,9 @@ class AppMenuDrawers extends StatefulWidget {
   State<AppMenuDrawers> createState() => _AppMenuDrawersState();
 }
 
-class _AppMenuDrawersState extends State<AppMenuDrawers> {
+class _AppMenuDrawersState extends State<AppMenuDrawers> { //나중에 stateless로 해야 할까?
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  
     return Scaffold(
       appBar: AppBar(),
       body: Container(),
