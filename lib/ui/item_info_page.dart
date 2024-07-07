@@ -13,10 +13,6 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("파판앱테스트"),
-        backgroundColor: Colors.blue,
-      ),
       drawer: const AppMenuDrawers(),
       body: ListView.builder(
         itemCount: 3, //후에 list의 길이에 따라 stateful
