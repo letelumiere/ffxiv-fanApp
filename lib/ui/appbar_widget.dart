@@ -6,8 +6,8 @@ class AppBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text("파판앱 테스트"),
+    return AppBar(
+      title: Text("파판앱 테스트"),
       backgroundColor: Colors.blue,
     );
   }

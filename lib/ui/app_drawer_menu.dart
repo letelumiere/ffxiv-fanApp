@@ -1,31 +1,43 @@
-import 'package:ffixv/data/datasources/category_list.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:ffixv/data/datasources/category_list.dart';
 
 class AppMenuDrawers extends StatelessWidget {
-  const AppMenuDrawers({super.key});
+  final Function(int) onItemTapped;
+
+  const AppMenuDrawers({required this.onItemTapped, super.key});
 
   @override
-  Widget build(BuildContext context) {  
+  Widget build(BuildContext context) {
     return Drawer(
-        child: ListView.builder(
-          itemCount: itemCategory2List.length,
-          itemBuilder: (context, index){
-            String category = itemCategory2List[index];
-            List<String> subItems = itemCategory3Map[category] ?? [];
-
-            return ExpansionTile(
-              title: Text(category),
-              children: subItems.map((subItems){
-                  return ListTile(
-                    title: Text(subItems),  //해당 ListTile을 widget으로 선언하고, 검색관련 onTap()을 수행 해야 함
-                  );
-              }).toList(),
-            );
-          }
-        ),
-      );
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+              itemCount: itemCategory2List.length,
+              itemBuilder: (context, index) {
+                String category = itemCategory2List[index];
+                List<String> subItems = itemCategory3Map[category] ?? [];
+                return ExpansionTile(
+                  title: Text(category),
+                  children: subItems.map((subItems) {
+                    return ListTile(
+                      title: Text(subItems),
+                      onTap: () => onItemTapped(2), //해당 파라미터는 추후 수정. 어차피 검색창으로 가야 함
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.close),
+            title: const Text("close Icon"),
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
-
