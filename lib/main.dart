@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:ffixv/ui/app_drawer_menu.dart';
+import 'package:ffixv/ui/item_list_page.dart';
 import 'package:ffixv/ui/main_page.dart';
+import 'package:flutter/material.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -8,6 +12,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,6 +22,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MainPage(),
+
     );
   }
+
 }
