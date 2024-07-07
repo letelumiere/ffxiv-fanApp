@@ -8,16 +8,13 @@ class AppMenuDrawers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {  
-    return Scaffold(
-      appBar: AppBar(),
-      body: Container(),
-      drawer: Drawer(
+    return Drawer(
         child: ListView.builder(
           itemCount: itemCategory2List.length,
           itemBuilder: (context, index){
             String category = itemCategory2List[index];
             List<String> subItems = itemCategory3Map[category] ?? [];
-            
+
             return ExpansionTile(
               title: Text(category),
               children: subItems.map((subItems){
@@ -28,8 +25,7 @@ class AppMenuDrawers extends StatelessWidget {
             );
           }
         ),
-      ),
-    );
+      );
   }
 }
 
