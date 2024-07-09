@@ -13,10 +13,7 @@ class ItemDetailLayout extends StatefulWidget {
 class _ItemDetailLayoutState extends State<ItemDetailLayout> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Item Details')),
-      body: ListView(
-        padding: EdgeInsets.all(16),
+    return Column(
         children: [
           itemNameSection(),
           SizedBox(height: 10),
@@ -42,7 +39,6 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
           SizedBox(height: 10),
 //          commentSection(),
         ],
-      ),
     );
   }
 

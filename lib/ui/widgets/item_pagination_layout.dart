@@ -11,7 +11,7 @@ class ItemPaginationLayout extends StatefulWidget {
 
 class _ItemPaginationLayoutState extends State<ItemPaginationLayout> {
   final ScrollController _scrollController = ScrollController();
-  List<String> items = List.generate(3, (index) => '${index + 1}번쨰 위젯');
+  List<String> items = List.generate(15, (index) => '${index + 1}번쨰 위젯');
   bool isLoading = false;
 
   @override
@@ -29,6 +29,8 @@ class _ItemPaginationLayoutState extends State<ItemPaginationLayout> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
+      primary: false,
       controller: _scrollController,
       itemCount: items.length+1,
       itemBuilder: (context, index){
