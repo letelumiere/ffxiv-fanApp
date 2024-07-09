@@ -2,16 +2,16 @@ import 'package:ffixv/data/datasources/category_list.dart';
 import 'package:ffixv/ui/widgets/item_listview_container.dart';
 import 'package:flutter/material.dart';
 
-class ItemPaginationPage extends StatefulWidget {
-  const ItemPaginationPage({super.key});
+class ItemPaginationLayout extends StatefulWidget {
+  const ItemPaginationLayout({super.key});
   @override
 
-  State<ItemPaginationPage> createState() => _ItemPaginationPageState();
+  State<ItemPaginationLayout> createState() => _ItemPaginationLayoutState();
 }
 
-class _ItemPaginationPageState extends State<ItemPaginationPage> {
+class _ItemPaginationLayoutState extends State<ItemPaginationLayout> {
   final ScrollController _scrollController = ScrollController();
-  List<String> items = List.generate(150, (index) => '${index + 1}번쨰 위젯');
+  List<String> items = List.generate(3, (index) => '${index + 1}번쨰 위젯');
   bool isLoading = false;
 
   @override

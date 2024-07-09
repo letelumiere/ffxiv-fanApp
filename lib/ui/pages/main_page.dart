@@ -1,8 +1,7 @@
-import 'package:ffixv/ui/pages/item_detail_page.dart';
+import 'package:ffixv/ui/pages/item_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ffixv/ui/widgets/app_drawer_menu.dart';
 import 'package:ffixv/ui/pages/index_page.dart';
-import 'package:ffixv/ui/pages/item_list_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -21,8 +20,7 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     _pages.addAll([
       IndexPage(callback: _showMessage),
-      ItemListPage(callback: _showMessage),
-      ItemDetailPage(callback: _showMessage),
+      ItemInfoPage(callback: _showMessage),
     ]);
   }
 
