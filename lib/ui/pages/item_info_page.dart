@@ -25,8 +25,12 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        child: ItemDetailLayout(callback: (message) => print("hi")),
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(child: ItemDetailLayout(callback:(message) => {print("hi")})),
+        ],
+      ),
     );
   }
 }

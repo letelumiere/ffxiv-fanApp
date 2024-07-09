@@ -1,5 +1,5 @@
 import 'package:ffixv/data/datasources/category_list.dart';
-import 'package:ffixv/ui/widgets/item_listview_container.dart';
+import 'package:ffixv/ui/widgets/item_listTile_container.dart';
 import 'package:flutter/material.dart';
 
 class ItemPaginationLayout extends StatefulWidget {
@@ -33,7 +33,7 @@ class _ItemPaginationLayoutState extends State<ItemPaginationLayout> {
       itemCount: items.length+1,
       itemBuilder: (context, index){
         if(index<items.length){
-          return ItemListviewContainer();
+          return ItemListTileContainer();
         }else{
           return isLoading ? const CircularProgressIndicator() : const SizedBox();
         }
