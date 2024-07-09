@@ -1,6 +1,5 @@
-import 'package:ffixv/ui/app_drawer_menu.dart';
-import 'package:ffixv/ui/item_list_page.dart';
-import 'package:ffixv/ui/main_page.dart';
+import 'package:ffixv/ui/widgets/app_drawer_menu.dart';
+import 'package:ffixv/ui/pages/main_page.dart';
 import 'package:flutter/material.dart';
 
 
@@ -20,6 +19,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        scaffoldBackgroundColor: Colors.black45,
+        fontFamily: 'sans-serif',
       ),
       home: const MainPage(),
 

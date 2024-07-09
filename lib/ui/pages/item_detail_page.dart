@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart'; // Make sure to include this pa
 class ItemDetailPage extends StatefulWidget {
   final void Function(String message) callback;
 
-  const ItemDetailPage({Key? key, required this.callback}) : super(key: key);
+  const ItemDetailPage({super.key, required this.callback});
 
   @override
   State<ItemDetailPage> createState() => _ItemDetailPageState();
@@ -40,7 +40,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
           SizedBox(height: 10),
           itemSideSection(),
           SizedBox(height: 10),
-          commentSection(),
+//          commentSection(),
         ],
       ),
     );
@@ -85,10 +85,11 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('쌍검', style: TextStyle(fontSize: 16)),
         Row(
           children: [
-            Text('고유', style: TextStyle(color: Colors.red)),
+            Text('쌍검', style: TextStyle(fontSize: 16)),
+            SizedBox(width: 10),
+            Text('고유', style:TextStyle(color: Colors.red)),
             SizedBox(width: 10),
             Text('거래 불가', style: TextStyle(color: Colors.red)),
           ],

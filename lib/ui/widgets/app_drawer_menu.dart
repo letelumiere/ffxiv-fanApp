@@ -30,6 +30,21 @@ class AppMenuDrawers extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.airline_seat_individual_suite),
+            title: const Text("toMainPage"),
+            onTap: () => onItemTapped(0),
+          ),
+          ListTile(
+            leading: const Icon(Icons.airline_seat_individual_suite),
+            title: const Text("toitemListPage"),
+            onTap: () => onItemTapped(1),
+          ),
+          ListTile(
+            leading: const Icon(Icons.airline_seat_individual_suite),
+            title: const Text("toItemDetailPage"),
+            onTap: () => onItemTapped(2),
+          ),
+          ListTile(
             leading: const Icon(Icons.close),
             title: const Text("close Icon"),
             onTap: () {
