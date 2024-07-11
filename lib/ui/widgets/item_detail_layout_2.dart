@@ -113,11 +113,18 @@ Widget _buildStatRow(String title, String value) {
   );
 }
 
+Widget _buildCategoryHeader(String categoryTitle){  // <- 수정할 것
+  return Container(
+    decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white, width:1))),
+    child: Text(categoryTitle, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+  );
+}
+
 Widget _buildAdditionalStatsSection() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text('추가 능력치', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      _buildCategoryHeader("추가 능력치"),
       Row(
         children: [
           Expanded(child: _buildStatRow('활력', '+412')),
