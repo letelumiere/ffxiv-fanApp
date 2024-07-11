@@ -8,43 +8,21 @@ class ItemListTileContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.min,
       children: [
-        Expanded(
-          child: Align(
-            alignment: AlignmentDirectional(-1, 0),
-            child: Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                color: Colors.blueGrey,
-              ),
+        Image.asset('assets/icons/BlueMage.png', width: 40, height: 40),  //추후 HQ스왑 기능 추가 
+        const SizedBox(width: 10),
+        const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('승천 치유서', style: TextStyle(fontWeight: FontWeight.bold)),
+            Row(
+              children: [
+                Text('Codex of Ascension',),
+                Text(' · '),
+                Text('コーデックス・オブ・アセンション'),
+              ],
             ),
-          ),
-        ),
-        Flexible(
-          child: Align(
-            alignment: AlignmentDirectional(0, 0),
-            child: Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                color: Colors.blueGrey,
-              ),
-            ),
-          ),
-        ),
-        Flexible(
-          child: Align(
-            alignment: AlignmentDirectional(1, 0),
-            child: Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                color: Colors.blueGrey,
-              ),
-            ),
-          ),
+          ],
         ),
       ],
     );

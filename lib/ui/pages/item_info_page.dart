@@ -1,5 +1,4 @@
 import 'package:ffixv/ui/widgets/item_detail_layout.dart';
-import 'package:ffixv/ui/widgets/item_detail_layout_2.dart';
 import 'package:ffixv/ui/widgets/item_pagination_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -29,8 +28,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     return Scaffold(
       body: SingleChildScrollView(
           child: Column(children: [
-//            ItemDetailLayout(callback:(message) => {print("hi")}),
-            ItemDetailLayout2(),
+            ItemDetailLayout(callback:(message) => {print("hi")}),
             ItemPaginationLayout(),
           ]),
       ),

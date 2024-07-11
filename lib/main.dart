@@ -1,6 +1,7 @@
+import 'package:ffixv/ui/pages/item_info_page.dart';
 import 'package:ffixv/ui/widgets/app_drawer_menu.dart';
 import 'package:ffixv/ui/pages/main_page.dart';
-import 'package:ffixv/ui/widgets/item_detail_layout_2.dart';
+import 'package:ffixv/ui/widgets/item_detail_layout.dart';
 import 'package:flutter/material.dart';
 
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.black45,
       ),
-      home: ItemDetailLayout2(),
+      home: MainPage(),
 
     );
   }
