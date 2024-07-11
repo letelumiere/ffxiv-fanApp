@@ -26,5 +26,7 @@ dev_dependencies:
   
 
 flutter:
+  assets:
+    - assets/icons/BlueMage.png
   uses-material-design: true
 

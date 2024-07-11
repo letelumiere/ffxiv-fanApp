@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart'; // Make sure to include this package in your pubspec.yaml
 
+
 class ItemDetailLayout extends StatefulWidget {
   final void Function(String message) callback;
 
@@ -48,12 +49,12 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
         Column(
           children: [
             Image.network(
-              'https://example.com/assets/img/icon/033000/033618.tex.png',
+              'assets/images/BlueMage.png',
               width: 50,
               height: 50,
             ),
-            Image.network(
-              'https://example.com/assets/img/icon/033000/hq/033618.tex.png',
+            Image.network(    //HQ템 있을 시 onPRessed 써서 변경기능
+              'assets/images/BlueMage.png',
               width: 50,
               height: 50,
             ),

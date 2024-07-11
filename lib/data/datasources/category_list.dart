@@ -10,12 +10,12 @@ enum itemCategory {
   Other
 }
 
-List<String> menuCategoryList = [
+var menuCategoryList = [
   "items"
   "settings"
 ];
 
-List<String> itemCategory2List = [
+var itemCategory2List = [
   "Arms",
   "Tools",
   "Armor",
@@ -25,7 +25,7 @@ List<String> itemCategory2List = [
   "Other"
 ];
 
-Map<String, List<String>> itemCategory3Map = {
+var itemCategory3Map = {
   "Arms" : ["A","B","C"],
   "Tools" : ["A","B"],
   "Armor" : ["A","B","C"],

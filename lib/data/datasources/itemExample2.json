@@ -1,0 +1,44 @@
+{
+    "Pagination": {
+      "Page": 1,
+      "PageNext": null,
+      "PagePrev": null,
+      "PageTotal": 1,
+      "Results": 1,
+      "ResultsPerPage": 50,
+      "ResultsTotal": 1
+    },
+    "Results": [
+      {
+        "ID": 21015,
+        "Name": "Higekiri",
+        "Description": "A katana forged for a samurai of great skill.",
+        "Icon": "https://xivapi.com/i/040000/040867.png",
+        "LevelItem": 70,
+        "LevelEquip": 70,
+        "Rarity": 1,
+        "StackSize": 1,
+        "MateriaSlotCount": 2,
+        "IsUntradable": true,
+        "IsUnique": true,
+        "PriceMid": 0,
+        "PriceLow": 0,
+        "ItemUICategory": {
+          "Name": "Samurai's Arm"
+        },
+        "ItemSearchCategory": {
+          "Name": "Weapon"
+        },
+        "ItemKind": {
+          "Name": "Katana"
+        },
+        "ClassJobCategory": {
+          "Name": "SAM"
+        },
+        "GamePatch": {
+          "Name": "Patch 4.0"
+        }
+      }
+    ]
+  }
+  
