@@ -1,7 +1,7 @@
 import 'package:ffixv/ui/pages/item_info_page.dart';
 import 'package:ffixv/ui/widgets/item_detail_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:ffixv/ui/widgets/app_drawer_menu.dart';
+import 'package:ffixv/ui/widgets/app_drawer_menu_layout.dart';
 import 'package:ffixv/ui/pages/index_page.dart';
 
 class MainPage extends StatefulWidget {
