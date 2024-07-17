@@ -1,15 +1,15 @@
-class Item {
-  String? documentId;
+class Item {    //description 문제가 있다
+  String? documentId; // Firestore Document ID
   int? additionalData;
   int? adjective;
   int? aetherialReduce;
-  int? alwaysCollectable;
+  bool? alwaysCollectable;
   int? article;
-  List<int>? baseParam;
-  String? baseParamModifier;
-  List<int>? baseParamValue;
-  List<int>? baseParamValueSpecial; // BaseParamValue{Special}
-  List<int>? baseParamSpecial; // BaseParam{Special}
+  List<int>? baseParam; // 배열
+  int? baseParamModifier;
+  List<int>? baseParamValue; // 배열
+  List<int>? baseParamValueSpecial; // 배열
+  List<int>? baseParamSpecial; // 배열
   int? block;
   int? blockRate;
   bool? canBeHq;
@@ -23,14 +23,13 @@ class Item {
   int? defenseMag; // Defense{Mag}
   int? defensePhys; // Defense{Phys}
   int? delayMs; // Delay<ms>
-  String? description;
   int? desynth;
   int? dyeCount;
   int? equipRestriction;
   int? equipSlotCategory;
   int? filterGroup;
   int? grandCompany;
-  int? id;
+  int? id; // ID
   int? icon;
   bool? isAdvancedMeldingPermitted;
   bool? isCollectable;
@@ -49,6 +48,25 @@ class Item {
   int? itemUICategory;
   int? itemGlamour; // Item{Glamour}
   int? itemRepair; // Item{Repair}
+  int? levelEquip; // Level{Equip}
+  int? levelItem; // Level{Item}
+  bool? lot;
+  int? materiaSlotCount;
+  int? materializeType;
+  String? modelMain; // Model{Main}
+  String? modelSub; // Model{Sub}
+  String? name; // Name
+  String? plural; // Plural
+  int? possessivePronoun; // PossessivePronoun
+  int? priceLow; // Price{Low}
+  int? priceMid; // Price{Mid}
+  int? pronoun; // Pronoun
+  int? rarity; // Rarity
+  int? requiredPvpRank; // RequiredPvpRank
+  String? singular; // Singular
+  int? stackSize; // StackSize
+  int? startsWithVowel; // StartsWithVowel
+  int? subStatCategory; // SubStatCategory
 
   Item({
     this.documentId,
@@ -75,7 +93,6 @@ class Item {
     this.defenseMag,
     this.defensePhys,
     this.delayMs,
-    this.description,
     this.desynth,
     this.dyeCount,
     this.equipRestriction,
@@ -101,18 +118,37 @@ class Item {
     this.itemUICategory,
     this.itemGlamour,
     this.itemRepair,
+    this.levelEquip,
+    this.levelItem,
+    this.lot,
+    this.materiaSlotCount,
+    this.materializeType,
+    this.modelMain,
+    this.modelSub,
+    this.name,
+    this.plural,
+    this.possessivePronoun,
+    this.priceLow,
+    this.priceMid,
+    this.pronoun,
+    this.rarity,
+    this.requiredPvpRank,
+    this.singular,
+    this.stackSize,
+    this.startsWithVowel,
+    this.subStatCategory,
   });
 
-  factory Item.fromJson(Map<String, dynamic> json) {
+  factory Item.fromJson(Map<String, dynamic> json, String documentId) {
     return Item(
-      documentId: json['Document ID'] as String?,
+      documentId: documentId,
       additionalData: json['AdditionalData'] as int?,
       adjective: json['Adjective'] as int?,
       aetherialReduce: json['AetherialReduce'] as int?,
-      alwaysCollectable: json['AlwaysCollectable'] as int?,
+      alwaysCollectable: json['AlwaysCollectable'] as bool?,
       article: json['Article'] as int?,
       baseParam: (json['BaseParam'] as List<dynamic>?)?.map((e) => e as int).toList(),
-      baseParamModifier: json['BaseParamModifier'] as String?,
+      baseParamModifier: json['BaseParamModifier'] as int?,
       baseParamValue: (json['BaseParamValue'] as List<dynamic>?)?.map((e) => e as int).toList(),
       baseParamValueSpecial: (json['BaseParamValue{Special}'] as List<dynamic>?)?.map((e) => e as int).toList(),
       baseParamSpecial: (json['BaseParam{Special}'] as List<dynamic>?)?.map((e) => e as int).toList(),
@@ -129,7 +165,6 @@ class Item {
       defenseMag: json['Defense{Mag}'] as int?,
       defensePhys: json['Defense{Phys}'] as int?,
       delayMs: json['Delay<ms>'] as int?,
-      description: json['Description'] as String?,
       desynth: json['Desynth'] as int?,
       dyeCount: json['DyeCount'] as int?,
       equipRestriction: json['EquipRestriction'] as int?,
@@ -155,6 +190,25 @@ class Item {
       itemUICategory: json['ItemUICategory'] as int?,
       itemGlamour: json['Item{Glamour}'] as int?,
       itemRepair: json['Item{Repair}'] as int?,
+      levelEquip: json['Level{Equip}'] as int?,
+      levelItem: json['Level{Item}'] as int?,
+      lot: json['Lot'] as bool?,
+      materiaSlotCount: json['MateriaSlotCount'] as int?,
+      materializeType: json['MaterializeType'] as int?,
+      modelMain: json['Model{Main}'] as String?,
+      modelSub: json['Model{Sub}'] as String?,
+      name: json['Name'] as String?,
+      plural: json['Plural'] as String?,
+      possessivePronoun: json['PossessivePronoun'] as int?,
+      priceLow: json['Price{Low}'] as int?,
+      priceMid: json['Price{Mid}'] as int?,
+      pronoun: json['Pronoun'] as int?,
+      rarity: json['Rarity'] as int?,
+      requiredPvpRank: json['RequiredPvpRank'] as int?,
+      singular: json['Singular'] as String?,
+      stackSize: json['StackSize'] as int?,
+      startsWithVowel: json['StartsWithVowel'] as int?,
+      subStatCategory: json['SubStatCategory'] as int?,
     );
   }
 
@@ -184,7 +238,6 @@ class Item {
       'Defense{Mag}': defenseMag,
       'Defense{Phys}': defensePhys,
       'Delay<ms>': delayMs,
-      'Description': description,
       'Desynth': desynth,
       'DyeCount': dyeCount,
       'EquipRestriction': equipRestriction,
@@ -210,6 +263,25 @@ class Item {
       'ItemUICategory': itemUICategory,
       'Item{Glamour}': itemGlamour,
       'Item{Repair}': itemRepair,
+      'Level{Equip}': levelEquip,
+      'Level{Item}': levelItem,
+      'Lot': lot,
+      'MateriaSlotCount': materiaSlotCount,
+      'MaterializeType': materializeType,
+      'Model{Main}': modelMain,
+      'Model{Sub}': modelSub,
+      'Name': name,
+      'Plural': plural,
+      'PossessivePronoun': possessivePronoun,
+      'Price{Low}': priceLow,
+      'Price{Mid}': priceMid,
+      'Pronoun': pronoun,
+      'Rarity': rarity,
+      'RequiredPvpRank': requiredPvpRank,
+      'Singular': singular,
+      'StackSize': stackSize,
+      'StartsWithVowel': startsWithVowel,
+      'SubStatCategory': subStatCategory,
     };
   }
 }
