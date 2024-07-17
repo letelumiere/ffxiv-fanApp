@@ -61,7 +61,7 @@ class Normalize{
   비고 - item의 category가 다를 시(armor, arms, ochestrion, Housing 등) 출력하는 Dynamic이 달라야 한다. 
   특히 descripton
 
-
+  d
   */
 
 }
