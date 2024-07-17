@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "961203961599",
+    "firebase_url": "https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "ffxiv-database-a42b0",
+    "storage_bucket": "ffxiv-database-a42b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961203961599:android:480b0df5b92f6e8b1516ca",
+        "android_client_info": {
+          "package_name": "com.letelumiere.ffixv"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSTD0IV3E9ps4dbFyyPqXkcm079CbN0dI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

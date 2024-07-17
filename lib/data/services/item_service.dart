@@ -1,5 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-//temporary`
 class ItemService{
-  
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 }
