@@ -26,7 +26,7 @@ class _TestPageState extends State<TestPage> {
 
   Future<void> _fetchItems() async {
     try {
-      QuerySnapshot snapshot = await _itemsCollection.limit(3).get();
+      QuerySnapshot snapshot = await _itemsCollection.limit(10).get();
 
       setState(() {
         _items = snapshot.docs.map((doc) {

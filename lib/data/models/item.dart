@@ -1,4 +1,4 @@
-class Item {    //description 문제가 있다
+class Item {
   String? documentId; // Firestore Document ID
   int? additionalData;
   int? adjective;
@@ -22,6 +22,7 @@ class Item {    //description 문제가 있다
   int? damagePhys; // Damage{Phys}
   int? defenseMag; // Defense{Mag}
   int? defensePhys; // Defense{Phys}
+  String? description; // Description
   int? delayMs; // Delay<ms>
   int? desynth;
   int? dyeCount;
@@ -92,6 +93,7 @@ class Item {    //description 문제가 있다
     this.damagePhys,
     this.defenseMag,
     this.defensePhys,
+    this.description,
     this.delayMs,
     this.desynth,
     this.dyeCount,
@@ -165,6 +167,7 @@ class Item {    //description 문제가 있다
       defenseMag: json['Defense{Mag}'] as int?,
       defensePhys: json['Defense{Phys}'] as int?,
       delayMs: json['Delay<ms>'] as int?,
+      description: json['Description'] as String? ?? 'No description available', // 기본값 설정
       desynth: json['Desynth'] as int?,
       dyeCount: json['DyeCount'] as int?,
       equipRestriction: json['EquipRestriction'] as int?,
@@ -238,6 +241,7 @@ class Item {    //description 문제가 있다
       'Defense{Mag}': defenseMag,
       'Defense{Phys}': defensePhys,
       'Delay<ms>': delayMs,
+      'Description': description,
       'Desynth': desynth,
       'DyeCount': dyeCount,
       'EquipRestriction': equipRestriction,
