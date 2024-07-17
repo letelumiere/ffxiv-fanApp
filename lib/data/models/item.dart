@@ -1,54 +1,54 @@
 class Item {
   String? documentId;
-  int? additionalData;	
-  int? adjective;	
-  int? aetherialReduce;	
-  int? alwaysCollectable;	
-  int? article;	
-  List<int>? baseParam;	
-  String? baseParamModifier;	
-  List<int>? baseParamValue;	
-  List<int>? baseParamValueSpecial; //BaseParamValue{Special}	
-  List<int>? baseParamSpecial; //BaseParam{Special}	
+  int? additionalData;
+  int? adjective;
+  int? aetherialReduce;
+  int? alwaysCollectable;
+  int? article;
+  List<int>? baseParam;
+  String? baseParamModifier;
+  List<int>? baseParamValue;
+  List<int>? baseParamValueSpecial; // BaseParamValue{Special}
+  List<int>? baseParamSpecial; // BaseParam{Special}
   int? block;
-  int? blockRate;	
-  bool? canBeHq;	
-  int? castTimeSec; //CastTime<s>	
-  int? classJobCategory;	
-  int? classJobRepair; //ClassJob{Repair}	
-  int? classJobUse; //ClassJob{Use}	
-  int? cooldownSec; //Cooldown<s>	
-  int? damageMag; //Damage{Mag}	
-  int? damagePhys; //Damage{Phys}	
-  int? defenseMag; //Defense{Mag}	
-  int? defensePhys; //Defense{Phys}	
-  int? delayMs; //Delay<ms>	
-  String? description;	
-  int? desynth;	
+  int? blockRate;
+  bool? canBeHq;
+  int? castTimeSec; // CastTime<s>
+  int? classJobCategory;
+  int? classJobRepair; // ClassJob{Repair}
+  int? classJobUse; // ClassJob{Use}
+  int? cooldownSec; // Cooldown<s>
+  int? damageMag; // Damage{Mag}
+  int? damagePhys; // Damage{Phys}
+  int? defenseMag; // Defense{Mag}
+  int? defensePhys; // Defense{Phys}
+  int? delayMs; // Delay<ms>
+  String? description;
+  int? desynth;
   int? dyeCount;
-  int? equipRestriction;	
-  int? equipSlotCategory;	
-  int? filterGroup;	
-  int? grandCompany;	
+  int? equipRestriction;
+  int? equipSlotCategory;
+  int? filterGroup;
+  int? grandCompany;
   int? id;
   int? icon;
   bool? isAdvancedMeldingPermitted;
   bool? isCollectable;
-  bool? isCrestWorthy;	
-  bool? isGlamourous;	
-  bool? isIndisposable;	
+  bool? isCrestWorthy;
+  bool? isGlamourous;
+  bool? isIndisposable;
   bool? isPvP;
-  bool? isUnique;	
-  bool? isUntradable;	
-  int? itemAction;	
-  int? itemSearchCategory;	
+  bool? isUnique;
+  bool? isUntradable;
+  int? itemAction;
+  int? itemSearchCategory;
   int? itemSeries;
-  int? itemSortCategory;	
+  int? itemSortCategory;
   int? itemSpecialBonus;
-  int? itemSpecialBonusParam; //ItemSpecialBonus{Param}	
-  int? itemUICategory;	
-  int? itemGlamour; //Item{Glamour}	
-  int? itemRepair; //Item{Repair} 
+  int? itemSpecialBonusParam; // ItemSpecialBonus{Param}
+  int? itemUICategory;
+  int? itemGlamour; // Item{Glamour}
+  int? itemRepair; // Item{Repair}
 
   Item({
     this.documentId,
@@ -105,111 +105,111 @@ class Item {
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
-      documentId: json['documentId'] as String?,
-      additionalData: json['additionalData'] as int?,
-      adjective: json['adjective'] as int?,
-      aetherialReduce: json['aetherialReduce'] as int?,
-      alwaysCollectable: json['alwaysCollectable'] as int?,
-      article: json['article'] as int?,
-      baseParam: (json['baseParam'] as List<dynamic>?)?.map((e) => e as int).toList(),
-      baseParamModifier: json['baseParamModifier'] as String?,
-      baseParamValue: (json['baseParamValue'] as List<dynamic>?)?.map((e) => e as int).toList(),
-      baseParamValueSpecial: (json['baseParamValueSpecial'] as List<dynamic>?)?.map((e) => e as int).toList(),
-      baseParamSpecial: (json['baseParamSpecial'] as List<dynamic>?)?.map((e) => e as int).toList(),
-      block: json['block'] as int?,
-      blockRate: json['blockRate'] as int?,
-      canBeHq: json['canBeHq'] as bool?,
-      castTimeSec: json['castTimeSec'] as int?,
-      classJobCategory: json['classJobCategory'] as int?,
-      classJobRepair: json['classJobRepair'] as int?,
-      classJobUse: json['classJobUse'] as int?,
-      cooldownSec: json['cooldownSec'] as int?,
-      damageMag: json['damageMag'] as int?,
-      damagePhys: json['damagePhys'] as int?,
-      defenseMag: json['defenseMag'] as int?,
-      defensePhys: json['defensePhys'] as int?,
-      delayMs: json['delayMs'] as int?,
-      description: json['description'] as String?,
-      desynth: json['desynth'] as int?,
-      dyeCount: json['dyeCount'] as int?,
-      equipRestriction: json['equipRestriction'] as int?,
-      equipSlotCategory: json['equipSlotCategory'] as int?,
-      filterGroup: json['filterGroup'] as int?,
-      grandCompany: json['grandCompany'] as int?,
-      id: json['id'] as int?,
-      icon: json['icon'] as int?,
-      isAdvancedMeldingPermitted: json['isAdvancedMeldingPermitted'] as bool?,
-      isCollectable: json['isCollectable'] as bool?,
-      isCrestWorthy: json['isCrestWorthy'] as bool?,
-      isGlamourous: json['isGlamourous'] as bool?,
-      isIndisposable: json['isIndisposable'] as bool?,
-      isPvP: json['isPvP'] as bool?,
-      isUnique: json['isUnique'] as bool?,
-      isUntradable: json['isUntradable'] as bool?,
-      itemAction: json['itemAction'] as int?,
-      itemSearchCategory: json['itemSearchCategory'] as int?,
-      itemSeries: json['itemSeries'] as int?,
-      itemSortCategory: json['itemSortCategory'] as int?,
-      itemSpecialBonus: json['itemSpecialBonus'] as int?,
-      itemSpecialBonusParam: json['itemSpecialBonusParam'] as int?,
-      itemUICategory: json['itemUICategory'] as int?,
-      itemGlamour: json['itemGlamour'] as int?,
-      itemRepair: json['itemRepair'] as int?,
+      documentId: json['Document ID'] as String?,
+      additionalData: json['AdditionalData'] as int?,
+      adjective: json['Adjective'] as int?,
+      aetherialReduce: json['AetherialReduce'] as int?,
+      alwaysCollectable: json['AlwaysCollectable'] as int?,
+      article: json['Article'] as int?,
+      baseParam: (json['BaseParam'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      baseParamModifier: json['BaseParamModifier'] as String?,
+      baseParamValue: (json['BaseParamValue'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      baseParamValueSpecial: (json['BaseParamValue{Special}'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      baseParamSpecial: (json['BaseParam{Special}'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      block: json['Block'] as int?,
+      blockRate: json['BlockRate'] as int?,
+      canBeHq: json['CanBeHq'] as bool?,
+      castTimeSec: json['CastTime<s>'] as int?,
+      classJobCategory: json['ClassJobCategory'] as int?,
+      classJobRepair: json['ClassJob{Repair}'] as int?,
+      classJobUse: json['ClassJob{Use}'] as int?,
+      cooldownSec: json['Cooldown<s>'] as int?,
+      damageMag: json['Damage{Mag}'] as int?,
+      damagePhys: json['Damage{Phys}'] as int?,
+      defenseMag: json['Defense{Mag}'] as int?,
+      defensePhys: json['Defense{Phys}'] as int?,
+      delayMs: json['Delay<ms>'] as int?,
+      description: json['Description'] as String?,
+      desynth: json['Desynth'] as int?,
+      dyeCount: json['DyeCount'] as int?,
+      equipRestriction: json['EquipRestriction'] as int?,
+      equipSlotCategory: json['EquipSlotCategory'] as int?,
+      filterGroup: json['FilterGroup'] as int?,
+      grandCompany: json['GrandCompany'] as int?,
+      id: json['ID'] as int?,
+      icon: json['Icon'] as int?,
+      isAdvancedMeldingPermitted: json['IsAdvancedMeldingPermitted'] as bool?,
+      isCollectable: json['IsCollectable'] as bool?,
+      isCrestWorthy: json['IsCrestWorthy'] as bool?,
+      isGlamourous: json['IsGlamourous'] as bool?,
+      isIndisposable: json['IsIndisposable'] as bool?,
+      isPvP: json['IsPvP'] as bool?,
+      isUnique: json['IsUnique'] as bool?,
+      isUntradable: json['IsUntradable'] as bool?,
+      itemAction: json['ItemAction'] as int?,
+      itemSearchCategory: json['ItemSearchCategory'] as int?,
+      itemSeries: json['ItemSeries'] as int?,
+      itemSortCategory: json['ItemSortCategory'] as int?,
+      itemSpecialBonus: json['ItemSpecialBonus'] as int?,
+      itemSpecialBonusParam: json['ItemSpecialBonus{Param}'] as int?,
+      itemUICategory: json['ItemUICategory'] as int?,
+      itemGlamour: json['Item{Glamour}'] as int?,
+      itemRepair: json['Item{Repair}'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'documentId': documentId,
-      'additionalData': additionalData,
-      'adjective': adjective,
-      'aetherialReduce': aetherialReduce,
-      'alwaysCollectable': alwaysCollectable,
-      'article': article,
-      'baseParam': baseParam,
-      'baseParamModifier': baseParamModifier,
-      'baseParamValue': baseParamValue,
-      'baseParamValueSpecial': baseParamValueSpecial,
-      'baseParamSpecial': baseParamSpecial,
-      'block': block,
-      'blockRate': blockRate,
-      'canBeHq': canBeHq,
-      'castTimeSec': castTimeSec,
-      'classJobCategory': classJobCategory,
-      'classJobRepair': classJobRepair,
-      'classJobUse': classJobUse,
-      'cooldownSec': cooldownSec,
-      'damageMag': damageMag,
-      'damagePhys': damagePhys,
-      'defenseMag': defenseMag,
-      'defensePhys': defensePhys,
-      'delayMs': delayMs,
-      'description': description,
-      'desynth': desynth,
-      'dyeCount': dyeCount,
-      'equipRestriction': equipRestriction,
-      'equipSlotCategory': equipSlotCategory,
-      'filterGroup': filterGroup,
-      'grandCompany': grandCompany,
-      'id': id,
-      'icon': icon,
-      'isAdvancedMeldingPermitted': isAdvancedMeldingPermitted,
-      'isCollectable': isCollectable,
-      'isCrestWorthy': isCrestWorthy,
-      'isGlamourous': isGlamourous,
-      'isIndisposable': isIndisposable,
-      'isPvP': isPvP,
-      'isUnique': isUnique,
-      'isUntradable': isUntradable,
-      'itemAction': itemAction,
-      'itemSearchCategory': itemSearchCategory,
-      'itemSeries': itemSeries,
-      'itemSortCategory': itemSortCategory,
-      'itemSpecialBonus': itemSpecialBonus,
-      'itemSpecialBonusParam': itemSpecialBonusParam,
-      'itemUICategory': itemUICategory,
-      'itemGlamour': itemGlamour,
-      'itemRepair': itemRepair,
+      'Document ID': documentId,
+      'AdditionalData': additionalData,
+      'Adjective': adjective,
+      'AetherialReduce': aetherialReduce,
+      'AlwaysCollectable': alwaysCollectable,
+      'Article': article,
+      'BaseParam': baseParam,
+      'BaseParamModifier': baseParamModifier,
+      'BaseParamValue': baseParamValue,
+      'BaseParamValue{Special}': baseParamValueSpecial,
+      'BaseParam{Special}': baseParamSpecial,
+      'Block': block,
+      'BlockRate': blockRate,
+      'CanBeHq': canBeHq,
+      'CastTime<s>': castTimeSec,
+      'ClassJobCategory': classJobCategory,
+      'ClassJob{Repair}': classJobRepair,
+      'ClassJob{Use}': classJobUse,
+      'Cooldown<s>': cooldownSec,
+      'Damage{Mag}': damageMag,
+      'Damage{Phys}': damagePhys,
+      'Defense{Mag}': defenseMag,
+      'Defense{Phys}': defensePhys,
+      'Delay<ms>': delayMs,
+      'Description': description,
+      'Desynth': desynth,
+      'DyeCount': dyeCount,
+      'EquipRestriction': equipRestriction,
+      'EquipSlotCategory': equipSlotCategory,
+      'FilterGroup': filterGroup,
+      'GrandCompany': grandCompany,
+      'ID': id,
+      'Icon': icon,
+      'IsAdvancedMeldingPermitted': isAdvancedMeldingPermitted,
+      'IsCollectable': isCollectable,
+      'IsCrestWorthy': isCrestWorthy,
+      'IsGlamourous': isGlamourous,
+      'IsIndisposable': isIndisposable,
+      'IsPvP': isPvP,
+      'IsUnique': isUnique,
+      'IsUntradable': isUntradable,
+      'ItemAction': itemAction,
+      'ItemSearchCategory': itemSearchCategory,
+      'ItemSeries': itemSeries,
+      'ItemSortCategory': itemSortCategory,
+      'ItemSpecialBonus': itemSpecialBonus,
+      'ItemSpecialBonus{Param}': itemSpecialBonusParam,
+      'ItemUICategory': itemUICategory,
+      'Item{Glamour}': itemGlamour,
+      'Item{Repair}': itemRepair,
     };
   }
 }

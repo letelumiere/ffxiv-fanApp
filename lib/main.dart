@@ -1,5 +1,6 @@
 import 'package:ffixv/firebase_options.dart';
 import 'package:ffixv/ui/pages/main_page.dart';
+import 'package:ffixv/ui/pages/test_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.black45,
       ),
-      home: MainPage(),
+      home: TestPage(),
     );
   }
 }
