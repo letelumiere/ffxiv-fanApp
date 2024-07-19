@@ -53,21 +53,25 @@ class _TestPageState extends State<TestPage> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Document ID: ${item.documentId ?? 'N/A'}'),
-                  Text('ID: ${item.id ?? 'N/A'}'),
-                  Text('Icon: ${item.icon ?? 'N/A'}'),
-                  Text('Additional Data: ${item.additionalData ?? 'N/A'}'),
-                  Text('Adjective: ${item.adjective ?? 'N/A'}'),
-                  Text('Aetherial Reduce: ${item.aetherialReduce ?? 'N/A'}'),
-                  Text('Always Collectable: ${item.alwaysCollectable ?? 'N/A'}'),
-                  // 필요한 경우 더 많은 필드 추가
-                ],
+                children: _buildItemFields(item),
               ),
             ),
           );
         },
       ),
     );
+  }
+
+  List<Widget> _buildItemFields(Item item) {
+    List<Widget> fields = [];
+
+    // 모든 필드를 동적으로 출력
+    item.toJson().forEach((key, value) {
+      fields.add(
+        Text('$key: ${value ?? 'N/A'}'), // 필드가 null일 경우 'N/A' 표시
+      );
+    });
+
+    return fields;
   }
 }
