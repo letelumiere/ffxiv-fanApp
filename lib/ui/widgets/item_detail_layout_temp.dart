@@ -1,27 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:ffixv/data/models/item.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
-import 'package:ffixv/data/services/item_service.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-
-
-class ItemDetailLayout extends StatefulWidget {
+class ItemDetailLayoutTemp extends StatefulWidget {
+  final ItemDTO itemDto;
   final void Function(String message) callback;
 
-  const ItemDetailLayout({super.key, required this.callback});
-
+  ItemDetailLayoutTemp({required this.itemDto, required this.callback, Key? key}) : super(key: key);
 
   @override
-  State<ItemDetailLayout> createState() => _ItemDetailLayoutState();
+  State<ItemDetailLayoutTemp> createState() => _ItemDetailLayoutState();
 }
 
-class _ItemDetailLayoutState extends State<ItemDetailLayout> {
+class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
   @override
   Widget build(BuildContext context) {
+    
     return Column(
       children: [
         Padding(
@@ -29,7 +22,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildItemHeader(),
+              _buildItemHeader(widget.itemDto.name ?? ""),
               _buildItemCategorySection(),
               const SizedBox(height: 10),
               _buildItemStatsSection(),
@@ -59,15 +52,15 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
     );
   }
 
-  Widget _buildItemHeader() {
+  Widget _buildItemHeader(String name) {
     return Row(
       children: [
         Image.asset('assets/icons/BlueMage.png', width: 40, height: 40),  //추후 HQ스왑 기능 추가 
-        const SizedBox(width: 10),
-        const Column(
+        SizedBox(width: 10),
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('승천 치유서', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
             Row(
               children: [
                 Text('Codex of Ascension',),

@@ -22,22 +22,23 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   @override
   void initState() {
     super.initState();
-    _initializeService();
+    _initializeFirebase();
   }
 
 
 
-  Future<void> _initializeService() async{
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  Future<void> _initializeFirebase() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
     _itemService = ItemService(
-      itemRepository: FirebaseFirestore.instance, 
-      sharedPreferences: sharedPreferences);
-    
-    await _itemService.initializeFirebase;
+      itemRepository: FirebaseFirestore.instance,
+      sharedPreferences: sharedPreferences,
+    );
+    await _itemService.initializeFirebase();
+    _fetchItems();
   }
 
   Future<void> _fetchItems() async {
-    List<ItemDTO> items = await _itemService.fetchItems(10);
+    List<ItemDTO> items = await _itemService.fetchItems(1);
     setState(() {
       _items = items;
     });

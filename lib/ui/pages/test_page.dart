@@ -1,10 +1,12 @@
 import 'package:ffixv/data/models/item.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/data/services/item_service.dart';
+import 'package:ffixv/ui/widgets/item_detail_layout_temp.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class TestPage extends StatefulWidget {
   @override
   _TestPageState createState() => _TestPageState();
@@ -31,7 +33,7 @@ class _TestPageState extends State<TestPage> {
   }
 
   Future<void> _fetchItems() async {
-    List<ItemDTO> items = await _itemService.fetchItems(10);
+    List<ItemDTO> items = await _itemService.fetchItems(1);
     setState(() {
       _items = items;
     });
@@ -46,18 +48,23 @@ class _TestPageState extends State<TestPage> {
       body: ListView.builder(
         itemCount: _items.length,
         itemBuilder: (context, index) {
-          final item = _items[index];
+          final item = _items[index] as ItemDTO;
           return Card(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('ID: ${item.id ?? 'N/A'}'),
-                  Text('Icon: ${item.icon ?? 'N/A'}'),
-                  Text('Name: ${item.name ?? 'N/A'}'),
-                  Text('Description: ${item.description ?? 'N/A'}'),
-                ],
+                  ItemDetailLayoutTemp(itemDto: item, callback: (message) => {print("hi")}),
+//                  _buildItemFields(item),
+                ]
+
+//                children: [
+//                  Text('ID: ${item.id ?? 'N/A'}'),
+//                  Text('Icon: ${item.icon ?? 'N/A'}'),
+//                  Text('Name: ${item.name ?? 'N/A'}'),
+//                  Text('Description: ${item.description ?? 'N/A'}'),
+//                ],
               ),
             ),
           );
@@ -65,7 +72,7 @@ class _TestPageState extends State<TestPage> {
       ),
     );
   }
-  List<Widget> _buildItemFields(Item item) {
+  List<Widget> _buildItemFields(ItemDTO item) {
     List<Widget> fields = []; 
 
     // 모든 필드를 동적으로 출력
