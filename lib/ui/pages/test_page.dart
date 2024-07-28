@@ -14,6 +14,7 @@ class TestPage extends StatefulWidget {
 
 class _TestPageState extends State<TestPage> {
   late ItemService _itemService;
+  Map<String,dynamic> _itemMap = {};
   List<ItemDTO> _items = [];
 
   @override
@@ -29,7 +30,9 @@ class _TestPageState extends State<TestPage> {
       sharedPreferences: sharedPreferences,
     );
     await _itemService.initializeFirebase();
-    _fetchItems();
+//    _fetchItems();
+    _fetchFilteredItem(32458);
+
   }
 
   Future<void> _fetchItems() async {
@@ -37,6 +40,34 @@ class _TestPageState extends State<TestPage> {
     setState(() {
       _items = items;
     });
+  }
+
+
+  Future<void> _fetchFilteredItem(int itemId) async {
+    try {
+      ItemDTO? item = await _itemService.fetchFilteredItem(itemId);
+      if (item != null) {
+        setState(() {
+          _items = [item];
+        });
+      } else {
+        _showMessage('No item found with the given ID.');
+      }
+    } catch (e) {
+      debugPrint('Error fetching filtered item: $e');
+    }
+  }
+  void _loadItemMap(){
+    setState(() {
+      _itemMap = _itemService.getItemMap();
+    });
+  }
+
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(message)),
+  );
   }
 
   @override
@@ -56,15 +87,8 @@ class _TestPageState extends State<TestPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ItemDetailLayoutTemp(itemDto: item, callback: (message) => {print("hi")}),
-//                  _buildItemFields(item),
-                ]
-
-//                children: [
-//                  Text('ID: ${item.id ?? 'N/A'}'),
-//                  Text('Icon: ${item.icon ?? 'N/A'}'),
-//                  Text('Name: ${item.name ?? 'N/A'}'),
-//                  Text('Description: ${item.description ?? 'N/A'}'),
-//                ],
+//                Text('ID: ${item.id ?? 'N/A'}'),
+                ],
               ),
             ),
           );

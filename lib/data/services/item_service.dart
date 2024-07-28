@@ -25,6 +25,19 @@ class ItemService{
     return items.map((item) => ItemDTO.fromJson(item.toJson())).toList();
   }
 
+  Future<ItemDTO?> fetchFilteredItem(int itemId) async {
+    QuerySnapshot<Map<String, dynamic>> query = await _itemRepository
+      .collection('lodestone')
+      .where('ID', isEqualTo: itemId) // 원하는 필드와 값으로 필터링
+      .get();
+    
+    if(query.docs.isNotEmpty){
+      return ItemDTO.fromJson(query.docs.first.data());
+    }else{
+      return null;
+    }
+  }
+
   Future<List<Item>> _fetchItemsFromRepository(int limit) async {
     try{
       QuerySnapshot snapshot = await _itemRepository.collection('lodestone').limit(limit).get();

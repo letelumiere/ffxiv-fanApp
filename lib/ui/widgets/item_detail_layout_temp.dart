@@ -14,7 +14,6 @@ class ItemDetailLayoutTemp extends StatefulWidget {
 class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
   @override
   Widget build(BuildContext context) {
-    
     return Column(
       children: [
         Padding(
@@ -22,29 +21,24 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildItemHeader(widget.itemDto.name ?? ""),
-              _buildItemCategorySection(),
+              _buildItemHeader(widget.itemDto.name ?? 'N/A'),
+//              _buildItemCategorySection(),
               const SizedBox(height: 10),
               _buildItemStatsSection(),
-              _buildItemRequireSection(),
+              _buildItemRequireSection(widget.itemDto.levelItem ?? 0, widget.itemDto.levelEquip ?? 0),
               const SizedBox(height: 10),
-              _buildCategoryHeader("추가 능력치"),
-              _buildAdditionalStatsSection(),
+              _buildTitledSection("추가 능력치", _buildAdditionalStatsSection()),
               const SizedBox(height: 10),
-              _buildCategoryHeader("마테리아"),
-              _buildMateriaSection(),
+              _buildTitledSection("마테리아", _buildMateriaSection(widget.itemDto.materiaSlotCount ?? 0)),
               const SizedBox(height: 10),
-              _buildCategoryHeader("제작 및 수리"),
-              _buildRepairSection(),
+              _buildTitledSection("제작 및 수리", _buildRepairSection()),
               const SizedBox(height: 10),
               _buildMiscellaneousSection(),
               const SizedBox(height: 10),
-              _buildCategoryHeader("외부 링크"),
-              _buildExternalLinksSection(),
+              _buildTitledSection("외부 링크", _buildExternalLinksSection()),
               const SizedBox(height: 10),
               _buildNpcSection(),
               const SizedBox(height: 10),
-                //              _buildCommentSection(),
             ],
           ),
         ),
@@ -55,7 +49,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
   Widget _buildItemHeader(String name) {
     return Row(
       children: [
-        Image.asset('assets/icons/BlueMage.png', width: 40, height: 40),  //추후 HQ스왑 기능 추가 
+        Image.asset('assets/icons/BlueMage.png',),  //추후 HQ스왑 기능 추가 
         SizedBox(width: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +68,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
     );
   }
 
-  Widget _buildItemCategorySection() {
+  Widget _buildItemCategorySection(String item, bool rarity, bool isTradable) {
     return const Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -87,40 +81,46 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
 
   Widget _buildItemStatsSection() {
     return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Container(child: _buildStatColumn('물리 기본 성능', '132'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Container(
+            child: _buildStatColumn('물리 기본 성능', '132'),
             decoration: const BoxDecoration(
               border: Border(bottom: BorderSide(color: Colors.white, width: 1))
-              )),
-          ),
-          const SizedBox(width: 10,),
-          Expanded(
-            child: Container(child: _buildStatColumn('물리 자동 공격', '137.28'),     
-            decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.white, width: 1))
-              )),
             ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Container(child:_buildStatColumn('공격 주기', '3.12'),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Container(
+            child: _buildStatColumn('물리 자동 공격', '137.28'),
             decoration: const BoxDecoration(
               border: Border(bottom: BorderSide(color: Colors.white, width: 1))
-            )),
+            ),
           ),
-          const SizedBox(width: 10),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Container(
+            child: _buildStatColumn('공격 주기', '3.12'),
+            decoration: const BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.white, width: 1))
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
       ],
     );
   }
 
-  Widget _buildItemRequireSection(){
+  Widget _buildItemRequireSection(int levelItem, int levelEquip) {
     return Column(
       children: [
-        _buildStatRow('아이템 레벨', '665'),
+        _buildStatRow('아이템 레벨', levelItem.toString()),
         _buildStatRow('학자', ''),
-        _buildStatRow('레벨 90 이상',''),
-      ]
+        _buildStatRow('레벨 90 이상', levelEquip.toString()),
+      ],
     );
   }
 
@@ -134,62 +134,74 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
     );
   }
 
-Widget _buildStatRow(String title, String value) {
-  return Row(
-    children: [
-      Text(title),
-      Text(value, textAlign: TextAlign.end),
-    ],
-  );
-}
+  Widget _buildStatRow(String title, String value) {
+    return Row(
+      children: [
+        Text(title),
+        Text(value, textAlign: TextAlign.end),
+      ],
+    );
+  }
 
-Widget _buildCategoryHeader(String categoryTitle) {
-  return Container(
-    decoration: const BoxDecoration(
-      border: Border(bottom: BorderSide(color: Colors.white, width: 1)),
-    ),
-    child: Column(
+  Widget _buildTitledSection(String title, Widget content) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          categoryTitle,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 4), // 텍스트와 구분선 사이의 간격을 위해 추가
         Container(
-          height: 1,
-          color: Colors.white,
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.white, width: 1)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 4), // 텍스트와 구분선 사이의 간격을 위해 추가
+              Container(
+                height: 1,
+                color: Colors.white,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
+        content,
+      ],
+    );
+  }
+
+  Widget _buildAdditionalStatsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(child: _buildStatRow('활력', '+412')),
+            Expanded(child: _buildStatRow('정신력', '+416')),
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(child: _buildStatRow('극대화', '+306')),
+            Expanded(child: _buildStatRow('의지력', '+214')),
+          ],
         ),
       ],
-    ),
-  );
-}
+    );
+  }
 
-Widget _buildAdditionalStatsSection() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Row(
-        children: [
-          Expanded(child: _buildStatRow('활력', '+412')),
-          Expanded(child: _buildStatRow('정신력', '+416')),
-        ],
-      ),
-      Row(
-        children: [
-          Expanded(child: _buildStatRow('극대화', '+306')),
-          Expanded(child: _buildStatRow('의지력', '+214')),
-        ],
-      ),
-    ],
-  );
-}
+  Widget _buildMateriaSection(int materialSlotCount) {
+    String slots = "";
+    for (int i = 0; i < materialSlotCount; i++) {
+      slots += "o";
+    }
 
-  Widget _buildMateriaSection() {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('○○'),
+        Text(slots),
       ],
     );
   }
@@ -202,7 +214,6 @@ Widget _buildAdditionalStatsSection() {
         Row(children: [Expanded(child: _buildStatRow('마테리아화 ', '○')), Expanded(child: _buildStatRow('분해 ', '✕'))]),
         Row(children: [Expanded(child: _buildStatRow('문장 삽입 ', '✕')), Expanded(child: _buildStatRow('염색 ', '○'))]),
       ],
-      
     );
   }
 
@@ -210,8 +221,8 @@ Widget _buildAdditionalStatsSection() {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(children: [Expanded(child:Text("판매 불가")), Expanded(child:Text("장터 출품 불가"))]),
-      ]
+        Row(children: [Expanded(child: Text("판매 불가")), Expanded(child: Text("장터 출품 불가"))]),
+      ],
     );
   }
 
