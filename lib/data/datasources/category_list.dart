@@ -36,4 +36,31 @@ var itemCategory3Map = {
 };
 
 
+var itemStats = {
+  "Cooldown<s>" :0.0,
+  "Damage{Mag}" :0.0,
+  "Damage{Phys}": 0.0,
+  "Defense{Mag}": 0.0,
+  "Defense{Phys}": 0.0,
+  "Delay<ms>": 0.0,
+};
+
+
+var mishellious = {
+  "IsAdvancedMeldingPermitted" : false,
+  "IsCollectable" : false,
+  "IsCrestWorthy" : false,
+  "IsGlamourous" : false,
+  "IsIndisposable" : false,
+  "IsPvP" : false,
+  "IsUnique" :  false,
+  "IsUntradable" : false,
+  "CanBeHq" : false,
+};
+
+
+var baseParam = [0, 0, 0, 0, 0, 0];
+var baseParamValue = [0, 0, 0, 0, 0, 0];
+var baseParamValueSpecial = [0, 0, 0, 0, 0, 0]; //BaseParamValue{Special}
+var baseParamSpecial = [0, 0, 0, 0, 0, 0]; //BaseParam{Special}
 

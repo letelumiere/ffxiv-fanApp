@@ -57,16 +57,16 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
             Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
             Row(
               children: [
-                Text('Codex of Ascension',),
-                Text(' · '),
-                Text('コーデックス・オブ・アセンション'),
+//                Text('Codex of Ascension',),
+//                Text(' · '),
+//                Text('コーデックス・オブ・アセンション'),
               ],
             ),
           ],
         ),
       ],
     );
-  }
+  } 
 
   Widget _buildItemCategorySection(String item, bool rarity, bool isTradable) {
     return const Row(
