@@ -10,11 +10,11 @@ class ItemDTO {
   List<int>? baseParamValue; // 배열
   List<int>? baseParamValueSpecial; // 배열
   List<int>? baseParamSpecial; // 배열
-  int? block;
+  int? block; 
   int? blockRate;
   bool? canBeHq;
   int? castTimeSec; // CastTime<s>
-  int? classJobCategory;
+  int? classJobCategory;  //이론적으론 착용 직업이어야 맞음
   int? classJobRepair; // ClassJob{Repair}
   int? classJobUse; // ClassJob{Use}
   int? cooldownSec; // Cooldown<s>
@@ -24,10 +24,10 @@ class ItemDTO {
   int? defensePhys; // Defense{Phys}
   String? description; // Description
   int? delayMs; // Delay<ms>
-  int? desynth;
+  int? desynth; //이게 분해인가?
   int? dyeCount;
   int? equipRestriction;
-  int? equipSlotCategory;
+  int? equipSlotCategory; // 
   int? filterGroup;
   int? grandCompany;
   int? id; // ID
@@ -41,7 +41,7 @@ class ItemDTO {
   bool? isUnique;
   bool? isUntradable;
   int? itemAction;
-  int? itemSearchCategory;
+  int? itemSearchCategory;  // gladiator arms... 뭐 이런 명칭들??
   int? itemSeries;
   int? itemSortCategory;
   int? itemSpecialBonus;
@@ -52,8 +52,8 @@ class ItemDTO {
   int? levelEquip; // Level{Equip}
   int? levelItem; // Level{Item}
   bool? lot;
-  int? materiaSlotCount;
-  int? materializeType;
+  int? materiaSlotCount;  //마테리아 슬롯
+  int? materializeType; //마테리아화랑 무슨 상관인지 아마 0이외엔 모두 가능?
   String? modelMain; // Model{Main}
   String? modelSub; // Model{Sub}
   String? name; // Name
@@ -103,11 +103,11 @@ class ItemDTO {
     this.grandCompany,
     this.id,
     this.icon,
-    this.isAdvancedMeldingPermitted,
-    this.isCollectable,
-    this.isCrestWorthy,
-    this.isGlamourous,
-    this.isIndisposable,
+    this.isAdvancedMeldingPermitted,  //분해?
+    this.isCollectable, //수집?
+    this.isCrestWorthy, //
+    this.isGlamourous,  //투영?
+    this.isIndisposable,  //버리기?
     this.isPvP,
     this.isUnique,
     this.isUntradable,

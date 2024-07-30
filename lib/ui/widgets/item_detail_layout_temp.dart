@@ -60,7 +60,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
 //                Text('Codex of Ascension',),
 //                Text(' · '),
 //                Text('コーデックス・オブ・アセンション'),
-              ],
+              ],  
             ),
           ],
         ),
@@ -118,7 +118,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
     return Column(
       children: [
         _buildStatRow('아이템 레벨', levelItem.toString()),
-        _buildStatRow('학자', ''),
+        _buildStatRow('', ''),
         _buildStatRow('레벨 90 이상', levelEquip.toString()),
       ],
     );
