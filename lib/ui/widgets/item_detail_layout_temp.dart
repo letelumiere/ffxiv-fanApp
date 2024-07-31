@@ -1,3 +1,5 @@
+import 'dart:nativewrappers/_internal/vm/lib/ffi_native_type_patch.dart';
+
 import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,30 @@ class ItemDetailLayoutTemp extends StatefulWidget {
 }
 
 class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
+  late int? requireJob = widget.itemDto.classJobCategory;
+  late Map? boolsMap = {
+    "IsDyeable" : widget.itemDto.dyeCount,
+    "AetherialReduce" : widget.itemDto.aetherialReduce, 
+    "Desynth": widget.itemDto.desynth,
+    "EquipRestriction": widget.itemDto.equipRestriction,
+    "ItemAction": widget.itemDto.itemAction,
+    "CanBeHq": widget.itemDto.canBeHq,
+    "IsCollectable": widget.itemDto.isCollectable,
+    "IsUnique": widget.itemDto.isUnique,
+    "IsUntradable": widget.itemDto.isUntradable,
+    "IsCrestWorthy": widget.itemDto.isCrestWorthy,
+    "IsIndisposable": widget.itemDto.isIndisposable,
+    "AlwaysCollectable": widget.itemDto.alwaysCollectable,
+  };
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,7 +51,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
 //              _buildItemCategorySection(),
               const SizedBox(height: 10),
               _buildItemStatsSection(),
-              _buildItemRequireSection(widget.itemDto.levelItem ?? 0, widget.itemDto.levelEquip ?? 0),
+              _buildItemRequireSection(widget.itemDto.levelItem ?? 0, widget.itemDto.levelEquip ?? 0, requireJob ?? 0),
               const SizedBox(height: 10),
               _buildTitledSection("추가 능력치", _buildAdditionalStatsSection()),
               const SizedBox(height: 10),
@@ -114,12 +140,12 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
     );
   }
 
-  Widget _buildItemRequireSection(int levelItem, int levelEquip) {
+  Widget _buildItemRequireSection(int levelItem, int levelEquip, int requireJob) {
     return Column(
       children: [
-        _buildStatRow('아이템 레벨', levelItem.toString()),
-        _buildStatRow('', ''),
-        _buildStatRow('레벨 90 이상', levelEquip.toString()),
+        _buildStatRow("아이템 레벨  ", levelItem.toString()),
+        _buildStatRow("", requireJob.toString()),
+        _buildStatRow('레벨 ', "$levelEquip 이상"),
       ],
     );
   }
