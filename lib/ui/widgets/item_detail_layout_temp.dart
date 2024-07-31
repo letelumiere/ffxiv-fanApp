@@ -1,5 +1,4 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_native_type_patch.dart';
-
+import 'package:ffixv/data/datasources/category_list.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +14,21 @@ class ItemDetailLayoutTemp extends StatefulWidget {
 
 class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
   late int? requireJob = widget.itemDto.classJobCategory;
+  late List<int?> baseStatsList = [
+    widget.itemDto.block,
+    widget.itemDto.blockRate,
+    widget.itemDto.damagePhys,
+    widget.itemDto.damageMag,
+    widget.itemDto.defensePhys,
+    widget.itemDto.defenseMag,
+    widget.itemDto.delayMs,
+    widget.itemDto.cooldownSec,
+  ];
+
+
+  late List<int>? baseParamList = widget.itemDto.baseParam;
+  late List<int>? baseParamValueList = widget.itemDto.baseParamValue;
+
   late Map? boolsMap = {
     "IsDyeable" : widget.itemDto.dyeCount,
     "AetherialReduce" : widget.itemDto.aetherialReduce, 
@@ -33,6 +47,9 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
 
   @override
   void initState() {
+    for(int i=0;i<baseStatsList.length;i++){
+      print(baseStatsList[i]);
+    }
     super.initState();
   }
 
@@ -53,7 +70,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
               _buildItemStatsSection(),
               _buildItemRequireSection(widget.itemDto.levelItem ?? 0, widget.itemDto.levelEquip ?? 0, requireJob ?? 0),
               const SizedBox(height: 10),
-              _buildTitledSection("추가 능력치", _buildAdditionalStatsSection()),
+              _buildTitledSection("추가 능력치", _buildAdditionalStatsSection(baseParamValueList)),
               const SizedBox(height: 10),
               _buildTitledSection("마테리아", _buildMateriaSection(widget.itemDto.materiaSlotCount ?? 0)),
               const SizedBox(height: 10),
@@ -105,40 +122,28 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
     );
   }
 
-  Widget _buildItemStatsSection() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Container(
-            child: _buildStatColumn('물리 기본 성능', '132'),
-            decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.white, width: 1))
+Widget _buildItemStatsSection() {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      ...List.generate(baseStatsList.length, (index) {
+        if (baseStatsList[index] != null && baseStatsList[index] != 0) {
+          return Expanded(
+            child: Container(
+              child: _buildStatColumn('물리 기본 성능', baseStatsList[index]!),
+              decoration: const BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.white, width: 1)),
+              ),
             ),
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Container(
-            child: _buildStatColumn('물리 자동 공격', '137.28'),
-            decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.white, width: 1))
-            ),
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Container(
-            child: _buildStatColumn('공격 주기', '3.12'),
-            decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.white, width: 1))
-            ),
-          ),
-        ),
-        const SizedBox(width: 10),
-      ],
-    );
-  }
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      }),
+      const SizedBox(width: 10),
+    ],
+  );
+}
 
   Widget _buildItemRequireSection(int levelItem, int levelEquip, int requireJob) {
     return Column(
@@ -150,12 +155,12 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
     );
   }
 
-  Widget _buildStatColumn(String title, String value) {
+  Widget _buildStatColumn(String title, int value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(title, textAlign: TextAlign.end,),
-        Text(value, textAlign: TextAlign.end,),
+        Text(value.toString(), textAlign: TextAlign.end,),
       ],
     );
   }
@@ -198,20 +203,19 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
     );
   }
 
-  Widget _buildAdditionalStatsSection() {
+  Widget _buildAdditionalStatsSection(var baseParamValue) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Expanded(child: _buildStatRow('활력', '+412')),
-            Expanded(child: _buildStatRow('정신력', '+416')),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(child: _buildStatRow('극대화', '+306')),
-            Expanded(child: _buildStatRow('의지력', '+214')),
+            ...List.generate(baseParamValue.length, (index){
+              if(baseParamValue[index] != 0){
+                return Expanded(child: _buildStatRow('스탯 ${index +1}', '+${baseParamValue[index]}'));
+              }else{
+                return const SizedBox.shrink();
+              }
+            }),
           ],
         ),
       ],
