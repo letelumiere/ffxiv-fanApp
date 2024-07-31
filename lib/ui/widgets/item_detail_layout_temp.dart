@@ -25,6 +25,18 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
     widget.itemDto.cooldownSec,
   ];
 
+  List<String> baseStats = [
+    "방어",
+    "방어 확률",
+    "물리 피해",
+    "마법 피해",
+    "물리 방어",
+    "마법 방어",
+    "초당 피해",
+    "쿨다운",
+  ];
+
+
 
   late List<int>? baseParamList = widget.itemDto.baseParam;
   late List<int>? baseParamValueList = widget.itemDto.baseParamValue;
@@ -65,7 +77,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildItemHeader(widget.itemDto.name ?? 'N/A'),
-//              _buildItemCategorySection(),
+              _buildItemCategorySection(widget.itemDto.itemUICategory ?? 0),
               const SizedBox(height: 10),
               _buildItemStatsSection(),
               _buildItemRequireSection(widget.itemDto.levelItem ?? 0, widget.itemDto.levelEquip ?? 0, requireJob ?? 0),
@@ -111,11 +123,12 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
     );
   } 
 
-  Widget _buildItemCategorySection(String item, bool rarity, bool isTradable) {
-    return const Row(
+  Widget _buildItemCategorySection(int itemUICategory) {
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(child: Text('학자용 마도서', style: TextStyle(fontWeight: FontWeight.bold)),flex: 6),
+        Expanded(child: Text("마도서 등$itemUICategory", style: TextStyle(fontWeight: FontWeight.bold)),flex: 6),       
+
         Expanded(child: Text('고유', style: TextStyle(fontWeight:FontWeight.normal))),
         Expanded(child: Text('거래불가', style: TextStyle(fontWeight:FontWeight.normal))),
       ],
@@ -130,7 +143,7 @@ Widget _buildItemStatsSection() {
         if (baseStatsList[index] != null && baseStatsList[index] != 0) {
           return Expanded(
             child: Container(
-              child: _buildStatColumn('물리 기본 성능', baseStatsList[index]!),
+              child: _buildStatColumn(baseStats[index]!, baseStatsList[index]!),
               decoration: const BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.white, width: 1)),
               ),
@@ -225,7 +238,7 @@ Widget _buildItemStatsSection() {
   Widget _buildMateriaSection(int materialSlotCount) {
     String slots = "";
     for (int i = 0; i < materialSlotCount; i++) {
-      slots += "o";
+      slots += "○";
     }
 
     return Column(
