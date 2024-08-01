@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ffixv/data/models/item.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/data/services/item_service.dart';
 import 'package:ffixv/ui/widgets/item_detail_layout.dart';
-import 'package:ffixv/ui/widgets/item_pagination_layout.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ItemInfoPage extends StatefulWidget {
@@ -25,8 +25,6 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     _initializeFirebase();
   }
 
-
-
   Future<void> _initializeFirebase() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     _itemService = ItemService(
@@ -36,6 +34,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     await _itemService.initializeFirebase();
 //    _fetchItems();
     _fetchFilteredItem(32458);
+
   }
 
   Future<void> _fetchItems() async {
@@ -66,21 +65,50 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     });
   }
 
+
   void _showMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(content: Text(message)),
   );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-          child: Column(children: [
-            ItemDetailLayout(callback:(message) => {print("hi")}),
-            ItemPaginationLayout(),
-          ]),
+      appBar: AppBar(
+        title: Text('Firestore Test'),
+      ),
+      body: ListView.builder(
+        itemCount: _items.length,
+        itemBuilder: (context, index) {
+          final item = _items[index] as ItemDTO;
+          return Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ItemDetailLayout(itemDto: item, callback: (message) => {print("hi")}),
+//                Text('ID: ${item.id ?? 'N/A'}'),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
+  List<Widget> _buildItemFields(ItemDTO item) {
+    List<Widget> fields = []; 
+
+    // 모든 필드를 동적으로 출력
+    item.toJson().forEach((key, value) { 
+      fields.add(
+        Text('$key: ${value ?? 'N/A'}'), // 필드가 null일 경우 'N/A' 표시
+      );
+    });
+    return fields;
+  }
+
 }
+

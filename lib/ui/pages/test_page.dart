@@ -1,7 +1,7 @@
 import 'package:ffixv/data/models/item.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/data/services/item_service.dart';
-import 'package:ffixv/ui/widgets/item_detail_layout_temp.dart';
+import 'package:ffixv/ui/widgets/item_detail_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -86,7 +86,7 @@ class _TestPageState extends State<TestPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ItemDetailLayoutTemp(itemDto: item, callback: (message) => {print("hi")}),
+                  ItemDetailLayout(itemDto: item, callback: (message) => {print("hi")}),
 //                Text('ID: ${item.id ?? 'N/A'}'),
                 ],
               ),
