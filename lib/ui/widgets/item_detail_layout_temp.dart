@@ -42,19 +42,20 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
   late List<int>? baseParamValueList = widget.itemDto.baseParamValue;
 
   late Map? boolsMap = {
-    "IsDyeable" : widget.itemDto.dyeCount,
+    "IsDyeable" : widget.itemDto.dyeCount,  //
     "AetherialReduce" : widget.itemDto.aetherialReduce, 
-    "Desynth": widget.itemDto.desynth,
-    "EquipRestriction": widget.itemDto.equipRestriction,
+    "Desynth": widget.itemDto.desynth,  //아이템 분해
+    "EquipRestriction": widget.itemDto.equipRestriction,  
     "ItemAction": widget.itemDto.itemAction,
-    "CanBeHq": widget.itemDto.canBeHq,
+    "CanBeHq": widget.itemDto.canBeHq,  
     "IsCollectable": widget.itemDto.isCollectable,
-    "IsUnique": widget.itemDto.isUnique,
-    "IsUntradable": widget.itemDto.isUntradable,
-    "IsCrestWorthy": widget.itemDto.isCrestWorthy,
-    "IsIndisposable": widget.itemDto.isIndisposable,
+    "IsUnique": widget.itemDto.isUnique,  //고유
+    "IsUntradable": widget.itemDto.isUntradable,  //장터 출품
+    "IsCrestWorthy": widget.itemDto.isCrestWorthy,  
+    "IsIndisposable": widget.itemDto.isIndisposable,  
     "AlwaysCollectable": widget.itemDto.alwaysCollectable,
   };
+
 
 
   @override
@@ -69,6 +70,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         Padding(
@@ -77,19 +79,28 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildItemHeader(widget.itemDto.name ?? 'N/A'),
-              _buildItemCategorySection(widget.itemDto.itemUICategory ?? 0),
+              _buildItemCategorySection(widget.itemDto.itemUICategory ?? 0, widget.itemDto.isUnique?? false, widget.itemDto.isUntradable?? false ),
               const SizedBox(height: 10),
+              
               _buildItemStatsSection(),
               _buildItemRequireSection(widget.itemDto.levelItem ?? 0, widget.itemDto.levelEquip ?? 0, requireJob ?? 0),
               const SizedBox(height: 10),
-              _buildTitledSection("추가 능력치", _buildAdditionalStatsSection(baseParamValueList)),
+              if(widget.itemDto.baseParamValue!.isNotEmpty) // paramValueList의 모든 숫자가 0일 때 해야 함(수정 필요)
+                _buildTitledSection("추가 능력치", _buildAdditionalStatsSection(baseParamValueList)),
               const SizedBox(height: 10),
-              _buildTitledSection("마테리아", _buildMateriaSection(widget.itemDto.materiaSlotCount ?? 0)),
+
+              if(widget.itemDto.materiaSlotCount!>=0)
+                _buildTitledSection("마테리아", _buildMateriaSection(widget.itemDto.materiaSlotCount ?? 0)),
               const SizedBox(height: 10),
-              _buildTitledSection("제작 및 수리", _buildRepairSection()),
+              if(widget.itemDto.classJobRepair!=0)
+                _buildTitledSection("제작 및 수리", _buildRepairSection(widget.itemDto.classJobRepair ?? 0, boolsMap!, widget.itemDto.materializeType!)),
               const SizedBox(height: 10),
-              _buildMiscellaneousSection(),
+//              _buildMiscellaneousSection(boolsMap!),
               const SizedBox(height: 10),
+              if(widget.itemDto.description!=null)
+                _buildDescrptionSection(widget.itemDto.description!),
+              const SizedBox(height: 10),
+              _buildTradableSection(widget.itemDto.priceLow! ?? 0, widget.itemDto.isUntradable ?? false),
               _buildTitledSection("외부 링크", _buildExternalLinksSection()),
               const SizedBox(height: 10),
               _buildNpcSection(),
@@ -123,14 +134,16 @@ class _ItemDetailLayoutState extends State<ItemDetailLayoutTemp> {
     );
   } 
 
-  Widget _buildItemCategorySection(int itemUICategory) {
+  Widget _buildItemCategorySection(int itemUICategory, bool isUnique, bool isUntradable) {
+  
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(child: Text("마도서 등$itemUICategory", style: TextStyle(fontWeight: FontWeight.bold)),flex: 6),       
-
-        Expanded(child: Text('고유', style: TextStyle(fontWeight:FontWeight.normal))),
-        Expanded(child: Text('거래불가', style: TextStyle(fontWeight:FontWeight.normal))),
+        Expanded(child: Text("$itemUICategory", style: TextStyle(fontWeight: FontWeight.bold)),flex: 6),
+        if(isUnique)
+          Expanded(child: Text('$isUnique', style: TextStyle(fontWeight:FontWeight.normal))),
+        if(isUntradable)
+          Expanded(child: Text('$isUntradable', style: TextStyle(fontWeight:FontWeight.normal))),
       ],
     );
   }
@@ -249,22 +262,57 @@ Widget _buildItemStatsSection() {
     );
   }
 
-  Widget _buildRepairSection() {
+  Widget _buildRepairSection(int classJobRepair, Map boolsMap, int materializeType) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(children: [_buildStatRow('수리 ', '연금술사 레벨 80이상')]),
-        Row(children: [Expanded(child: _buildStatRow('마테리아화 ', '○')), Expanded(child: _buildStatRow('분해 ', '✕'))]),
-        Row(children: [Expanded(child: _buildStatRow('문장 삽입 ', '✕')), Expanded(child: _buildStatRow('염색 ', '○'))]),
+        Row(children: [_buildStatRow('수리  ', '$classJobRepair.toString()  레벨 이상')]),
+        Row(children: [
+          Expanded(child: _buildStatRow('마테리아화 : ', materializeType>0? '○':'✕')), 
+          Expanded(child: _buildStatRow('분해 : ', boolsMap.containsKey("desynth") ? '○' :'✕'))
+        ]),
+        Row(children: [Expanded(child: _buildStatRow('문장 삽입 : ', '✕')), Expanded(child: _buildStatRow('염색 :  ', '○'))])  //염색 여부는?,
       ],
     );
   }
 
-  Widget _buildMiscellaneousSection() {
-    return const Column(
+  Widget _buildMiscellaneousSection(Map boolsMap) {
+    bool isUntradable = boolsMap.containsKey("isUntradable");
+    String tradable = "";
+
+    if(isUntradable){
+      tradable = "판매 가능";
+    }else{
+      tradable = "판매 불가";
+    }
+
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(children: [Expanded(child: Text("판매 불가")), Expanded(child: Text("장터 출품 불가"))]),
+        Row(children: [Expanded(child: Text(tradable)), Expanded(child: Text("장터 출품"))]),
+      ],
+    );
+  }
+
+  Widget _buildTradableSection(int priceLow, bool isUntradable){
+    String str = "";
+    String str2 = "";
+    if(priceLow==0){
+      str = "판매 불가";
+    }else{
+      str = "매입가:  $priceLow";
+    }
+
+    if(isUntradable){
+      str2 = "장터 출품 불가";
+    }else{
+      str2 = "장터 출품 가능";
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(children: [Expanded(child: Text(str)), Expanded(child: Text(str2))]),
       ],
     );
   }
@@ -315,6 +363,17 @@ Widget _buildItemStatsSection() {
       ],
     );
   }
+
+
+  Widget _buildDescrptionSection(String description) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(description, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      ],
+    );
+  }
+
 
   Widget _buildCommentSection() {
     return Column(
