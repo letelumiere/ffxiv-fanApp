@@ -34,7 +34,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
       sharedPreferences: sharedPreferences,
     );
     await _itemService.initializeFirebase();
-//    _fetchItems();
+    _fetchItems();
     _fetchFilteredItem(32458);
 
   }
@@ -91,8 +91,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ItemDetailLayout(itemDto: item, callback: (message) => {print("hi")}),
-//                Text('ID: ${item.id ?? 'N/A'}'),
-                  ItemPaginationLayout(),
+                  ItemPaginationLayout(itemDtos: []),
                   ItemSearchConditionLayout(),
                 ],
               ),

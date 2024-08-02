@@ -1,9 +1,15 @@
 import 'package:ffixv/data/datasources/category_list.dart';
+import 'package:ffixv/data/models/itemDTO.dart';
+import 'package:ffixv/ui/widgets/item_listTile_container.dart';
+import 'package:flutter/material.dart';
+import 'package:ffixv/data/datasources/category_list.dart';
+import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/ui/widgets/item_listTile_container.dart';
 import 'package:flutter/material.dart';
 
 class ItemPaginationLayout extends StatefulWidget {
-  const ItemPaginationLayout({super.key});
+  final List<ItemDTO> itemDtos; // 리스트로 수정
+  const ItemPaginationLayout({super.key, required this.itemDtos});
 
   @override
   State<ItemPaginationLayout> createState() => _ItemPaginationLayoutState();
@@ -11,13 +17,14 @@ class ItemPaginationLayout extends StatefulWidget {
 
 class _ItemPaginationLayoutState extends State<ItemPaginationLayout> {
   final ScrollController _scrollController = ScrollController();
-  List<String> items = List.generate(15, (index) => '${index + 1}번쨰 위젯');
+  List<ItemDTO> items = []; // 아이템 리스트로 변경
   bool isLoading = false;
 
   @override
   void initState() {
-    _scrollController.addListener(_onScroll);
     super.initState();
+    _scrollController.addListener(_onScroll);
+    items = widget.itemDtos.take(15).toList(); // 초기 아이템 로드
   }
 
   @override
@@ -30,32 +37,39 @@ class _ItemPaginationLayoutState extends State<ItemPaginationLayout> {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      primary: false,
+      primary: true,
       controller: _scrollController,
-      itemCount: items.length+1,
-      itemBuilder: (context, index){
-        if(index<items.length){
-          return ItemListTileContainer();
-        }else{
+      itemCount: items.length + 1,
+      itemBuilder: (context, index) {
+        if (index < items.length) {
+          final item = items[index]; // 현재 아이템 가져오기
+          return ItemListTileContainer(
+            icon: item.icon,
+            name: item.name,
+            id: item.id,
+          );
+        } else {
           return isLoading ? const CircularProgressIndicator() : const SizedBox();
         }
       },
     );
   }
-  void _onScroll(){
-    if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+
+  void _onScroll() {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
       _loadData();
     }
   }
 
-  Future<void> _loadData() async{
-    if(!isLoading){
+  Future<void> _loadData() async {
+    if (!isLoading) {
       setState(() {
         isLoading = true;
       });
 
-      await Future.delayed(Duration(seconds: 4));
-      List<String> newItems = List.generate(10, (index) => '새로추가된 ${items.length + index + 1}번쨰 위젯');
+      await Future.delayed(const Duration(seconds: 4));
+
+      final newItems = widget.itemDtos.skip(items.length).take(10).toList(); // 새 아이템 로드
 
       setState(() {
         items.addAll(newItems);

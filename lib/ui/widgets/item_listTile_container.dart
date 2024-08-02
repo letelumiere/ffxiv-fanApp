@@ -1,37 +1,31 @@
 
 import 'package:flutter/material.dart';
 
+class ItemListTileContainer extends StatelessWidget {
+  final int? icon;
+  final String? name;
+  final int? id;
 
-class ItemListTileContainer extends StatefulWidget {
-  const ItemListTileContainer({super.key});
-
-  @override
-  State<StatefulWidget> createState() => _ItemListTileContainerState();
-
-}
-
-class _ItemListTileContainerState extends State<ItemListTileContainer>{
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  const ItemListTileContainer({
+    super.key,
+    required this.icon,
+    required this.name,
+    required this.id,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Image.asset('assets/icons/BlueMage.png', width: 40, height: 40),  //추후 HQ스왑 기능 추가 
+        Image.asset(icon as String, width: 40, height: 40),
         const SizedBox(width: 10),
-        const Column(
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('승천 치유서', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(name!, style: const TextStyle(fontWeight: FontWeight.bold)),
             Row(
               children: [
-                Text('Codex of Ascension',),
-                Text(' · '),
-                Text('コーデックス・オブ・アセンション'),
+                Text('ID: $id'),
               ],
             ),
           ],
