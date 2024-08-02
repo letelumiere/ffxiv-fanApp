@@ -24,6 +24,7 @@ class ItemService{
     List<Item> items = await _fetchItemsFromRepository(limit);
     return items.map((item) => ItemDTO.fromJson(item.toJson())).toList();
   }
+  
 
   Future<ItemDTO?> fetchFilteredItem(int itemId) async {
     QuerySnapshot<Map<String, dynamic>> query = await _itemRepository
@@ -65,4 +66,5 @@ class ItemService{
       debugPrint(e.toString());
     }
   }
+
 }
