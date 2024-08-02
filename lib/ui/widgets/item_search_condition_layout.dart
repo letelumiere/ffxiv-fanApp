@@ -10,7 +10,12 @@ class ItemSearchConditionLayout extends StatefulWidget {
 class _ItemSearchConditionLayoutState extends State<ItemSearchConditionLayout> {
   @override
   Widget build(BuildContext context) {
-    
-    return const Placeholder();
+    return Container(
+      padding: const EdgeInsets.all(10.0),
+      alignment: Alignment.center,
+      child: SearchBar(
+        
+      ),
+    );
   }
 }
