@@ -34,6 +34,17 @@ class ItemService {
     }
   }
 
+  Future<ItemDTO?> fetchItemWhereName(String itemName) async {
+    List<Item> item = await _itemRepository.fetchItemWhereName(itemName);
+
+    if (item != null) {
+      return ItemDTO.fromJson(item as Map<String, dynamic>);
+    } else {
+      return null;
+    }
+  }
+
+
   Map<String, dynamic> getItemMap() {
     try {
       return json.decode(sharedPreferences.getString("itemMap") ?? "{}") ?? {};

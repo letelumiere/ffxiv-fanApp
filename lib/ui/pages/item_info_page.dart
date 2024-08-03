@@ -4,7 +4,7 @@ import 'package:ffixv/data/services/item_repository.dart';
 import 'package:ffixv/data/services/item_service.dart';
 
 import 'package:ffixv/ui/widgets/itemInfoPage/item_detail_layout.dart';
-import 'package:ffixv/ui/widgets/itemInfoPage/item_pagination_layout.dart';
+import 'package:ffixv/ui/widgets/itemInfoPage/item_pagination_view.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_search_condition_layout.dart';
 
 import 'package:flutter/material.dart';
@@ -93,7 +93,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ItemDetailLayout(itemDto: item, callback: (message) => {print("hi")}),
-                  ItemPaginationLayout(itemDtos: []),
+                  ItemPaginationView(itemDtos: []),
                   ItemSearchConditionLayout(),
                 ],
               ),
