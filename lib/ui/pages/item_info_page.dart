@@ -1,9 +1,12 @@
 import 'package:ffixv/data/models/item.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
+import 'package:ffixv/data/services/item_repository.dart';
 import 'package:ffixv/data/services/item_service.dart';
-import 'package:ffixv/ui/widgets/item_detail_layout.dart';
-import 'package:ffixv/ui/widgets/item_pagination_layout.dart';
-import 'package:ffixv/ui/widgets/item_search_condition_layout.dart';
+
+import 'package:ffixv/ui/widgets/itemInfoPage/item_detail_layout.dart';
+import 'package:ffixv/ui/widgets/itemInfoPage/item_pagination_layout.dart';
+import 'package:ffixv/ui/widgets/itemInfoPage/item_search_condition_layout.dart';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,19 +26,21 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
 
   @override
   void initState() {
-    super.initState();
     _initializeFirebase();
   }
 
   Future<void> _initializeFirebase() async {
     final sharedPreferences = await SharedPreferences.getInstance();
+    final firestore = FirebaseFirestore.instance;
+    final itemRepository = ItemRepository(firestore);
+
     _itemService = ItemService(
-      itemRepository: FirebaseFirestore.instance,
+      itemRepository: itemRepository, 
       sharedPreferences: sharedPreferences,
     );
     await _itemService.initializeFirebase();
-    _fetchItems();
     _fetchFilteredItem(32458);
+    _fetchItems();
 
   }
 
@@ -77,9 +82,6 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Firestore Test'),
-      ),
       body: ListView.builder(
         itemCount: _items.length,
         itemBuilder: (context, index) {

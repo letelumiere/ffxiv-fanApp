@@ -1,10 +1,10 @@
 import 'package:ffixv/data/datasources/category_list.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
-import 'package:ffixv/ui/widgets/item_listTile_container.dart';
+import 'package:ffixv/ui/widgets/itemInfoPage/item_listTile_container.dart';
 import 'package:flutter/material.dart';
 import 'package:ffixv/data/datasources/category_list.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
-import 'package:ffixv/ui/widgets/item_listTile_container.dart';
+import 'package:ffixv/ui/widgets/itemInfoPage/item_listTile_container.dart';
 import 'package:flutter/material.dart';
 
 class ItemPaginationLayout extends StatefulWidget {
@@ -37,12 +37,12 @@ class _ItemPaginationLayoutState extends State<ItemPaginationLayout> {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      primary: true,
+      primary: false,
       controller: _scrollController,
       itemCount: items.length + 1,
       itemBuilder: (context, index) {
         if (index < items.length) {
-          final item = items[index]; // 현재 아이템 가져오기
+          final item = items[index];
           return ItemListTileContainer(
             icon: item.icon,
             name: item.name,

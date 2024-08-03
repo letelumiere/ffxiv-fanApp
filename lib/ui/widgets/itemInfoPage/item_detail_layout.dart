@@ -66,6 +66,8 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
 
   @override
   void initState() {
+    
+    print(widget.itemDto.name);
     for(int i=0;i<baseStatsList.length;i++){
       print(baseStatsList[i]);
     }
