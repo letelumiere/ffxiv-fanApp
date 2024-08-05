@@ -1,4 +1,5 @@
 import 'package:ffixv/data/models/itemDTO.dart';
+import 'package:ffixv/data/models/itemHeaderDTO.dart';
 import 'package:ffixv/data/services/item_repository.dart';
 import 'package:ffixv/data/services/item_service.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_detail_layout.dart';
@@ -20,6 +21,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   late ItemService _itemService;
   Map<String, dynamic> _itemMap = {};
   List<ItemDTO> _items = [];
+  List<ItemHeaderDTO> _itemHeaders = [];
 
   @override
   void initState() {
@@ -39,11 +41,12 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
 
     await _itemService.initializeFirebase();
 //    _fetchItemsWhereItemID(32458);
-//    _fetchItems(15);
+//    _fetchItems(15);  <- itemDetailLayout이 List로 나옴 
   }
 
   Future<void> _fetchItems(int limit) async {
     List<ItemDTO> items = await _itemService.fetchItems(limit);
+
     setState(() {
       _items = items;
     });
@@ -100,8 +103,8 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ItemDetailLayout(itemDto: item,callback: (message) => {print("hi")}),
-                  ItemPaginationView(itemDtos: [],),
+                  ItemDetailLayout(itemDto: item, callback: (message) => {print("hi")}),
+//                  ItemPaginationView(item: [],),
                   ItemSearchConditionLayout(),
                 ],
               ),
