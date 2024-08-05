@@ -1,12 +1,9 @@
-import 'package:ffixv/data/models/item.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/data/services/item_repository.dart';
 import 'package:ffixv/data/services/item_service.dart';
-
 import 'package:ffixv/ui/widgets/itemInfoPage/item_detail_layout.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_pagination_view.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_search_condition_layout.dart';
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,7 +18,7 @@ class ItemInfoPage extends StatefulWidget {
 
 class _ItemInfoPageState extends State<ItemInfoPage> {
   late ItemService _itemService;
-  Map<String,dynamic> _itemMap = {};
+  Map<String, dynamic> _itemMap = {};
   List<ItemDTO> _items = [];
 
   @override
@@ -36,26 +33,25 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     final itemRepository = ItemRepository(firestore);
 
     _itemService = ItemService(
-      itemRepository: itemRepository, 
+      itemRepository: itemRepository,
       sharedPreferences: sharedPreferences,
     );
 
     await _itemService.initializeFirebase();
-    _fetchFilteredItem(32458);
-    _fetchItems();
+//    _fetchItemsWhereItemID(32458);
+//    _fetchItems(15);
   }
 
-  Future<void> _fetchItems() async {
-    List<ItemDTO> items = await _itemService.fetchItems(1);
+  Future<void> _fetchItems(int limit) async {
+    List<ItemDTO> items = await _itemService.fetchItems(limit);
     setState(() {
       _items = items;
     });
   }
 
-
-  Future<void> _fetchFilteredItem(int itemId) async {
+  Future<void> _fetchItemsWhereItemID(int itemId) async {
     try {
-      ItemDTO? item = await _itemService.fetchFilteredItem(itemId);
+      ItemDTO? item = await _itemService.fetchItemWhereID(itemId);
       if (item != null) {
         setState(() {
           _items = [item];
@@ -67,48 +63,28 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
       debugPrint('Error fetching filtered item: $e');
     }
   }
-
-  Future<void> _fetchItemWhereItemID(int itemId) async {
-    try {
-      ItemDTO? item = await _itemService.fetchFilteredItem(itemId);
-      if (item != null) {
-        setState(() {
-          _items = [item];
-        });
-      } else {
-        _showMessage('No item found with the given ID.');
-      }
-    } catch (e) {
-      debugPrint('Error fetching filtered item: $e');
-    }
-  }
-
 
   Future<void> _fetchItemsWhereName(String itemName) async {
-    try{
+    try {
       List<ItemDTO> items = await _itemService.fetchItemsWhereName(itemName);
       setState(() {
         _items = items;
-      });  
-    }catch(e){
-        _showMessage('No item found with the given name.');
-      
+      });
+    } catch (e) {
+      _showMessage('No item found with the given name.');
     }
   }
 
-
-
-  void _loadItemMap(){
+  void _loadItemMap() {
     setState(() {
       _itemMap = _itemService.getItemMap();
     });
   }
 
-
   void _showMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text(message)),
-  );
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
@@ -124,8 +100,8 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ItemDetailLayout(itemDto: item, callback: (message) => {print("hi")}),
-                  ItemPaginationView(itemDtos: []),
+                  ItemDetailLayout(itemDto: item,callback: (message) => {print("hi")}),
+                  ItemPaginationView(itemDtos: [],),
                   ItemSearchConditionLayout(),
                 ],
               ),
@@ -135,17 +111,16 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
       ),
     );
   }
+
   List<Widget> _buildItemFields(ItemDTO item) {
-    List<Widget> fields = []; 
+    List<Widget> fields = [];
 
     // 모든 필드를 동적으로 출력
-    item.toJson().forEach((key, value) { 
+    item.toJson().forEach((key, value) {
       fields.add(
         Text('$key: ${value ?? 'N/A'}'), // 필드가 null일 경우 'N/A' 표시
       );
     });
     return fields;
   }
-
 }
-

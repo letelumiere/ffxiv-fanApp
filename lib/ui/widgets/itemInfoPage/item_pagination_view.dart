@@ -8,7 +8,6 @@ import 'package:ffixv/ui/widgets/itemInfoPage/item_listTile_container.dart';
 import 'package:flutter/material.dart';
 
 class ItemPaginationView extends StatefulWidget {
-
   final List<ItemDTO> itemDtos; // 리스트로 수정
   const ItemPaginationView({super.key, required this.itemDtos});
 

@@ -17,7 +17,7 @@ class ItemListTileContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Image.asset(icon as String, width: 40, height: 40),
+//        Image.asset(""+icon.toString(), width: 40, height: 40),
         const SizedBox(width: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

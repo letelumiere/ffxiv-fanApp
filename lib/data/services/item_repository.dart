@@ -57,7 +57,7 @@ class ItemRepository {
       return [];
     }
   }
-  Future<Item?> fetchFilteredItem(int itemId) async {
+  Future<Item?> fetchItemWhereID(int itemId) async {
     try {
       QuerySnapshot snapshot = await _itemsCollection
           .where('ID', isEqualTo: itemId)
