@@ -40,12 +40,12 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     );
 
     await _itemService.initializeFirebase();
-//    _fetchItemsWhereItemID(32458);
-//    _fetchItems(15);  <- itemDetailLayout이 List로 나옴 
+    _fetchItemsWhereItemID(32458);
+    _fetchItems(10,15); // <- itemDetailLayout이 List로 나옴 
   }
 
-  Future<void> _fetchItems(int limit) async {
-    List<ItemDTO> items = await _itemService.fetchItems(limit);
+  Future<void> _fetchItems(int page, int limit) async {
+    List<ItemDTO> items = await _itemService.fetchItemsWithPagination(page, limit);
 
     setState(() {
       _items = items;
@@ -105,7 +105,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                 children: [
                   ItemDetailLayout(itemDto: item, callback: (message) => {print("hi")}),
 //                  ItemPaginationView(item: [],),
-                  ItemSearchConditionLayout(),
+//                  ItemSearchConditionLayout(),
                 ],
               ),
             ),

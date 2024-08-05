@@ -1,5 +1,6 @@
 import 'package:ffixv/data/datasources/category_list.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
+import 'package:ffixv/data/models/itemHeaderDTO.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_listTile_container.dart';
 import 'package:flutter/material.dart';
 import 'package:ffixv/data/datasources/category_list.dart';
@@ -17,14 +18,14 @@ class ItemPaginationView extends StatefulWidget {
 
 class _ItemPaginationViewState extends State<ItemPaginationView> {
   final ScrollController _scrollController = ScrollController();
-  List<ItemDTO> items = []; // 아이템 리스트로 변경
+  List<ItemHeaderDTO> items = []; // 아이템 리스트로 변경
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    items = widget.itemDtos.take(15).toList(); // 초기 아이템 로드
+    items = widget.itemDtos.take(15).cast<ItemHeaderDTO>().toList(); // 초기 아이템 로드
   }
 
   @override
@@ -72,7 +73,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
       final newItems = widget.itemDtos.skip(items.length).take(10).toList(); // 새 아이템 로드
 
       setState(() {
-        items.addAll(newItems);
+        items.addAll(newItems as Iterable<ItemHeaderDTO>);
         isLoading = false;
       });
     }
