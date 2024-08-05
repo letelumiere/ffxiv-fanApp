@@ -26,6 +26,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
 
   @override
   void initState() {
+    super.initState();
     _initializeFirebase();
   }
 
@@ -38,10 +39,10 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
       itemRepository: itemRepository, 
       sharedPreferences: sharedPreferences,
     );
+
     await _itemService.initializeFirebase();
     _fetchFilteredItem(32458);
     _fetchItems();
-
   }
 
   Future<void> _fetchItems() async {
@@ -66,6 +67,37 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
       debugPrint('Error fetching filtered item: $e');
     }
   }
+
+  Future<void> _fetchItemWhereItemID(int itemId) async {
+    try {
+      ItemDTO? item = await _itemService.fetchFilteredItem(itemId);
+      if (item != null) {
+        setState(() {
+          _items = [item];
+        });
+      } else {
+        _showMessage('No item found with the given ID.');
+      }
+    } catch (e) {
+      debugPrint('Error fetching filtered item: $e');
+    }
+  }
+
+
+  Future<void> _fetchItemsWhereName(String itemName) async {
+    try{
+      List<ItemDTO> items = await _itemService.fetchItemsWhereName(itemName);
+      setState(() {
+        _items = items;
+      });  
+    }catch(e){
+        _showMessage('No item found with the given name.');
+      
+    }
+  }
+
+
+
   void _loadItemMap(){
     setState(() {
       _itemMap = _itemService.getItemMap();

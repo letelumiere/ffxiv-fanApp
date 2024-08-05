@@ -26,21 +26,52 @@ class ItemService {
   }
 
   Future<ItemDTO?> fetchFilteredItem(int itemId) async {
-    Item? item = await _itemRepository.fetchFilteredItem(itemId);
-    if (item != null) {
-      return ItemDTO.fromJson(item.toJson());
-    } else {
-      return null;
+    try {
+      Item? item = await _itemRepository.fetchFilteredItem(itemId);
+      
+      if (item != null) {
+        return ItemDTO.fromJson(item.toJson());
+      } else {
+        return null; 
+      }
+    } catch (e) {
+      print('Error fetching filtered item: $e');
+      return null; 
     }
   }
 
-  Future<ItemDTO?> fetchItemWhereName(String itemName) async {
-    List<Item> item = await _itemRepository.fetchItemWhereName(itemName);
+  Future<ItemDTO?> fetchItemWhereID(int itemID) async{
+    try {
+      Item? item = await _itemRepository.fetchFilteredItem(itemID);
+      
+      if (item != null) {
+        return ItemDTO.fromJson(item.toJson());
+      } else {
+        return null; 
+      }
+    } catch (e) {
+      print('Error fetching filtered item: $e');
+      return null; 
+    }
+  }
 
-    if (item != null) {
-      return ItemDTO.fromJson(item as Map<String, dynamic>);
-    } else {
-      return null;
+  Future<List<ItemDTO>> fetchItemsWithPagination(int page, int limit) async{
+    try{
+      List<Item> items = await _itemRepository.fetchItemsWithPagination(page, limit);
+      return items.map((item) => ItemDTO.fromJson(item.toJson())).toList();
+    }catch(e){
+      return [];
+    }
+  }
+
+
+  Future<List<ItemDTO>> fetchItemsWhereName(String itemName) async {
+    try {
+      List<Item> items = await _itemRepository.fetchItemsWhereName(itemName);
+      return items.map((item) => ItemDTO.fromJson(item.toJson())).toList();
+    } catch (e) {
+      print('Error fetching items by name: $e'); 
+      return [];
     }
   }
 

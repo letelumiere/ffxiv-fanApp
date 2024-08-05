@@ -26,7 +26,22 @@ class ItemRepository {
     }
   }
 
-  Future<List<Item>> fetchItemWhereName(String itemName) async {
+  Future<List<Item>> fetchItemsWithPagination(int page, int limit) async {
+    try {
+      QuerySnapshot snapshot = await _itemsCollection
+        .limit(limit)
+        .get();
+
+      return snapshot.docs.map((doc) {
+        return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+      }).toList();
+    } catch (e) {
+      print('Error fetching items: $e');
+      return [];
+    }
+  }
+
+  Future<List<Item>> fetchItemsWhereName(String itemName) async {
     try {
       QuerySnapshot snapshot = await _itemsCollection.get();
       List<Item> allItems = snapshot.docs.map((doc) {
