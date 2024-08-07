@@ -55,6 +55,7 @@ class ItemService {
   Future<List<ItemDTO>> fetchItemsWithPagination(int page, int limit) async{
     try{
       List<Item> items = await _itemRepository.fetchItemsWithPagination(page, limit);
+
       return items.map((item) => ItemDTO.fromJson(item.toJson())).toList();
     }catch(e){
       return [];

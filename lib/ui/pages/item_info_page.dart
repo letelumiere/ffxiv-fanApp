@@ -11,7 +11,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ItemInfoPage extends StatefulWidget {
-  const ItemInfoPage({super.key, required void Function(String message) callback});
+  const ItemInfoPage({super.key, required this.callback});
+
+  final void Function(String message) callback;
 
   @override
   State<ItemInfoPage> createState() => _ItemInfoPageState();
@@ -22,6 +24,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   Map<String, dynamic> _itemMap = {};
   List<ItemDTO> _items = [];
   List<ItemHeaderDTO> _itemHeaders = [];
+  ItemDTO? _selectedItem;
 
   @override
   void initState() {
@@ -41,14 +44,21 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
 
     await _itemService.initializeFirebase();
     _fetchItemsWhereItemID(32458);
-    _fetchItems(10,15); // <- itemDetailLayout이 List로 나옴 
+    _fetchItemsWithPagination(1, 15);
   }
 
-  Future<void> _fetchItems(int page, int limit) async {
+  Future<void> _fetchItemsWithPagination(int page, int limit) async {
     List<ItemDTO> items = await _itemService.fetchItemsWithPagination(page, limit);
+
+    List<ItemHeaderDTO> itemHeaders = items.map((item) => ItemHeaderDTO(
+      id: item.id,
+      icon: item.icon,
+      name: item.name,
+    )).toList();
 
     setState(() {
       _items = items;
+      _itemHeaders = itemHeaders;
     });
   }
 
@@ -57,7 +67,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
       ItemDTO? item = await _itemService.fetchItemWhereID(itemId);
       if (item != null) {
         setState(() {
-          _items = [item];
+          _selectedItem = item;
         });
       } else {
         _showMessage('No item found with the given ID.');
@@ -70,8 +80,16 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   Future<void> _fetchItemsWhereName(String itemName) async {
     try {
       List<ItemDTO> items = await _itemService.fetchItemsWhereName(itemName);
+
+      List<ItemHeaderDTO> itemHeaders = items.map((item) => ItemHeaderDTO(
+        id: item.id,
+        icon: item.icon,
+        name: item.name,
+      )).toList();
+
       setState(() {
         _items = items;
+        _itemHeaders = itemHeaders;
       });
     } catch (e) {
       _showMessage('No item found with the given name.');
@@ -93,37 +111,22 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: _items.length,
-        itemBuilder: (context, index) {
-          final item = _items[index] as ItemDTO;
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ItemDetailLayout(itemDto: item, callback: (message) => {print("hi")}),
-//                  ItemPaginationView(item: [],),
-//                  ItemSearchConditionLayout(),
-                ],
+      body: Column(
+        children: [
+          if (_selectedItem != null)
+            ItemDetailLayout(
+              itemDto: _selectedItem!, // 단일 DTO를 전달
+              callback: (message) => _showMessage(message),
+            ),
+          if (_itemHeaders.isNotEmpty)
+            Expanded(
+              child: ItemPaginationView(
+                itemHeaderDtos: _itemHeaders, // ItemHeaderDTO 리스트를 전달
               ),
             ),
-          );
-        },
+          ItemSearchConditionLayout(),
+        ],
       ),
     );
-  }
-
-  List<Widget> _buildItemFields(ItemDTO item) {
-    List<Widget> fields = [];
-
-    // 모든 필드를 동적으로 출력
-    item.toJson().forEach((key, value) {
-      fields.add(
-        Text('$key: ${value ?? 'N/A'}'), // 필드가 null일 경우 'N/A' 표시
-      );
-    });
-    return fields;
   }
 }

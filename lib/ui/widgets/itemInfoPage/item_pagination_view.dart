@@ -1,16 +1,10 @@
-import 'package:ffixv/data/datasources/category_list.dart';
-import 'package:ffixv/data/models/itemDTO.dart';
+import 'package:flutter/material.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
-import 'package:ffixv/ui/widgets/itemInfoPage/item_listTile_container.dart';
-import 'package:flutter/material.dart';
-import 'package:ffixv/data/datasources/category_list.dart';
-import 'package:ffixv/data/models/itemDTO.dart';
-import 'package:ffixv/ui/widgets/itemInfoPage/item_listTile_container.dart';
-import 'package:flutter/material.dart';
 
 class ItemPaginationView extends StatefulWidget {
-  final List<ItemDTO> itemDtos; // 리스트로 수정
-  const ItemPaginationView({super.key, required this.itemDtos});
+  final List<ItemHeaderDTO> itemHeaderDtos;
+
+  const ItemPaginationView({super.key, required this.itemHeaderDtos});
 
   @override
   State<ItemPaginationView> createState() => _ItemPaginationViewState();
@@ -18,14 +12,14 @@ class ItemPaginationView extends StatefulWidget {
 
 class _ItemPaginationViewState extends State<ItemPaginationView> {
   final ScrollController _scrollController = ScrollController();
-  List<ItemHeaderDTO> items = []; // 아이템 리스트로 변경
+  List<ItemHeaderDTO> items = [];
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    items = widget.itemDtos.take(15).cast<ItemHeaderDTO>().toList(); // 초기 아이템 로드
+    items = widget.itemHeaderDtos.take(15).toList(); // 초기 아이템 로드
   }
 
   @override
@@ -44,7 +38,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
       itemBuilder: (context, index) {
         if (index < items.length) {
           final item = items[index];
-          return ItemListTileContainer(
+          return _ItemListTileContainer(
             icon: item.icon,
             name: item.name,
             id: item.id,
@@ -68,14 +62,49 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
         isLoading = true;
       });
 
-      await Future.delayed(const Duration(seconds: 4));
+      await Future.delayed(const Duration(seconds: 2));
 
-      final newItems = widget.itemDtos.skip(items.length).take(10).toList(); // 새 아이템 로드
+      final newItems = widget.itemHeaderDtos.skip(items.length).take(10).toList();
 
       setState(() {
-        items.addAll(newItems as Iterable<ItemHeaderDTO>);
+        items.addAll(newItems);
         isLoading = false;
       });
     }
+  }
+}
+
+class _ItemListTileContainer extends StatelessWidget {
+  final int? icon;
+  final String? name;
+  final int? id;
+
+  const _ItemListTileContainer({
+    super.key,
+    required this.icon,
+    required this.name,
+    required this.id,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        // Uncomment and provide the correct path to your image assets
+        // Image.asset("assets/images/$icon.png", width: 40, height: 40),
+        const SizedBox(width: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(name ?? 'Unknown', style: const TextStyle(fontWeight: FontWeight.bold)),
+            Row(
+              children: [
+                Text('ID: $id'),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
