@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ffixv/data/models/item.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/data/services/item_service.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ItemDetailLayout extends StatefulWidget {
   final ItemDTO itemDto;
   final void Function(String message) callback;
-
   ItemDetailLayout({required this.itemDto, required this.callback, Key? key}) : super(key: key);
 
   @override

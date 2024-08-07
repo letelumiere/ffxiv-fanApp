@@ -7,7 +7,7 @@ import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/data/models/item.dart';
 import 'package:ffixv/data/services/item_repository.dart';
 
-class ItemService {
+class ItemService extends ChangeNotifier {
   final ItemRepository _itemRepository;
   final SharedPreferences sharedPreferences;
 
