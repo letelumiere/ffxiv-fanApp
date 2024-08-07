@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class ItemInfoPage extends StatefulWidget {
   const ItemInfoPage({super.key, required this.callback});
@@ -25,15 +26,18 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   List<ItemDTO> _items = [];
   List<ItemHeaderDTO> _itemHeaders = [];
   ItemDTO? _selectedItem;
+  late Future<void> _initialization;
 
   @override
   void initState() {
     super.initState();
-    _initializeFirebase();
+    _initialization = _initializeFirebase();
   }
 
   Future<void> _initializeFirebase() async {
+    print('Initializing Firebase...');
     final sharedPreferences = await SharedPreferences.getInstance();
+    print('SharedPreferences initialized');
     final firestore = FirebaseFirestore.instance;
     final itemRepository = ItemRepository(firestore);
 
@@ -43,11 +47,14 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     );
 
     await _itemService.initializeFirebase();
-    _fetchItemsWhereItemID(32458);
-    _fetchItemsWithPagination(1, 15);
+    print('Firebase initialized');
+
+    await _fetchItemsWhereItemID(32458);
+    await _fetchItemsWithPagination(10, 15);
   }
 
   Future<void> _fetchItemsWithPagination(int page, int limit) async {
+    print('Fetching items with pagination...');
     List<ItemDTO> items = await _itemService.fetchItemsWithPagination(page, limit);
 
     List<ItemHeaderDTO> itemHeaders = items.map((item) => ItemHeaderDTO(
@@ -60,10 +67,12 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
       _items = items;
       _itemHeaders = itemHeaders;
     });
+    print('Items fetched with pagination');
   }
 
   Future<void> _fetchItemsWhereItemID(int itemId) async {
     try {
+      print('Fetching item by ID...');
       ItemDTO? item = await _itemService.fetchItemWhereID(itemId);
       if (item != null) {
         setState(() {
@@ -72,6 +81,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
       } else {
         _showMessage('No item found with the given ID.');
       }
+      print('Item fetched by ID');
     } catch (e) {
       debugPrint('Error fetching filtered item: $e');
     }
@@ -79,6 +89,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
 
   Future<void> _fetchItemsWhereName(String itemName) async {
     try {
+      print('Fetching items by name...');
       List<ItemDTO> items = await _itemService.fetchItemsWhereName(itemName);
 
       List<ItemHeaderDTO> itemHeaders = items.map((item) => ItemHeaderDTO(
@@ -91,6 +102,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
         _items = items;
         _itemHeaders = itemHeaders;
       });
+      print('Items fetched by name');
     } catch (e) {
       _showMessage('No item found with the given name.');
     }
@@ -110,23 +122,37 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          if (_selectedItem != null)
-            ItemDetailLayout(
-              itemDto: _selectedItem!, // 단일 DTO를 전달
-              callback: (message) => _showMessage(message),
-            ),
-          if (_itemHeaders.isNotEmpty)
-            Expanded(
-              child: ItemPaginationView(
-                itemHeaderDtos: _itemHeaders, // ItemHeaderDTO 리스트를 전달
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error initializing Firebase: ${snapshot.error}'));
+        } else {
+          return ChangeNotifierProvider<ItemService>.value(
+            value: _itemService,
+            child: Scaffold(
+              body: Column(
+                children: [
+                  if (_selectedItem != null)
+                    ItemDetailLayout(
+                      itemDto: _selectedItem!, // 단일 DTO를 전달
+                      callback: (message) => _showMessage(message),
+                    ),
+                  if (_itemHeaders.isNotEmpty)
+                    Expanded(
+                      child: ItemPaginationView(
+                        itemHeaderDtos: _itemHeaders, // ItemHeaderDTO 리스트를 전달
+                      ),
+                    ),
+                  ItemSearchConditionLayout(),
+                ],
               ),
             ),
-          ItemSearchConditionLayout(),
-        ],
-      ),
+          );
+        }
+      },
     );
   }
 }
