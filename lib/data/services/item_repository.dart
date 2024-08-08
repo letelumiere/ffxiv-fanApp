@@ -11,11 +11,10 @@ class ItemRepository {
   ItemRepository(FirebaseFirestore firestore) 
     : _itemsCollection = firestore.collection('lodestone');
 
+
   Future<List<Item>> fetchItems(int limit) async {
     try {
-      QuerySnapshot snapshot = await _itemsCollection
-        .limit(limit)
-        .get();
+      QuerySnapshot snapshot = await _itemsCollection.limit(limit).get();
 
       return snapshot.docs.map((doc) {
         return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
@@ -26,17 +25,30 @@ class ItemRepository {
     }
   }
 
+
   Future<List<Item>> fetchItemsWithPagination(int page, int limit) async {
     try {
-      QuerySnapshot snapshot = await _itemsCollection
-        .limit(limit)
-        .get();
+      QuerySnapshot snapshot;
+      if (page == 0) {
+        // 첫 페이지인 경우 단순히 제한된 수의 아이템을 가져옴
+        snapshot = await _itemsCollection.limit(limit).get();
+      } else {
+        // 이후 페이지인 경우 마지막으로 가져온 문서를 기준으로 다음 페이지를 가져옴
+        QuerySnapshot lastSnapshot = await _itemsCollection
+            .limit(page * limit)
+            .get();
+        DocumentSnapshot lastDoc = lastSnapshot.docs.last;
+        snapshot = await _itemsCollection
+            .startAfterDocument(lastDoc)
+            .limit(limit)
+            .get();
+      }
 
       return snapshot.docs.map((doc) {
         return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
       }).toList();
     } catch (e) {
-      print('Error fetching items: $e');
+      print('Error fetching items with pagination: $e');
       return [];
     }
   }
@@ -57,13 +69,14 @@ class ItemRepository {
       return [];
     }
   }
+
   Future<Item?> fetchItemWhereID(int itemId) async {
     try {
       QuerySnapshot snapshot = await _itemsCollection
           .where('ID', isEqualTo: itemId)
           .get();
-      
-      if (snapshot.docs.isNotEmpty) {   // 명시적으로 Map<String, dynamic>으로 캐스팅
+
+      if (snapshot.docs.isNotEmpty) {
         var data = snapshot.docs.first.data() as Map<String, dynamic>;
         return Item.fromJson(data, snapshot.docs.first.id);
       } else {

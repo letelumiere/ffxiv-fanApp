@@ -27,6 +27,10 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   List<ItemHeaderDTO> _itemHeaders = [];
   ItemDTO? _selectedItem;
   late Future<void> _initialization;
+  String? inputText;
+  bool isLoading = false;
+  int page = 0;
+  final int limit = 10;
 
   @override
   void initState() {
@@ -49,9 +53,37 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     await _itemService.initializeFirebase();
     print('Firebase initialized');
 
-    await _fetchItemsWhereItemID(32458);
     await _fetchItemsWithPagination(10, 15);
   }
+
+  void _searchItems(String itemName) async{
+    final itemService = Provider.of<ItemService>(context, listen: false);
+    setState(() {
+      isLoading = true;
+    });
+
+    _items = await itemService.fetchItemsWhereName(itemName);
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void _loadMoreItems() async{
+    final itemService = Provider.of<ItemService>(context, listen: false);
+    setState(() {
+      isLoading = true;
+    });
+
+    List<ItemDTO> moreItems = await itemService.fetchItemsWithPagination(page, limit);
+
+    setState((){
+      _items.addAll(moreItems);
+      page++;
+      isLoading = false;
+    });
+  }
+
 
   Future<void> _fetchItemsWithPagination(int page, int limit) async {
     print('Fetching items with pagination...');
@@ -123,29 +155,37 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _initialization,
+      future: _initialization, // Firebase 초기화 Future
       builder: (context, snapshot) {
+        // Firebase 초기화 진행 중
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error initializing Firebase: ${snapshot.error}'));
-        } else {
+          return const Center(child: CircularProgressIndicator()); // 로딩 인디케이터
+        } 
+        // Firebase 초기화 에러 발생
+        else if (snapshot.hasError) {
+          return Center(child: Text('Error initializing Firebase: ${snapshot.error}')); // 에러 메시지 표시
+        } 
+        // Firebase 초기화 완료
+        else {
           return ChangeNotifierProvider<ItemService>.value(
-            value: _itemService,
+            value: _itemService, // ItemService를 Provider로 설정
             child: Scaffold(
               body: Column(
                 children: [
+                  // 선택된 아이템이 있을 경우 ItemDetailLayout 표시
                   if (_selectedItem != null)
-                    ItemDetailLayout(
+    /*                ItemDetailLayout(
                       itemDto: _selectedItem!, // 단일 DTO를 전달
-                      callback: (message) => _showMessage(message),
+                      callback: (message) => _showMessage(message), // 콜백 함수 전달
                     ),
+    */            // 아이템 헤더 리스트가 있을 경우 ItemPaginationView 표시
                   if (_itemHeaders.isNotEmpty)
                     Expanded(
                       child: ItemPaginationView(
                         itemHeaderDtos: _itemHeaders, // ItemHeaderDTO 리스트를 전달
                       ),
                     ),
+                  // 검색 조건 레이아웃
                   ItemSearchConditionLayout(),
                 ],
               ),
