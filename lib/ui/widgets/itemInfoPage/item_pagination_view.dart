@@ -4,22 +4,25 @@ import 'package:ffixv/data/models/itemHeaderDTO.dart';
 class ItemPaginationView extends StatefulWidget {
   final List<ItemHeaderDTO> itemHeaderDtos;
 
-  const ItemPaginationView({super.key, required this.itemHeaderDtos});
+  const ItemPaginationView({Key? key, required this.itemHeaderDtos}) : super(key: key);
 
   @override
-  State<ItemPaginationView> createState() => _ItemPaginationViewState();
+  _ItemPaginationViewState createState() => _ItemPaginationViewState();
 }
 
 class _ItemPaginationViewState extends State<ItemPaginationView> {
+  static const int _initialLoadCount = 15;
+  static const int _pageSize = 10;
+  
   final ScrollController _scrollController = ScrollController();
-  List<ItemHeaderDTO> items = [];
-  bool isLoading = false;
+  List<ItemHeaderDTO> _items = [];
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    items = widget.itemHeaderDtos.take(15).toList(); // 초기 아이템 로드
+    _loadInitialData();
   }
 
   @override
@@ -31,20 +34,17 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      shrinkWrap: true,
-      primary: false,
       controller: _scrollController,
-      itemCount: items.length + 1,
+      itemCount: _items.length + (_isLoading ? 1 : 0),
       itemBuilder: (context, index) {
-        if (index < items.length) {
-          final item = items[index];
+        if (index < _items.length) {
           return _ItemListTileContainer(
-            icon: item.icon,
-            name: item.name,
-            id: item.id,
+            icon: _items[index].icon,
+            name: _items[index].name,
+            id: _items[index].id,
           );
         } else {
-          return isLoading ? const CircularProgressIndicator() : const SizedBox();
+          return Center(child: const CircularProgressIndicator());
         }
       },
     );
@@ -52,25 +52,34 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
 
   void _onScroll() {
     if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-      _loadData();
+      _loadMoreData();
     }
   }
 
-  Future<void> _loadData() async {
-    if (!isLoading) {
-      setState(() {
-        isLoading = true;
-      });
+  Future<void> _loadInitialData() async {
+    setState(() {
+      _items = widget.itemHeaderDtos.take(_initialLoadCount).toList();
+    });
+  }
 
-      await Future.delayed(const Duration(seconds: 2));
+  Future<void> _loadMoreData() async {
+    if (_isLoading) return;
 
-      final newItems = widget.itemHeaderDtos.skip(items.length).take(10).toList();
+    setState(() {
+      _isLoading = true;
+    });
 
-      setState(() {
-        items.addAll(newItems);
-        isLoading = false;
-      });
-    }
+    await Future.delayed(const Duration(seconds: 2));
+
+    final newItems = widget.itemHeaderDtos
+        .skip(_items.length)
+        .take(_pageSize)
+        .toList();
+
+    setState(() {
+      _items.addAll(newItems);
+      _isLoading = false;
+    });
   }
 }
 
@@ -81,30 +90,17 @@ class _ItemListTileContainer extends StatelessWidget {
 
   const _ItemListTileContainer({
     super.key,
-    required this.icon,
-    required this.name,
-    required this.id,
+    this.icon,
+    this.name,
+    this.id,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        // Uncomment and provide the correct path to your image assets
-        // Image.asset("assets/images/$icon.png", width: 40, height: 40),
-        const SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(name ?? 'Unknown', style: const TextStyle(fontWeight: FontWeight.bold)),
-            Row(
-              children: [
-                Text('ID: $id'),
-              ],
-            ),
-          ],
-        ),
-      ],
+    return ListTile(
+      leading: icon != null ? Image.asset("assets/images/$icon.png", width: 40, height: 40) : null,
+      title: Text(name ?? 'Unknown', style: const TextStyle(fontWeight: FontWeight.bold)),
+      subtitle: Text('ID: $id'),
     );
   }
 }

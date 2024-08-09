@@ -47,7 +47,7 @@ class ItemService extends ChangeNotifier {
     }
   }
 
-  Future<List<ItemDTO>> fetchItemsWhereName(String itemName) async {
+  Future<List<ItemDTO>> fetchItemsWhereName(String itemName) async {  //ItemHeaderDTO로 변환하여 리턴해주어야 함 
     try {
       List<Item> items = await _itemRepository.fetchItemsWhereName(itemName);
       return items.map((item) => ItemDTO.fromJson(item.toJson())).toList();
@@ -56,6 +56,8 @@ class ItemService extends ChangeNotifier {
       return [];
     }
   }
+
+  
 
   Future<List<ItemHeaderDTO>> fetchItemHeadersWhereName(String itemName) async {
     try {

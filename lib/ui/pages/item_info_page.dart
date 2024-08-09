@@ -53,7 +53,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     await _itemService.initializeFirebase();
     print('Firebase initialized');
 
-    await _fetchItemsWithPagination(10, 15);
+//    await _fetchItemsWithPagination(10, 15);
   }
 
   void _searchItems(String itemName) async{
@@ -172,21 +172,22 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
             child: Scaffold(
               body: Column(
                 children: [
+                  // 검색 조건 레이아웃
+                  ItemSearchConditionLayout(),
+
                   // 선택된 아이템이 있을 경우 ItemDetailLayout 표시
                   if (_selectedItem != null)
-    /*                ItemDetailLayout(
+                    ItemDetailLayout(
                       itemDto: _selectedItem!, // 단일 DTO를 전달
                       callback: (message) => _showMessage(message), // 콜백 함수 전달
                     ),
-    */            // 아이템 헤더 리스트가 있을 경우 ItemPaginationView 표시
+                // 아이템 헤더 리스트가 있을 경우 ItemPaginationView 표시
                   if (_itemHeaders.isNotEmpty)
                     Expanded(
                       child: ItemPaginationView(
                         itemHeaderDtos: _itemHeaders, // ItemHeaderDTO 리스트를 전달
                       ),
                     ),
-                  // 검색 조건 레이아웃
-                  ItemSearchConditionLayout(),
                 ],
               ),
             ),

@@ -1,39 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffixv/data/models/item.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffixv/data/models/item.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffixv/data/models/item.dart';
 
 class ItemRepository {
   final CollectionReference _itemsCollection;
 
-  ItemRepository(FirebaseFirestore firestore) 
-    : _itemsCollection = firestore.collection('lodestone');
+  ItemRepository(FirebaseFirestore firestore)
+      : _itemsCollection = firestore.collection('lodestone');
 
+  // 중복 제거: Item 변환 메서드
+  List<Item> _mapSnapshotToItems(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+    }).toList();
+  }
+
+  // 공통 예외 처리 메서드
+  void _handleError(Object e) {
+    print('Error: $e');
+  }
 
   Future<List<Item>> fetchItems(int limit) async {
     try {
       QuerySnapshot snapshot = await _itemsCollection.limit(limit).get();
-
-      return snapshot.docs.map((doc) {
-        return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
-      }).toList();
+      return _mapSnapshotToItems(snapshot);
     } catch (e) {
-      print('Error fetching items: $e');
+      _handleError(e);
       return [];
     }
   }
-
 
   Future<List<Item>> fetchItemsWithPagination(int page, int limit) async {
     try {
       QuerySnapshot snapshot;
       if (page == 0) {
-        // 첫 페이지인 경우 단순히 제한된 수의 아이템을 가져옴
         snapshot = await _itemsCollection.limit(limit).get();
       } else {
-        // 이후 페이지인 경우 마지막으로 가져온 문서를 기준으로 다음 페이지를 가져옴
         QuerySnapshot lastSnapshot = await _itemsCollection
             .limit(page * limit)
             .get();
@@ -43,32 +44,36 @@ class ItemRepository {
             .limit(limit)
             .get();
       }
-
-      return snapshot.docs.map((doc) {
-        return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
-      }).toList();
+      return _mapSnapshotToItems(snapshot);
     } catch (e) {
-      print('Error fetching items with pagination: $e');
+      _handleError(e);
       return [];
     }
   }
 
   Future<List<Item>> fetchItemsWhereName(String itemName) async {
     try {
-      QuerySnapshot snapshot = await _itemsCollection.get();
-      List<Item> allItems = snapshot.docs.map((doc) {
-        return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
-      }).toList();
+      // Firestore 쿼리 - 대소문자 구분없이 일부 단어가 포함된 항목을 검색
+      QuerySnapshot snapshot = await _itemsCollection
+          .where('Name', isGreaterThanOrEqualTo: itemName)
+//          .where('Name', isLessThanOrEqualTo: itemName + '\uf8ff')
+          .orderBy('Name', descending: false)
+          .get();
 
-      // 클라이언트 측에서 문자열 필터링
-      return allItems.where((item) {
+      // 쿼리 결과를 Item 객체로 변환 및 필터링
+      List<Item> filteredItems = snapshot.docs.map((doc) {
+        return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+      }).where((item) {
         return item.name!.toLowerCase().contains(itemName.toLowerCase());
       }).toList();
+      
+      return filteredItems;
     } catch (e) {
-      print('Error fetching items containing substring: $e');
+      _handleError(e);
       return [];
     }
   }
+
 
   Future<Item?> fetchItemWhereID(int itemId) async {
     try {
@@ -83,8 +88,10 @@ class ItemRepository {
         return null;
       }
     } catch (e) {
-      print('Error fetching filtered item: $e');
+      _handleError(e);
       return null;
     }
   }
+
+
 }
