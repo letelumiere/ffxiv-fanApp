@@ -53,12 +53,19 @@ class ItemRepository {
 
   Future<List<Item>> fetchItemsWhereName(String itemName) async {
     try {
-      // Firestore 쿼리 - 대소문자 구분없이 일부 단어가 포함된 항목을 검색
-      QuerySnapshot snapshot = await _itemsCollection
-          .where('Name', isGreaterThanOrEqualTo: itemName)
-//          .where('Name', isLessThanOrEqualTo: itemName + '\uf8ff')
+      QuerySnapshot snapshot;
+
+      if(itemName==""){
+        snapshot = await _itemsCollection
           .orderBy('Name', descending: false)
           .get();
+      }else{
+        snapshot = await _itemsCollection
+            .where('Name', isGreaterThanOrEqualTo: itemName)
+            .orderBy('Name', descending: false)
+            .get();
+      }
+      // Firestore 쿼리 - 대소문자 구분없이 일부 단어가 포함된 항목을 검색
 
       // 쿼리 결과를 Item 객체로 변환 및 필터링
       List<Item> filteredItems = snapshot.docs.map((doc) {

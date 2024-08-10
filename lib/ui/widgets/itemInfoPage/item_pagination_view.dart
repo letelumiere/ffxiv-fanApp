@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ffixv/ui/widgets/itemInfoPage/item_search_condition_layout.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
 
 class ItemPaginationView extends StatefulWidget {
   final List<ItemHeaderDTO> itemHeaderDtos;
 
-  const ItemPaginationView({Key? key, required this.itemHeaderDtos}) : super(key: key);
+  const ItemPaginationView({super.key, required this.itemHeaderDtos});
 
   @override
   _ItemPaginationViewState createState() => _ItemPaginationViewState();
@@ -98,7 +99,8 @@ class _ItemListTileContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: icon != null ? Image.asset("assets/images/$icon.png", width: 40, height: 40) : null,
+//      leading: icon != null ? Image.asset("assets/images/$icon.png", width: 40, height: 40) : null,
+      leading: icon != null ? Image.asset('assets/icons/BlueMage.png', width: 40, height: 40) : null,  //추후 HQ스왑 기능 추가 
       title: Text(name ?? 'Unknown', style: const TextStyle(fontWeight: FontWeight.bold)),
       subtitle: Text('ID: $id'),
     );

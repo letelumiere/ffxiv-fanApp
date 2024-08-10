@@ -52,38 +52,55 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
 
     await _itemService.initializeFirebase();
     print('Firebase initialized');
-
-//    await _fetchItemsWithPagination(10, 15);
+    await _fetchItemsWithPagination(10, 15);
   }
 
-  void _searchItems(String itemName) async{
-    final itemService = Provider.of<ItemService>(context, listen: false);
+  void _searchItems(String itemName) async {
+    if (itemName.isEmpty) return;
+
     setState(() {
       isLoading = true;
     });
 
-    _items = await itemService.fetchItemsWhereName(itemName);
+    try {
+      List<ItemDTO> items = await _itemService.fetchItemsWhereName(itemName);
 
-    setState(() {
-      isLoading = false;
-    });
+      List<ItemHeaderDTO> itemHeaders = items.map((item) => ItemHeaderDTO(
+        id: item.id,
+        icon: item.icon,
+        name: item.name,
+      )).toList();
+
+      if (mounted) {
+        setState(() {
+          _items = items;
+          _itemHeaders = itemHeaders;  // 검색 결과를 _itemHeaders에 반영
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+      print('Error during item search: $e');
+    }
   }
 
-  void _loadMoreItems() async{
-    final itemService = Provider.of<ItemService>(context, listen: false);
+  void _loadMoreItems() async {
     setState(() {
       isLoading = true;
     });
 
-    List<ItemDTO> moreItems = await itemService.fetchItemsWithPagination(page, limit);
+    List<ItemDTO> moreItems = await _itemService.fetchItemsWithPagination(page, limit);
 
-    setState((){
+    setState(() {
       _items.addAll(moreItems);
       page++;
       isLoading = false;
     });
   }
-
 
   Future<void> _fetchItemsWithPagination(int page, int limit) async {
     print('Fetching items with pagination...');
@@ -155,40 +172,36 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _initialization, // Firebase 초기화 Future
+      future: _initialization,
       builder: (context, snapshot) {
-        // Firebase 초기화 진행 중
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator()); // 로딩 인디케이터
-        } 
-        // Firebase 초기화 에러 발생
-        else if (snapshot.hasError) {
-          return Center(child: Text('Error initializing Firebase: ${snapshot.error}')); // 에러 메시지 표시
-        } 
-        // Firebase 초기화 완료
-        else {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error initializing Firebase: ${snapshot.error}'));
+        } else {
           return ChangeNotifierProvider<ItemService>.value(
-            value: _itemService, // ItemService를 Provider로 설정
+            value: _itemService,
             child: Scaffold(
-              body: Column(
-                children: [
-                  // 검색 조건 레이아웃
-                  ItemSearchConditionLayout(),
-
-                  // 선택된 아이템이 있을 경우 ItemDetailLayout 표시
-                  if (_selectedItem != null)
-                    ItemDetailLayout(
-                      itemDto: _selectedItem!, // 단일 DTO를 전달
-                      callback: (message) => _showMessage(message), // 콜백 함수 전달
+              body: Container(
+                child: Column(
+                  children: [
+                    // 아이템 검색 조건 레이아웃을 포함하고 있으므로, Provider가 이 위젯보다 상위에 있어야 합니다.
+                    ItemSearchConditionLayout(
+                      onSubmitted: (itemName) => _searchItems(itemName),
                     ),
-                // 아이템 헤더 리스트가 있을 경우 ItemPaginationView 표시
-                  if (_itemHeaders.isNotEmpty)
-                    Expanded(
-                      child: ItemPaginationView(
-                        itemHeaderDtos: _itemHeaders, // ItemHeaderDTO 리스트를 전달
+                    if (_selectedItem != null)
+                      ItemDetailLayout(
+                        itemDto: _selectedItem!,
+                        callback: (message) => _showMessage(message),
                       ),
-                    ),
-                ],
+                    if (_itemHeaders.isNotEmpty)
+                      Expanded(
+                        child: ItemPaginationView(
+                          itemHeaderDtos: _itemHeaders,
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
           );
