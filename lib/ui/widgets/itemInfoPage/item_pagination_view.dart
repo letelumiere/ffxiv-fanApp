@@ -47,6 +47,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
         } else {
           return Center(child: const CircularProgressIndicator());
         }
+
       },
     );
   }
@@ -103,6 +104,7 @@ class _ItemListTileContainer extends StatelessWidget {
       leading: icon != null ? Image.asset('assets/icons/BlueMage.png', width: 40, height: 40) : null,  //추후 HQ스왑 기능 추가 
       title: Text(name ?? 'Unknown', style: const TextStyle(fontWeight: FontWeight.bold)),
       subtitle: Text('ID: $id'),
+      onTap: () {},
     );
   }
 }
