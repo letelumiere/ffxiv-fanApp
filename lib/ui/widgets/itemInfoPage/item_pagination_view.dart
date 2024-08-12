@@ -18,6 +18,8 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
   final ScrollController _scrollController = ScrollController();
   List<ItemHeaderDTO> _items = [];
   bool _isLoading = false;
+  ItemHeaderDTO? _selectedItem; //선택된 아이템을 관리하는 상태
+
 
   @override
   void initState() {
@@ -43,10 +45,12 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
             icon: _items[index].icon,
             name: _items[index].name,
             id: _items[index].id,
+            onTap: () => _onItemSelected(_items[index]),
           );
         } else {
           return Center(child: const CircularProgressIndicator());
         }
+
       },
     );
   }
@@ -82,18 +86,26 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
       _isLoading = false;
     });
   }
+
+  void _onItemSelected(ItemHeaderDTO selectedItem){
+    setState((){
+      _selectedItem = selectedItem;
+    });
+  }
 }
 
 class _ItemListTileContainer extends StatelessWidget {
   final int? icon;
   final String? name;
   final int? id;
+  final VoidCallback onTap; //onTap콜백 추가
 
   const _ItemListTileContainer({
     super.key,
     this.icon,
     this.name,
     this.id,
+    required this.onTap,
   });
 
   @override
@@ -103,6 +115,7 @@ class _ItemListTileContainer extends StatelessWidget {
       leading: icon != null ? Image.asset('assets/icons/BlueMage.png', width: 40, height: 40) : null,  //추후 HQ스왑 기능 추가 
       title: Text(name ?? 'Unknown', style: const TextStyle(fontWeight: FontWeight.bold)),
       subtitle: Text('ID: $id'),
+      onTap: onTap,
     );
   }
 }
