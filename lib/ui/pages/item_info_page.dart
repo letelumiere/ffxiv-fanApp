@@ -52,6 +52,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
 
     await _itemService.initializeFirebase();
     print('Firebase initialized');
+
     await _fetchItemsWithPagination(10, 15);
   }
 
@@ -152,6 +153,11 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
         _itemHeaders = itemHeaders;
       });
       print('Items fetched by name');
+
+      for(ItemHeaderDTO dto in itemHeaders){
+        print('dto');
+      }
+
     } catch (e) {
       _showMessage('No item found with the given name.');
     }
@@ -197,7 +203,10 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                     if (_itemHeaders.isNotEmpty)
                       Expanded(
                         child: ItemPaginationView(
-                          itemHeaderDtos: _itemHeaders,
+                          itemHeaderDtos: _itemHeaders, 
+                          onItemSelected: (itemHeader) {
+                            _fetchItemsWhereItemID(itemHeader.id as int);
+                          },
                         ),
                       ),
                   ],

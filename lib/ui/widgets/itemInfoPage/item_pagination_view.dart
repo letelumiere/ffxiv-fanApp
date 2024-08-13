@@ -4,8 +4,9 @@ import 'package:ffixv/data/models/itemHeaderDTO.dart';
 
 class ItemPaginationView extends StatefulWidget {
   final List<ItemHeaderDTO> itemHeaderDtos;
+  final void Function(ItemHeaderDTO) onItemSelected; //콜백 추가
 
-  const ItemPaginationView({super.key, required this.itemHeaderDtos});
+  const ItemPaginationView({super.key, required this.itemHeaderDtos, required this.onItemSelected});
 
   @override
   _ItemPaginationViewState createState() => _ItemPaginationViewState();
@@ -88,9 +89,9 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
   }
 
   void _onItemSelected(ItemHeaderDTO selectedItem){
-    setState((){
-      _selectedItem = selectedItem;
-    });
+    print(selectedItem.id);
+
+    widget.onItemSelected(selectedItem); //부모에게 선택된 아이템 전달
   }
 }
 
@@ -119,4 +120,3 @@ class _ItemListTileContainer extends StatelessWidget {
     );
   }
 }
- 
