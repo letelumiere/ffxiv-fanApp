@@ -53,7 +53,8 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     await _itemService.initializeFirebase();
     print('Firebase initialized');
 
-    await _fetchItemsWithPagination(10, 15);
+    await _fetchItemsWhereItemID(13422);
+//    await _fetchItemsWithPagination(10, 15);
   }
 
   void _searchItems(String itemName) async {
