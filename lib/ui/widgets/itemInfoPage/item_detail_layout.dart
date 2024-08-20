@@ -40,6 +40,10 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
     "쿨다운",
   ];
 
+  List<String> additionalStats = [
+
+  ];
+
   late List<int>? baseParamList = widget.itemDto.baseParam;
   late List<int>? baseParamValueList = widget.itemDto.baseParamValue;
 
@@ -105,7 +109,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
               if(widget.itemDto.baseParamValue!.isNotEmpty) // paramValueList의 모든 숫자가 0일 때 해야 함(수정 필요)
                 _buildTitledSection("추가 능력치", _buildAdditionalStatsSection(baseParamValueList)),
               const SizedBox(height: 10),
-
+              
               if(widget.itemDto.materiaSlotCount!>0)
                 _buildTitledSection("마테리아", _buildMateriaSection(widget.itemDto.materiaSlotCount ?? 0)),
               const SizedBox(height: 10),
@@ -391,7 +395,7 @@ Widget _buildItemStatsSection(var baseParamList) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(description, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(description, style: TextStyle(fontSize: 18,)),
       ],
     );
   }
