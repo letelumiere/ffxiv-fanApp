@@ -40,8 +40,6 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
     "쿨다운",
   ];
 
-
-
   late List<int>? baseParamList = widget.itemDto.baseParam;
   late List<int>? baseParamValueList = widget.itemDto.baseParamValue;
 
@@ -87,6 +85,9 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
   @override
   Widget build(BuildContext context) {
 
+  late List<int>? baseParamList = widget.itemDto.baseParam;
+  late List<int>? baseParamValueList = widget.itemDto.baseParamValue;
+
     return Column(
       children: [
         Padding(
@@ -98,7 +99,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
               _buildItemCategorySection(widget.itemDto.itemUICategory ?? 0, widget.itemDto.isUnique?? false, widget.itemDto.isUntradable?? false ),
               const SizedBox(height: 10),
               
-              _buildItemStatsSection(),
+              _buildItemStatsSection(baseParamList),
               _buildItemRequireSection(widget.itemDto.levelItem ?? 0, widget.itemDto.levelEquip ?? 0, requireJob ?? 0),
               const SizedBox(height: 10),
               if(widget.itemDto.baseParamValue!.isNotEmpty) // paramValueList의 모든 숫자가 0일 때 해야 함(수정 필요)
@@ -164,20 +165,20 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
     );
   }
 
-Widget _buildItemStatsSection() {
-  int activeChildrenCount = baseStatsList.where((stat) => stat != null && stat != 0).length;
+Widget _buildItemStatsSection(var baseParamList) {
+  int activeChildrenCount = baseParamList.where((stat) => stat != null && stat != 0).length;
 
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      ...List.generate(baseStatsList.length, (index) {
-        if (baseStatsList[index] != null && baseStatsList[index] != 0) {
+      ...List.generate(baseParamList.length, (index) {
+        if (baseParamList[index] != null && baseParamList[index] != 0) {
           return Expanded(
             flex: 1,  // 모든 child가 동일한 비율의 공간을 차지하도록 설정
             child: Container(
-              margin: EdgeInsets.only(right: index != baseStatsList.length - 1 ? 8.0 : 0.0),
+              margin: EdgeInsets.only(right: index != baseParamList.length - 1 ? 8.0 : 0.0),
               // 마지막 child가 아닌 경우에만 오른쪽 간격을 추가
-              child: _buildStatColumn(baseStats[index]!, baseStatsList[index]!),
+              child: _buildStatColumn(baseStats[index]!, baseParamList[index]!),
               decoration: const BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.white, width: 1)),
               ),
