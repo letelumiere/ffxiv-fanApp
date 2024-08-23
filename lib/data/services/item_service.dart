@@ -57,8 +57,6 @@ class ItemService extends ChangeNotifier {
     }
   }
 
-  
-
   Future<List<ItemHeaderDTO>> fetchItemHeadersWhereName(String itemName) async {
     try {
       List<ItemDTO> itemDTOs = await fetchItemsWhereName(itemName);
@@ -71,6 +69,16 @@ class ItemService extends ChangeNotifier {
   }
 
   Future<List<ItemDTO>> fetchItemsWithPagination(int page, int limit) async {
+    try {
+      List<Item> items = await _itemRepository.fetchItemsWithPagination(page, limit);
+      return items.map((item) => ItemDTO.fromJson(item.toJson())).toList();
+    } catch (e) {
+      print('Error fetching items with pagination: $e');
+      return [];
+    }
+  }
+
+  Future<List<ItemDTO>> fetchItemHeaderWithPagination(int page, int limit) async {
     try {
       List<Item> items = await _itemRepository.fetchItemsWithPagination(page, limit);
       return items.map((item) => ItemDTO.fromJson(item.toJson())).toList();

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffixv/data/models/item.dart';
+import 'package:ffixv/data/models/itemHeaderDTO.dart';
 
 class ItemRepository {
   final CollectionReference _itemsCollection;
@@ -13,6 +14,8 @@ class ItemRepository {
       return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
     }).toList();
   }
+
+
 
   // 공통 예외 처리 메서드
   void _handleError(Object e) {

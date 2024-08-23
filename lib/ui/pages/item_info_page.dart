@@ -53,15 +53,18 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     await _itemService.initializeFirebase();
     print('Firebase initialized');
 
-    await _fetchItemsWhereItemID(13422);
-//    await _fetchItemsWithPagination(10, 15);
+//    await _fetchItemsWhereItemID(13422);
+    await _fetchItemsWithPagination(10, 15);
   }
 
-  void _searchItems(String itemName) async {
+  void _searchItems(String itemName) async {  
     if (itemName.isEmpty) return;
 
     setState(() {
       isLoading = true;
+      _items.clear();
+      _itemHeaders.clear();
+    //  _selectedItem = null;
     });
 
     try {
@@ -120,6 +123,25 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     });
     print('Items fetched with pagination');
   }
+
+  Future<void> _fetchItemHeaderWithPagination(int page, int limit, String itemName) async {
+    print('Fetching items with pagination...');
+    List<ItemDTO> items = await _itemService.fetchItemsWithPagination(page, limit);
+
+    List<ItemHeaderDTO> itemHeaders = items.map((item) => ItemHeaderDTO(
+      id: item.id,
+      icon: item.icon,
+      name: item.name,
+    )).toList();
+
+    setState(() {
+      _items = items;
+      _itemHeaders = itemHeaders;
+    });
+    print('Items fetched with pagination');
+  }
+
+
 
   Future<void> _fetchItemsWhereItemID(int itemId) async {
     try {
