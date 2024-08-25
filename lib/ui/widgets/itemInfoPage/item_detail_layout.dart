@@ -29,6 +29,50 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
     widget.itemDto.cooldownSec,
   ];
 
+  List<String> classList = [
+      "검술사",        // Gladiator
+      "격투사",        // Pugi
+      "도끼술사",      // Marauder
+      "창술사",        // Lancer
+      "궁술사",        // Archer
+      "환술사",        // Conjurer
+      "주술사",        // Thaumaturge
+      "비술사",        // Arcanist
+      "쌍검사",        // Rogue
+      "목수",          // Carpenter
+      "대장장이",      // Blacksmith
+      "갑주제작사",    // Armorer
+      "보석공",        // Goldsmith
+      "가죽공예가",    // Leatherworker
+      "재봉사",        // Weaver
+      "연금술사",      // Alchemist
+      "요리사",        // Culinarian
+      "광부",          // Miner
+      "원예가",        // Botanist
+      "어부",          // Fisher
+      "나이트",        // Paladin
+      "몽크",          // Monk
+      "전사",          // Warrior
+      "용기사",        // Dragoon
+      "음유시인",      // Bard
+      "백마도사",      // White Mage
+      "흑마도사",      // Black Mage
+      "소환사",        // Summoner
+      "학자",          // Scholar
+      "닌자",          // Ninja
+      "기공사",        // Machinist
+      "암흑기사",      // Dark Knight
+      "점성술사",      // Astrologian
+      "사무라이",      // Samurai
+      "적마도사",      // Red Mage
+      "청마도사",      // Blue Mage
+      "건브레이커",    // Gunbreaker
+      "무도가",        // Dancer
+      "리퍼",          // Reaper
+      "현자"           // Sage
+  ];
+
+
   List<String> baseStats = [
     "방어",
     "방어 확률",
@@ -143,10 +187,9 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
               _buildItemStatsSection(baseParamList),
               _buildItemRequireSection(widget.itemDto.levelItem ?? 0, widget.itemDto.levelEquip ?? 0, requireJob ?? 0),
               const SizedBox(height: 10),
-              if(widget.itemDto.baseParamValue!.isNotEmpty && widget.itemDto.baseParamValue!.length>0) // paramValueList의 모든 숫자가 0일 때 해야 함(수정 필요)
+              if (widget.itemDto.baseParamValue!.isNotEmpty && widget.itemDto.baseParamValue!.any((value) => value != 0))
                 _buildTitledSection("추가 능력치", _buildAdditionalStatsSection(baseParamValueList)),
               const SizedBox(height: 10),
-              
               if(widget.itemDto.materiaSlotCount!>0)
                 _buildTitledSection("마테리아", _buildMateriaSection(widget.itemDto.materiaSlotCount ?? 0)),
               const SizedBox(height: 10),
@@ -154,9 +197,9 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                 _buildTitledSection("제작 및 수리", _buildRepairSection(widget.itemDto.classJobRepair ?? 0, boolsMap!, widget.itemDto.materializeType!)),
               const SizedBox(height: 10),
 //              _buildMiscellaneousSection(boolsMap!),
-              const SizedBox(height: 10),
+//              const SizedBox(height: 10),
               if(widget.itemDto.description!=null && widget.itemDto.description!="No description available")
-                _buildDescrptionSection(widget.itemDto.description!),
+                _buildDescriptionSection(widget.itemDto.description!),
               const SizedBox(height: 10),
               _buildTradableSection(widget.itemDto.priceLow! ?? 0, widget.itemDto.isUntradable ?? false),
 //              _buildTitledSection("외부 링크", _buildExternalLinksSection()),
@@ -238,7 +281,7 @@ Widget _buildItemStatsSection(var baseParamList) {
     return Column(
       children: [
         _buildStatRow("아이템 레벨  ", levelItem.toString()),
-        _buildStatRow("", requireJob.toString()),
+        _buildStatRow("", classList[requireJob].toString()),
         _buildStatRow('레벨 ', "$levelEquip 이상"),
       ],
     );
@@ -426,16 +469,23 @@ Widget _buildItemStatsSection(var baseParamList) {
       ],
     );
   }
-
-
-  Widget _buildDescrptionSection(String description) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(description, style: TextStyle(fontSize: 18,)),
-      ],
-    );
-  }
+Widget _buildDescriptionSection(String description) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      // 상단에 구분선을 그리는 Container
+      Container(
+        height: 1, // 구분선의 두께
+        color: Colors.white, // 구분선의 색상
+      ),
+      const SizedBox(height: 10), // 구분선과 텍스트 사이의 간격
+      Text(
+        description,
+        style: const TextStyle(fontSize: 16), // 텍스트 스타일 (선택 사항)
+      ),
+    ],
+  );
+}
 
 
   Widget _buildCommentSection() {
