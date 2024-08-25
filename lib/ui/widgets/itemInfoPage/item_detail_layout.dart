@@ -40,9 +40,30 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
     "쿨다운",
   ];
 
-  List<String> additionalStats = [
-
+  List<String> stats = [
+    "힘",
+    "민첩",
+    "활력",
+    "지능",
+    "정신",
+    "극대",
+    "결의",
+    "직격",
+    "기술 속도",
+    "마법 속도",
+    "불굴",
+    "신앙",
+    "극대 확률",
+    "무기 막기",
+    "명중률",
+    "공격력",
+    "방어력",
+    "마법 방어력",
+    "체력",
+    "마나"
   ];
+
+
 
   late List<int>? baseParamList = widget.itemDto.baseParam;
   late List<int>? baseParamValueList = widget.itemDto.baseParamValue;
@@ -62,6 +83,22 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
     "AlwaysCollectable": widget.itemDto.alwaysCollectable,
   };
 
+  late Map<String, dynamic>? etcMap = {
+    "염색 가능": widget.itemDto.dyeCount,  // IsDyeable
+    "에테르 변환 가능": widget.itemDto.aetherialReduce,  // AetherialReduce
+    "아이템 분해 가능": widget.itemDto.desynth,  // Desynth
+    "장비 제한": widget.itemDto.equipRestriction,  // EquipRestriction
+    "아이템 액션": widget.itemDto.itemAction,  // ItemAction
+    "HQ 제작 가능": widget.itemDto.canBeHq,  // CanBeHq
+    "수집 가능": widget.itemDto.isCollectable,  // IsCollectable
+    "고유 아이템": widget.itemDto.isUnique,  // IsUnique
+    "거래 불가": widget.itemDto.isUntradable,  // IsUntradable
+    "문장 부여 가능": widget.itemDto.isCrestWorthy,  // IsCrestWorthy
+    "파기 불가": widget.itemDto.isIndisposable,  // IsIndisposable
+    "항상 수집 가능": widget.itemDto.alwaysCollectable,  // AlwaysCollectable
+  };
+
+
     late Map? StringsMap = {
     "IsDyeable" : widget.itemDto.dyeCount == true ? "염색 가능" : "염색 불가",  //
     "AetherialReduce" : widget.itemDto.aetherialReduce == true ? "에테리얼 환원" : "에테리얼 환원 불가",
@@ -71,8 +108,8 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
     "CanBeHq": widget.itemDto.canBeHq == true ? "HQ 가능": "HQ 불가",  
     "IsCollectable": widget.itemDto.isCollectable == true ? "수집품 가능" : "수집품 불가",
     "IsUnique": widget.itemDto.isUnique == true ? "고유" : "안고유",  //고유
-    "IsUntradable": widget.itemDto.isUntradable == true ? "장터 출품 가능" : "장터 출품 불가", //장터 출품
     "IsCrestWorthy": widget.itemDto.isCrestWorthy == true ? "문장 부여 가능": "문장 부여 불가",  
+    "IsUntradable": widget.itemDto.isUntradable == true ? "장터 출품 가능" : "장터 출품 불가", //장터 출품
     "IsIndisposable": widget.itemDto.isIndisposable == true ? "폐기 가능" : "폐기 불가",
     "AlwaysCollectable": widget.itemDto.alwaysCollectable == true ? "항상 수집품" : "수집품 아님",
   };
@@ -106,7 +143,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
               _buildItemStatsSection(baseParamList),
               _buildItemRequireSection(widget.itemDto.levelItem ?? 0, widget.itemDto.levelEquip ?? 0, requireJob ?? 0),
               const SizedBox(height: 10),
-              if(widget.itemDto.baseParamValue!.isNotEmpty) // paramValueList의 모든 숫자가 0일 때 해야 함(수정 필요)
+              if(widget.itemDto.baseParamValue!.isNotEmpty && widget.itemDto.baseParamValue!.length>0) // paramValueList의 모든 숫자가 0일 때 해야 함(수정 필요)
                 _buildTitledSection("추가 능력치", _buildAdditionalStatsSection(baseParamValueList)),
               const SizedBox(height: 10),
               
@@ -263,7 +300,7 @@ Widget _buildItemStatsSection(var baseParamList) {
           children: [
             ...List.generate(baseParamValue.length, (index){
               if(baseParamValue[index] != 0){
-                return Expanded(child: _buildStatRow('스탯 ${index +1}', '  +${baseParamValue[index]}'));
+                return Expanded(child: _buildStatRow('${stats[index]}', '  +${baseParamValue[index]}'));
               }else{
                 return const SizedBox.shrink();
               }
