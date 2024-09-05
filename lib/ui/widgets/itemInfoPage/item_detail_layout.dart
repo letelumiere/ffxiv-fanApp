@@ -194,7 +194,8 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                 _buildTitledSection("마테리아", _buildMateriaSection(widget.itemDto.materiaSlotCount ?? 0)),
               const SizedBox(height: 10),
               if(widget.itemDto.classJobRepair!=0)
-                _buildTitledSection("제작 및 수리", _buildRepairSection(widget.itemDto.classJobRepair ?? 0, boolsMap!, widget.itemDto.materializeType!)),
+                _buildTitledSection("제작 및 수리", _buildRepairSection(widget.itemDto.classJobRepair ?? 0, boolsMap!, widget.itemDto.materializeType!, widget.itemDto.levelEquip!)),   
+                  //해당 widget에서 itemLevel은 틀림. 다른 level을 찾아야 함. 수리 레벨이 무엇인지? 
               const SizedBox(height: 10),
 //              _buildMiscellaneousSection(boolsMap!),
 //              const SizedBox(height: 10),
@@ -368,11 +369,11 @@ Widget _buildItemStatsSection(var baseParamList) {
     );
   }
 
-  Widget _buildRepairSection(int classJobRepair, Map boolsMap, int materializeType) {
+  Widget _buildRepairSection(int classJobRepair, Map boolsMap, int materializeType, int levelEquip) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(children: [_buildStatRow('수리  ', '                                   $classJobRepair.toString()  레벨 이상')]),
+        Row(children: [_buildStatRow('수리  ', '                                   $classJobRepair  $levelEquip 레벨 이상')]),
         Row(children: [
           Expanded(child: _buildStatRow('마테리아화 : ', materializeType>0? '○':'✕')), 
           Expanded(child: _buildStatRow('분해 : ', boolsMap.containsKey("desynth") ? '○' :'✕'))

@@ -211,29 +211,27 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
           return ChangeNotifierProvider<ItemService>.value(
             value: _itemService,
             child: Scaffold(
-              body: Container(
-                child: Column(
-                  children: [
-                    // 아이템 검색 조건 레이아웃을 포함하고 있으므로, Provider가 이 위젯보다 상위에 있어야 합니다.
-                    ItemSearchConditionLayout(
-                      onSubmitted: (itemName) => _searchItems(itemName),
+              body: Column(
+                children: [
+                  // 아이템 검색 조건 레이아웃을 포함하고 있으므로, Provider가 이 위젯보다 상위에 있어야 합니다.
+                  ItemSearchConditionLayout(
+                    onSubmitted: (itemName) => _searchItems(itemName),
+                  ),
+                  if (_selectedItem != null)
+                    ItemDetailLayout(
+                      itemDto: _selectedItem!,
+                      callback: (message) => _showMessage(message),
                     ),
-                    if (_selectedItem != null)
-                      ItemDetailLayout(
-                        itemDto: _selectedItem!,
-                        callback: (message) => _showMessage(message),
+                  if (_itemHeaders.isNotEmpty)
+                    Expanded(
+                      child: ItemPaginationView(
+                        itemHeaderDtos: _itemHeaders, 
+                        onItemSelected: (itemHeader) {
+                          _fetchItemsWhereItemID(itemHeader.id as int);
+                        },
                       ),
-                    if (_itemHeaders.isNotEmpty)
-                      Expanded(
-                        child: ItemPaginationView(
-                          itemHeaderDtos: _itemHeaders, 
-                          onItemSelected: (itemHeader) {
-                            _fetchItemsWhereItemID(itemHeader.id as int);
-                          },
-                        ),
-                      ),
-                  ],
-                ),
+                    ),
+                ],
               ),
             ),
           );
