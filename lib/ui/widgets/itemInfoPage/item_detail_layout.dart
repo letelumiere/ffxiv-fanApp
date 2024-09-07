@@ -84,7 +84,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
     "쿨다운",
   ];
 
-  List<String> stats = [
+  List<String> stats = [   //godbert에서 baseparam
     "힘",
     "민첩",
     "활력",

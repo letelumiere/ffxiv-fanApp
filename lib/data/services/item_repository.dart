@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffixv/data/models/item.dart';
+import 'package:ffixv/data/models/itemUICategory.dart';
+
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
 
 class ItemRepository {
@@ -7,6 +9,7 @@ class ItemRepository {
 
   ItemRepository(FirebaseFirestore firestore)
       : _itemsCollection = firestore.collection('lodestone');
+
 
   // 중복 제거: Item 변환 메서드
   List<Item> _mapSnapshotToItems(QuerySnapshot snapshot) {
