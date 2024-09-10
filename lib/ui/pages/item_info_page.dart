@@ -124,25 +124,6 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     print('Items fetched with pagination');
   }
 
-  Future<void> _fetchItemHeaderWithPagination(int page, int limit, String itemName) async {
-    print('Fetching items with pagination...');
-    List<ItemDTO> items = await _itemService.fetchItemsWithPagination(page, limit);
-
-    List<ItemHeaderDTO> itemHeaders = items.map((item) => ItemHeaderDTO(
-      id: item.id,
-      icon: item.icon,
-      name: item.name,
-    )).toList();
-
-    setState(() {
-      _items = items;
-      _itemHeaders = itemHeaders;
-    });
-    print('Items fetched with pagination');
-  }
-
-
-
   Future<void> _fetchItemsWhereItemID(int itemId) async {
     try {
       print('Fetching item by ID...');
