@@ -16,7 +16,6 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
   
   int _currentPage = 0;
   List<ItemHeaderDTO> _currentItems = [];
-  ItemHeaderDTO? _selectedItem;
 
   @override
   void initState() {
@@ -46,23 +45,44 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
     );
   }
 
+  // Pagination controls with limited page buttons (previous 2, current, next 2)
   Widget _buildPaginationControls() {
+    int totalPages = (widget.itemHeaderDtos.length / _pageSize).ceil();
+    int startPage = (_currentPage - 2).clamp(0, totalPages - 1);
+    int endPage = (_currentPage + 2).clamp(0, totalPages - 1);
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ElevatedButton(
-          onPressed: _currentPage > 0 ? _goToPreviousPage : null,
+        // Previous button
+        if (_currentPage > 0) ElevatedButton(
+          onPressed: _goToPreviousPage,
           child: const Text('Previous'),
         ),
-        Text('Page ${_currentPage + 1}'),
-        ElevatedButton(
-          onPressed: (_currentPage + 1) * _pageSize < widget.itemHeaderDtos.length ? _goToNextPage : null,
+        // Page buttons (only show 2 before and 2 after current page)
+        ...List.generate(endPage - startPage + 1, (index) {
+          int pageIndex = startPage + index;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: ElevatedButton(
+              onPressed: () => _goToPage(pageIndex),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: pageIndex == _currentPage ? Colors.blue : Colors.grey, // Highlight current page
+              ),
+              child: Text('${pageIndex + 1}'),
+            ),
+          );
+        }),
+        // Next button
+        if (_currentPage < totalPages - 1) ElevatedButton(
+          onPressed: _goToNextPage,
           child: const Text('Next'),
         ),
       ],
     );
   }
 
+  // Loads the current page data based on the page number
   void _loadPageData() {
     setState(() {
       final start = _currentPage * _pageSize;
@@ -71,6 +91,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
     });
   }
 
+  // Goes to the previous page
   void _goToPreviousPage() {
     setState(() {
       _currentPage--;
@@ -78,6 +99,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
     });
   }
 
+  // Goes to the next page
   void _goToNextPage() {
     setState(() {
       _currentPage++;
@@ -85,6 +107,15 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
     });
   }
 
+  // Goes to a specific page
+  void _goToPage(int pageIndex) {
+    setState(() {
+      _currentPage = pageIndex;
+      _loadPageData();
+    });
+  }
+
+  // Callback when an item is selected
   void _onItemSelected(ItemHeaderDTO selectedItem) {
     widget.onItemSelected(selectedItem);
   }
