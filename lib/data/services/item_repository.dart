@@ -10,6 +10,7 @@ class ItemRepository {
   ItemRepository(FirebaseFirestore firestore)
       : _itemsCollection = firestore.collection('lodestone');
 
+  
 
   // 중복 제거: Item 변환 메서드
   List<Item> _mapSnapshotToItems(QuerySnapshot snapshot) {
@@ -18,6 +19,11 @@ class ItemRepository {
     }).toList();
   }
 
+  List<ItemHeaderDTO> _mapSnapshotToItemHeaders(QuerySnapshot snapshot){
+    return snapshot.docs.map((doc) {
+      return ItemHeaderDTO.fromJson(doc.data() as Map<String, dynamic>);
+    }).toList();
+  }
 
 
   // 공통 예외 처리 메서드
@@ -34,6 +40,29 @@ class ItemRepository {
       return [];
     }
   }
+
+  Future<List<ItemHeaderDTO>> getItemHeadersWithPagination(int page, int limit) async {
+    try {
+      QuerySnapshot snapshot;
+      if (page == 0) {
+        snapshot = await _itemsCollection.limit(limit).get();
+      } else {
+        QuerySnapshot lastSnapshot = await _itemsCollection
+            .limit(page * limit)
+            .get();
+        DocumentSnapshot lastDoc = lastSnapshot.docs.last;
+        snapshot = await _itemsCollection
+            .startAfterDocument(lastDoc)
+            .limit(limit)
+            .get();
+      }
+      return _mapSnapshotToItemHeaders(snapshot);
+    } catch (e) {
+      _handleError(e);
+      return [];
+    }
+  }
+
 
   Future<List<Item>> fetchItemsWithPagination(int page, int limit) async {
     try {
@@ -106,5 +135,15 @@ class ItemRepository {
     }
   }
 
+  Future<List<ItemHeaderDTO>?> getItemHeaderWithPagination(int page, int limit, int itemId, String name, String classJob) async { //여기에 page, limit, 검색 조건들 추가
+    
+    try{  
+      QuerySnapshot snapshot;
 
+        
+
+    }catch(e){
+      return null;
+    }
+  }
 }
