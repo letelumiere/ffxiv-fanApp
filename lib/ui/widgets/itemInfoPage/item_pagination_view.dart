@@ -1,3 +1,4 @@
+import 'package:ffixv/data/models/itemLevel.dart';
 import 'package:flutter/material.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
 
@@ -35,6 +36,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
                 icon: _currentItems[index].icon,
                 name: _currentItems[index].name,
                 id: _currentItems[index].id,
+                levelItem: _currentItems[index].levelItem,
                 onTap: () => _onItemSelected(_currentItems[index]),
               );
             },
@@ -125,6 +127,7 @@ class _ItemListTileContainer extends StatelessWidget {
   final int? icon;
   final String? name;
   final int? id;
+  final int? levelItem;
   final VoidCallback onTap;
 
   const _ItemListTileContainer({
@@ -132,15 +135,17 @@ class _ItemListTileContainer extends StatelessWidget {
     this.icon,
     this.name,
     this.id,
+    this.levelItem,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: icon != null ? Image.asset('assets/icons/BlueMage.png', width: 40, height: 40) : null, 
+      leading: icon != null ? Image.asset('assets/icons/BlueMage.png', width: 40, height: 40) : null, //storage에 파일 업로드 후 asset 주소 바꿀 것
       title: Text(name ?? 'Unknown', style: const TextStyle(fontWeight: FontWeight.bold)),
-      subtitle: Text('ID: $id'),
+      //subtitle: Text('ID: $id'),   // 한글어 외국어 병행 시, 이쪽엔 외국어 표기
+      //trailing: Text("$levelItem", style: TextStyle(color: Colors.amber)),  //아이템 레벨, 착용 레벨 표시 되도록
       onTap: onTap,
     );
   }

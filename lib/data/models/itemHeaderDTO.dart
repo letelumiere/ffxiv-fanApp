@@ -2,15 +2,19 @@ class ItemHeaderDTO {
   String? name;
   int? id;
   int? icon;
+  int? levelEquip;
+  int? levelItem;
 
   // 기본 생성자
-  ItemHeaderDTO({this.name, this.id, this.icon});
+  ItemHeaderDTO({this.name, this.id, this.icon, this.levelEquip, this.levelItem});
   // JSON 역직렬화 (from JSON)
   factory ItemHeaderDTO.fromJson(Map<String, dynamic> json) {
     return ItemHeaderDTO(
       name: json['name'] as String?,
       id: json['id'] as int?,
       icon: json['icon'] as int?,
+      levelEquip: json['levelEquip'] as int?,
+      levelItem: json['levelItem'] as int?,
     );
   }
   // JSON 직렬화 (to JSON)
@@ -19,11 +23,13 @@ class ItemHeaderDTO {
       'name': name,
       'id': id,
       'icon': icon,
+      'levelEquip': levelEquip,
+      'levelItem': levelItem,
     };
   }
 
   @override
   String toString() {
-    return 'ItemHeaderDTO(name: $name, id: $id, icon: $icon)';
+    return 'ItemHeaderDTO(name: $name, id: $id, icon: $icon, levelEquip: $levelEquip, levelItem: $levelItem)';
   }
 }

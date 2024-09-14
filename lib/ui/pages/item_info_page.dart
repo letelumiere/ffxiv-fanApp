@@ -111,7 +111,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     print('Fetching items with pagination...');
     List<ItemDTO> items = await _itemService.fetchItemsWithPagination(page, limit);
 
-    List<ItemHeaderDTO> itemHeaders = items.map((item) => ItemHeaderDTO(
+    List<ItemHeaderDTO> itemHeaders = items.map((item) => ItemHeaderDTO(  //여기에 템렙, 아이템 분류 추가
       id: item.id,
       icon: item.icon,
       name: item.name,

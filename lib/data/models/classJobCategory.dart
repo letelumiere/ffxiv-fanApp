@@ -1,114 +1,203 @@
 class ClassJobCategory {
-  final int id;
-  final String name;
-  final Map<String, bool> categories;
+  String one;
+  String two;
+  String three;
+  String four;
+  String five;
+  String six;
+  String seven;
+  String eight;
+  String nine;
+  String ten;
+  String eleven;
+  String twelve;
+  String thirteen;
+  String fourteen;
+  String fifteen;
+  String sixteen;
+  String seventeen;
+  String eighteen;
+  String nineteen;
+  String twenty;
+  String twentyOne;
+  String twentyTwo;
+  String twentyThree;
+  String twentyFour;
+  String twentyFive;
+  String twentySix;
+  String twentySeven;
+  String twentyEight;
+  String twentyNine;
+  String thirty;
+  String thirtyOne;
+  String thirtyTwo;
+  String thirtyThree;
+  String thirtyFour;
+  String thirtyFive;
+  String thirtySix;
+  String thirtySeven;
+  String thirtyEight;
+  String thirtyNine;
+  String forty;
+  String fortyOne;
+  String fortyTwo;
+  String fortyThree;
+
+  int key;
+  String xivString;
 
   ClassJobCategory({
-    required this.id,
-    required this.name,
-    required this.categories,
+    required this.one,
+    required this.two,
+    required this.three,
+    required this.four,
+    required this.five,
+    required this.six,
+    required this.seven,
+    required this.eight,
+    required this.nine,
+    required this.ten,
+    required this.eleven,
+    required this.twelve,
+    required this.thirteen,
+    required this.fourteen,
+    required this.fifteen,
+    required this.sixteen,
+    required this.seventeen,
+    required this.eighteen,
+    required this.nineteen,
+    required this.twenty,
+    required this.twentyOne,
+    required this.twentyTwo,
+    required this.twentyThree,
+    required this.twentyFour,
+    required this.twentyFive,
+    required this.twentySix,
+    required this.twentySeven,
+    required this.twentyEight,
+    required this.twentyNine,
+    required this.thirty,
+    required this.thirtyOne,
+    required this.thirtyTwo,
+    required this.thirtyThree,
+    required this.thirtyFour,
+    required this.thirtyFive,
+    required this.thirtySix,
+    required this.thirtySeven,
+    required this.thirtyEight,
+    required this.thirtyNine,
+    required this.forty,
+    required this.fortyOne,
+    required this.fortyTwo,
+    required this.fortyThree,
+    required this.key,
+    required this.xivString,
   });
 
-  // Firestore로부터 데이터를 가져올 때 사용하는 팩토리 생성자
-  factory ClassJobCategory.fromMap(Map<String, dynamic> data, String documentId) {
+  // String 값을 bool로 변환하는 메서드
+  bool convertToBool(String value) {
+    return value.toLowerCase() == 'true';
+  }
+
+  // JSON 데이터를 Dart 객체로 변환하는 메서드 (fromJson)
+  factory ClassJobCategory.fromJson(Map<String, dynamic> json) {
     return ClassJobCategory(
-      id: int.parse(documentId),
-      name: data['name'] ?? '',
-      categories: {
-        'ADV': data['ADV'] ?? false,
-        'GLA': data['GLA'] ?? false,
-        'PGL': data['PGL'] ?? false,
-        'MRD': data['MRD'] ?? false,
-        'LNC': data['LNC'] ?? false,
-        'ARC': data['ARC'] ?? false,
-        'CNJ': data['CNJ'] ?? false,
-        'THM': data['THM'] ?? false,
-        'CRP': data['CRP'] ?? false,
-        'BSM': data['BSM'] ?? false,
-        'ARM': data['ARM'] ?? false,
-        'GSM': data['GSM'] ?? false,
-        'LTW': data['LTW'] ?? false,
-        'WVR': data['WVR'] ?? false,
-        'ALC': data['ALC'] ?? false,
-        'CUL': data['CUL'] ?? false,
-        'MIN': data['MIN'] ?? false,
-        'BTN': data['BTN'] ?? false,
-        'FSH': data['FSH'] ?? false,
-        'PLD': data['PLD'] ?? false,
-        'MNK': data['MNK'] ?? false,
-        'WAR': data['WAR'] ?? false,
-        'DRG': data['DRG'] ?? false,
-        'BRD': data['BRD'] ?? false,
-        'WHM': data['WHM'] ?? false,
-        'BLM': data['BLM'] ?? false,
-        'ACN': data['ACN'] ?? false,
-        'SMN': data['SMN'] ?? false,
-        'SCH': data['SCH'] ?? false,
-        'ROG': data['ROG'] ?? false,
-        'NIN': data['NIN'] ?? false,
-        'MCH': data['MCH'] ?? false,
-        'DRK': data['DRK'] ?? false,
-        'AST': data['AST'] ?? false,
-        'SAM': data['SAM'] ?? false,
-        'RDM': data['RDM'] ?? false,
-        'BLU': data['BLU'] ?? false,
-        'GNB': data['GNB'] ?? false,
-        'DNC': data['DNC'] ?? false,
-        'RPR': data['RPR'] ?? false,
-        'SGE': data['SGE'] ?? false,
-        'VPR': data['VPR'] ?? false,
-        'PCT': data['PCT'] ?? false,
-      },
+      one: json['1'] as String,
+      two: json['2'] as String,
+      three: json['3'] as String,
+      four: json['4'] as String,
+      five: json['5'] as String,
+      six: json['6'] as String,
+      seven: json['7'] as String,
+      eight: json['8'] as String,
+      nine: json['9'] as String,
+      ten: json['10'] as String,
+      eleven: json['11'] as String,
+      twelve: json['12'] as String,
+      thirteen: json['13'] as String,
+      fourteen: json['14'] as String,
+      fifteen: json['15'] as String,
+      sixteen: json['16'] as String,
+      seventeen: json['17'] as String,
+      eighteen: json['18'] as String,
+      nineteen: json['19'] as String,
+      twenty: json['20'] as String,
+      twentyOne: json['21'] as String,
+      twentyTwo: json['22'] as String,
+      twentyThree: json['23'] as String,
+      twentyFour: json['24'] as String,
+      twentyFive: json['25'] as String,
+      twentySix: json['26'] as String,
+      twentySeven: json['27'] as String,
+      twentyEight: json['28'] as String,
+      twentyNine: json['29'] as String,
+      thirty: json['30'] as String,
+      thirtyOne: json['31'] as String,
+      thirtyTwo: json['32'] as String,
+      thirtyThree: json['33'] as String,
+      thirtyFour: json['34'] as String,
+      thirtyFive: json['35'] as String,
+      thirtySix: json['36'] as String,
+      thirtySeven: json['37'] as String,
+      thirtyEight: json['38'] as String,
+      thirtyNine: json['39'] as String,
+      forty: json['40'] as String,
+      fortyOne: json['41'] as String,
+      fortyTwo: json['42'] as String,
+      fortyThree: json['43'] as String,
+      key: json['key'] as int,
+      xivString: json['xivString'] as String,
     );
   }
 
-  // Firestore에 데이터를 저장할 때 사용하는 메서드
-  Map<String, dynamic> toMap() {
+  // Dart 객체를 JSON 데이터로 변환하는 메서드 (toJson)
+  Map<String, dynamic> toJson() {
     return {
-      'name': name,
-      'ADV': categories['ADV'],
-      'GLA': categories['GLA'],
-      'PGL': categories['PGL'],
-      'MRD': categories['MRD'],
-      'LNC': categories['LNC'],
-      'ARC': categories['ARC'],
-      'CNJ': categories['CNJ'],
-      'THM': categories['THM'],
-      'CRP': categories['CRP'],
-      'BSM': categories['BSM'],
-      'ARM': categories['ARM'],
-      'GSM': categories['GSM'],
-      'LTW': categories['LTW'],
-      'WVR': categories['WVR'],
-      'ALC': categories['ALC'],
-      'CUL': categories['CUL'],
-      'MIN': categories['MIN'],
-      'BTN': categories['BTN'],
-      'FSH': categories['FSH'],
-      'PLD': categories['PLD'],
-      'MNK': categories['MNK'],
-      'WAR': categories['WAR'],
-      'DRG': categories['DRG'],
-      'BRD': categories['BRD'],
-      'WHM': categories['WHM'],
-      'BLM': categories['BLM'],
-      'ACN': categories['ACN'],
-      'SMN': categories['SMN'],
-      'SCH': categories['SCH'],
-      'ROG': categories['ROG'],
-      'NIN': categories['NIN'],
-      'MCH': categories['MCH'],
-      'DRK': categories['DRK'],
-      'AST': categories['AST'],
-      'SAM': categories['SAM'],
-      'RDM': categories['RDM'],
-      'BLU': categories['BLU'],
-      'GNB': categories['GNB'],
-      'DNC': categories['DNC'],
-      'RPR': categories['RPR'],
-      'SGE': categories['SGE'],
-      'VPR': categories['VPR'],
-      'PCT': categories['PCT'],
+      '1': one,
+      '2': two,
+      '3': three,
+      '4': four,
+      '5': five,
+      '6': six,
+      '7': seven,
+      '8': eight,
+      '9': nine,
+      '10': ten,
+      '11': eleven,
+      '12': twelve,
+      '13': thirteen,
+      '14': fourteen,
+      '15': fifteen,
+      '16': sixteen,
+      '17': seventeen,
+      '18': eighteen,
+      '19': nineteen,
+      '20': twenty,
+      '21': twentyOne,
+      '22': twentyTwo,
+      '23': twentyThree,
+      '24': twentyFour,
+      '25': twentyFive,
+      '26': twentySix,
+      '27': twentySeven,
+      '28': twentyEight,
+      '29': twentyNine,
+      '30': thirty,
+      '31': thirtyOne,
+      '32': thirtyTwo,
+      '33': thirtyThree,
+      '34': thirtyFour,
+      '35': thirtyFive,
+      '36': thirtySix,
+      '37': thirtySeven,
+      '38': thirtyEight,
+      '39': thirtyNine,
+      '40': forty,
+      '41': fortyOne,
+      '42': fortyTwo,
+      '43': fortyThree,
+      'key': key,
+      'xivString': xivString,
     };
   }
 }
