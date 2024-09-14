@@ -100,7 +100,7 @@ class ClassJobCategory {
   }
 
   // JSON 데이터를 Dart 객체로 변환하는 메서드 (fromJson)
-  factory ClassJobCategory.fromJson(Map<String, dynamic> json) {
+  factory ClassJobCategory.fromJson(Map<String, dynamic> json, String id) {
     return ClassJobCategory(
       one: json['1'] as String,
       two: json['2'] as String,
