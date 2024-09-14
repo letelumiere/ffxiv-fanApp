@@ -142,7 +142,6 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
     "항상 수집 가능": widget.itemDto.alwaysCollectable,  // AlwaysCollectable
   };
 
-
     late Map? StringsMap = {
     "IsDyeable" : widget.itemDto.dyeCount == true ? "염색 가능" : "염색 불가",  //
     "AetherialReduce" : widget.itemDto.aetherialReduce == true ? "에테리얼 환원" : "에테리얼 환원 불가",
