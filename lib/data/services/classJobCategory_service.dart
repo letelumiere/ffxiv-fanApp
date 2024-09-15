@@ -7,11 +7,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ClassjobcategoryService extends ChangeNotifier {
+class ClassJobCategoryService extends ChangeNotifier {
   final ClassJobCategoryRepository _classJobCategoryRepository;
   final SharedPreferences sharedPreferences;
 
-  ClassjobcategoryService({
+  ClassJobCategoryService({
     required ClassJobCategoryRepository classJobCategoryRepository,
     required this.sharedPreferences,
   }) : _classJobCategoryRepository = classJobCategoryRepository;

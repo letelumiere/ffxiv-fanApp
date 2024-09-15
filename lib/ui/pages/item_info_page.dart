@@ -1,5 +1,7 @@
 import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
+import 'package:ffixv/data/services/classJobCategory_repository.dart';
+import 'package:ffixv/data/services/classJobCategory_service.dart';
 import 'package:ffixv/data/services/item_repository.dart';
 import 'package:ffixv/data/services/item_service.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_detail_layout.dart';
@@ -22,6 +24,8 @@ class ItemInfoPage extends StatefulWidget {
 
 class _ItemInfoPageState extends State<ItemInfoPage> {
   late ItemService _itemService;
+  late ClassJobCategoryService _classJobCategoryService;
+
   Map<String, dynamic> _itemMap = {};
   List<ItemDTO> _items = [];
   List<ItemHeaderDTO> _itemHeaders = [];
@@ -44,10 +48,16 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     print('SharedPreferences initialized');
     final firestore = FirebaseFirestore.instance;
     final itemRepository = ItemRepository(firestore);
+    final classJobCategoryRepository = ClassJobCategoryRepository(firestore);
 
     _itemService = ItemService(
       itemRepository: itemRepository,
       sharedPreferences: sharedPreferences,
+    );
+
+    _classJobCategoryService = ClassJobCategoryService(
+      classJobCategoryRepository: classJobCategoryRepository, 
+      sharedPreferences: sharedPreferences
     );
 
     await _itemService.initializeFirebase();
@@ -201,6 +211,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                   if (_selectedItem != null)
                     ItemDetailLayout(
                       itemDto: _selectedItem!,
+                      xivString: '',
                       callback: (message) => _showMessage(message),
                     ),
                   if (_itemHeaders.isNotEmpty)

@@ -12,9 +12,10 @@ import 'package:ffixv/data/models/itemDTO.dart';
 
 class ItemDetailLayout extends StatefulWidget {
   final ItemDTO itemDto;
+  final String xivString;
   final void Function(String message) callback;
 
-  ItemDetailLayout({required this.itemDto, required this.callback, Key? key}) : super(key: key);
+  ItemDetailLayout({required this.itemDto, required this.xivString, required this.callback, Key? key}) : super(key: key);
 
   @override
   State<ItemDetailLayout> createState() => _ItemDetailLayoutState();
@@ -25,6 +26,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
   Widget build(BuildContext context) {
     // 필요한 데이터 초기화 및 가공
     final itemDto = widget.itemDto;
+    final xivString;
 
     return SingleChildScrollView(
       child: Column(
@@ -38,7 +40,8 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                 ItemCategorySection(
                   itemUICategory: itemDto.itemUICategory ?? 0,
                   isUnique: itemDto.isUnique ?? false,
-                  isUntradable: itemDto.isUntradable ?? false,
+                  isUntradable: itemDto.isUntradable ?? false, 
+                  xivString: '',
                 ),
                 const SizedBox(height: 10),
                 ItemStatsSection(baseParamList: itemDto.baseParam),

@@ -4,12 +4,14 @@ class ItemCategorySection extends StatelessWidget {
   final int itemUICategory;
   final bool isUnique;
   final bool isUntradable;
+  final String xivString;
 
   const ItemCategorySection({
     Key? key,
     required this.itemUICategory,
     required this.isUnique,
     required this.isUntradable,
+    required this.xivString,
   }) : super(key: key);
 
   @override
@@ -17,8 +19,8 @@ class ItemCategorySection extends StatelessWidget {
     List<Widget> categoryWidgets = [
       Expanded(
         flex: 6,
-        child: Text(
-          "$itemUICategory",
+        child: Text(  
+          "$itemUICategory",    // <- 여기에 xivString 대입
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
