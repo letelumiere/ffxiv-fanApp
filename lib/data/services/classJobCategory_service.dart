@@ -23,16 +23,16 @@ class ClassJobCategoryService extends ChangeNotifier {
   Future<String?> getXivString(int classJobId) async {
     try {
       // Repository에서 ClassJobCategory를 가져옵니다.
-      final classJobCategory = await _classJobCategoryRepository.getClassJobCategory(classJobId);     
-      // ClassJobCategory가 null이 아니고 xivString이 존재하면 반환합니다.
-
-      String? classJob = classJobCategory!.xivString;
-      print(classJob);
-
+      final classJobCategory = await _classJobCategoryRepository.getClassJobCategory(classJobId);
+      
+      // ClassJobCategory가 null이 아닌 경우, xivString을 반환합니다.
       if (classJobCategory != null) {
-        return classJobCategory.xivString;
+        final classJob = classJobCategory.xivString;
+        print('xivString: $classJob');  // Debugging purpose
+        return classJob;
       } else {
-        return null; // classJobCategory가 null인 경우
+        print('ClassJobCategory not found for ID: $classJobId');
+        return null;  // classJobCategory가 null인 경우
       }
     } catch (e) {
       // 에러 처리
