@@ -4,6 +4,7 @@ class ItemRequireSection extends StatelessWidget {
   final int levelItem;
   final int levelEquip;
   final int requireJob;
+  final String xivString;
 
   final List<String> classList = [
     "검술사", "격투사", "도끼술사", "창술사", "궁술사", "환술사", "주술사", "비술사",
@@ -18,6 +19,7 @@ class ItemRequireSection extends StatelessWidget {
     required this.levelItem,
     required this.levelEquip,
     required this.requireJob,
+    required this.xivString,
   }) : super(key: key);
 
   @override

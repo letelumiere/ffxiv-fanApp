@@ -25,6 +25,10 @@ class ClassJobCategoryService extends ChangeNotifier {
       // Repository에서 ClassJobCategory를 가져옵니다.
       final classJobCategory = await _classJobCategoryRepository.getClassJobCategory(classJobId);     
       // ClassJobCategory가 null이 아니고 xivString이 존재하면 반환합니다.
+
+      String? classJob = classJobCategory!.xivString;
+      print(classJob);
+
       if (classJobCategory != null) {
         return classJobCategory.xivString;
       } else {

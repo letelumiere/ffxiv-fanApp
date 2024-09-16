@@ -12,6 +12,10 @@ class ClassJobCategoryRepository {
       // `doc` 메서드를 사용하여 특정 문서를 직접 조회할 수 있습니다.
       final docRef = _classJobCategoryCollection.doc(classJobId.toString());
       final docSnapshot = await docRef.get();
+        
+      print("Document reference: ${docRef.path}");
+      print("Document exists: ${docSnapshot.exists}");
+
 
       if (docSnapshot.exists) {
         var data = docSnapshot.data() as Map<String, dynamic>;

@@ -12,10 +12,10 @@ import 'package:ffixv/data/models/itemDTO.dart';
 
 class ItemDetailLayout extends StatefulWidget {
   final ItemDTO itemDto;
-  final String xivString;
+  final Map<String, dynamic> xivStringMap;
   final void Function(String message) callback;
 
-  ItemDetailLayout({required this.itemDto, required this.xivString, required this.callback, Key? key}) : super(key: key);
+  ItemDetailLayout({required this.itemDto, required this.xivStringMap, required this.callback, Key? key}) : super(key: key);
 
   @override
   State<ItemDetailLayout> createState() => _ItemDetailLayoutState();
@@ -26,7 +26,9 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
   Widget build(BuildContext context) {
     // 필요한 데이터 초기화 및 가공
     final itemDto = widget.itemDto;
-    final xivString;
+    final Map<String, dynamic> xivStringMap = widget.xivStringMap;
+
+    print(xivStringMap);
 
     return SingleChildScrollView(
       child: Column(
@@ -48,7 +50,8 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                 ItemRequireSection(
                   levelItem: itemDto.levelItem ?? 0,
                   levelEquip: itemDto.levelEquip ?? 0,
-                  requireJob: itemDto.classJobCategory ?? 0,
+                  requireJob: itemDto.classJobCategory ?? 0, 
+                  xivString: xivStringMap["classJob"] ?? "",
                 ),
                 const SizedBox(height: 10),
                 if (itemDto.baseParamValue != null && itemDto.baseParamValue!.any((value) => value != 0))

@@ -27,13 +27,17 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   late ClassJobCategoryService _classJobCategoryService;
 
   Map<String, dynamic> _itemMap = {};
+  Map<String, dynamic> _xivStringMap = {};
+
   List<ItemDTO> _items = [];
   List<ItemHeaderDTO> _itemHeaders = [];
   ItemDTO? _selectedItem;
   late Future<void> _initialization;
+
   String? inputText;
   bool isLoading = false;
   int page = 0;
+
   final int limit = 10;
 
   @override
@@ -133,23 +137,30 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     });
     print('Items fetched with pagination');
   }
+Future<void> _fetchItemsWhereItemID(int itemId) async {
+  try {
+    print('Fetching item by ID...');
+    ItemDTO? item = await _itemService.fetchItemWhereID(itemId);
+    if (item != null) {
+      setState(() {
+        _selectedItem = item;
+      });
 
-  Future<void> _fetchItemsWhereItemID(int itemId) async {
-    try {
-      print('Fetching item by ID...');
-      ItemDTO? item = await _itemService.fetchItemWhereID(itemId);
-      if (item != null) {
-        setState(() {
-          _selectedItem = item;
-        });
-      } else {
-        _showMessage('No item found with the given ID.');
+      // item이 가져온 후 classJobCategory 값이 있는지 확인
+      if (item.classJobCategory != null) {
+        // classJobCategory 값을 이용해 _fetchXivStringMap 호출
+
+        await _fetchXivStringMap(item.classJobCategory!);
       }
-      print('Item fetched by ID');
-    } catch (e) {
-      debugPrint('Error fetching filtered item: $e');
+    } else {
+      _showMessage('No item found with the given ID.');
     }
+    print('Item fetched by ID');
+  } catch (e) {
+    debugPrint('Error fetching filtered item: $e');
   }
+}
+
 
   Future<void> _fetchItemsWhereName(String itemName) async {
     try {
@@ -174,6 +185,34 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
 
     } catch (e) {
       _showMessage('No item found with the given name.');
+    }
+  }
+
+  Future<void> _fetchXivStringMap(int classJobNumber) async {
+    try {
+      // 비동기로 클래스 직업 데이터(int)를 가져옴
+      print("number is $classJobNumber");
+
+      String? classJob = await _classJobCategoryService.getXivString(classJobNumber);
+
+      print("wtf $classJob");
+      // classJob이 null이 아닌 경우에만 Map에 저장
+      if (classJob != null) {
+        setState(() {
+          _xivStringMap["classJob"] = classJob;
+        });
+      } else {
+        // null일 경우, 기본값이나 오류 메시지를 처리
+        print('Class job not found for number: $classJobNumber');
+      }
+    } catch (e) {
+      // 예외 발생 시 로그 출력
+      print('Error fetching class job: $e');
+      
+      // 사용자에게 오류 메시지 표시 (선택사항)
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load class job information.'))
+      );
     }
   }
 
@@ -211,7 +250,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                   if (_selectedItem != null)
                     ItemDetailLayout(
                       itemDto: _selectedItem!,
-                      xivString: '',
+                      xivStringMap: _xivStringMap,
                       callback: (message) => _showMessage(message),
                     ),
                   if (_itemHeaders.isNotEmpty)
