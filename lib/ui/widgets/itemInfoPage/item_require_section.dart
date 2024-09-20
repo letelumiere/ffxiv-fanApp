@@ -19,7 +19,8 @@ class ItemRequireSection extends StatelessWidget {
     return Column(
       children: [
         _buildStatRow("아이템 레벨  ", levelItem.toString()),
-        _buildStatRow("", xivString),
+        if(xivString!="") 
+          _buildStatRow("", xivString),
         _buildStatRow('레벨 ', "$levelEquip 이상"),
       ],
     );
