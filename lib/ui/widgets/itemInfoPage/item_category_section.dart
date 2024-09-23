@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ItemCategorySection extends StatelessWidget {
-  final int itemUICategory;
+  final String itemUICategory;
   final bool isUnique;
   final bool isUntradable;
   final String xivString;

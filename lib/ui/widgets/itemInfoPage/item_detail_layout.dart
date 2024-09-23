@@ -29,6 +29,8 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
     final Map<String, dynamic> xivStringMap = widget.xivStringMap;
 
     print(xivStringMap);
+    print(xivStringMap["itemUICategory"]);
+
 
     return SingleChildScrollView(
       child: Column(
@@ -40,7 +42,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
               children: [
                 ItemHeader(name: itemDto.name ?? 'N/A'),
                 ItemCategorySection(
-                  itemUICategory: itemDto.itemUICategory ?? 0,
+                  itemUICategory: xivStringMap["itemUICategory"] ?? "",
                   isUnique: itemDto.isUnique ?? false,
                   isUntradable: itemDto.isUntradable ?? false, 
                   xivString: '',

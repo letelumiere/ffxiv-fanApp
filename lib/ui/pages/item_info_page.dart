@@ -2,6 +2,8 @@ import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
 import 'package:ffixv/data/services/classJobCategory_repository.dart';
 import 'package:ffixv/data/services/classJobCategory_service.dart';
+import 'package:ffixv/data/services/itemUICategory_service.dart';
+import 'package:ffixv/data/services/itemUIcategory_repository.dart';
 import 'package:ffixv/data/services/item_repository.dart';
 import 'package:ffixv/data/services/item_service.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_detail_layout.dart';
@@ -25,6 +27,7 @@ class ItemInfoPage extends StatefulWidget {
 class _ItemInfoPageState extends State<ItemInfoPage> {
   late ItemService _itemService;
   late ClassJobCategoryService _classJobCategoryService;
+  late ItemUICategoryService _itemUICategoryService;
 
   Map<String, dynamic> _itemMap = {};
   Map<String, dynamic> _xivStringMap = {};
@@ -53,6 +56,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     final firestore = FirebaseFirestore.instance;
     final itemRepository = ItemRepository(firestore);
     final classJobCategoryRepository = ClassJobCategoryRepository(firestore);
+    final itemUICategoryRepository = ItemUICategoryRepository(firestore);
 
     _itemService = ItemService(
       itemRepository: itemRepository,
@@ -62,6 +66,11 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     _classJobCategoryService = ClassJobCategoryService(
       classJobCategoryRepository: classJobCategoryRepository, 
       sharedPreferences: sharedPreferences
+    );
+
+    _itemUICategoryService = ItemUICategoryService(
+      itemUICategoryRepository: itemUICategoryRepository,
+      sharedPreferences: sharedPreferences,
     );
 
     await _itemService.initializeFirebase();
@@ -151,6 +160,7 @@ Future<void> _fetchItemsWhereItemID(int itemId) async {
         // classJobCategory 값을 이용해 _fetchXivStringMap 호출
 
         await _fetchXivStringMap(item.classJobCategory!);
+        await _fetchItemUI(item.itemUICategory!);
       }
     } else {
       _showMessage('No item found with the given ID.');
@@ -191,7 +201,7 @@ Future<void> _fetchItemsWhereItemID(int itemId) async {
   Future<void> _fetchXivStringMap(int classJobNumber) async {
     try {
       // 비동기로 클래스 직업 데이터(int)를 가져옴
-      print("number is $classJobNumber");
+      print("classJob number is $classJobNumber");
 
       String? classJob = await _classJobCategoryService.getXivString(classJobNumber);
 
@@ -207,6 +217,30 @@ Future<void> _fetchItemsWhereItemID(int itemId) async {
       }
     } catch (e) {
       // 예외 발생 시 로그 출력
+      print('Error fetching class job: $e');
+      
+      // 사용자에게 오류 메시지 표시 (선택사항)
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load class job information.'))
+      );
+    }
+  }
+
+  Future<void> _fetchItemUI(int key) async {
+    try{
+      print("classUI number is $key");
+      String? itemUI = await _itemUICategoryService.getXivString(key);
+
+      print('itemUI $itemUI');
+
+      if(itemUI != null){
+        setState((){
+          _xivStringMap["itemUICategory"] = itemUI;
+        });
+      }else{
+        print('Class job not found for number: $itemUI');
+      }
+    }catch(e){
       print('Error fetching class job: $e');
       
       // 사용자에게 오류 메시지 표시 (선택사항)
