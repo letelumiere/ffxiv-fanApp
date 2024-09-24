@@ -10,37 +10,40 @@ class ItemRepository {
   ItemRepository(FirebaseFirestore firestore)
       : _itemsCollection = firestore.collection('lodestone');
 
-  
+  // **** view<-service는 DTO로!! entity를  service<-repository로!!  ****//
 
-  // 중복 제거: Item 변환 메서드
-  List<Item> _mapSnapshotToItems(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
-    }).toList();
-  }
-
-  List<ItemHeaderDTO> _mapSnapshotToItemHeaders(QuerySnapshot snapshot){
-    return snapshot.docs.map((doc) {
-      return ItemHeaderDTO.fromJson(doc.data() as Map<String, dynamic>);
-    }).toList();
-  }
-
-
-  // 공통 예외 처리 메서드
-  void _handleError(Object e) {
-    print('Error: $e');
-  }
-
-  Future<List<Item>> fetchItems(int limit) async {
+  //getTotalItemCount - 검색결과의 length를 체크함
+  //ID를 통해 item의 detail한 정보 조회. 단수의 DTO를 체크함.
+  Future<Item?> getItemDetail(int itemId) async {
     try {
-      QuerySnapshot snapshot = await _itemsCollection.limit(limit).get();
-      return _mapSnapshotToItems(snapshot);
+      QuerySnapshot snapshot = await _itemsCollection
+          .where('ID', isEqualTo: itemId)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        var data = snapshot.docs.first.data() as Map<String, dynamic>;
+        return Item.fromJson(data, snapshot.docs.first.id);
+      } else {
+        return null;
+      }
     } catch (e) {
       _handleError(e);
-      return [];
+      return null;
     }
   }
 
+  //getItemHeadersWithPagination - orderby, 다수의 where 조건 쿼리를 적용해 제한 조회. 여러 item의 List를 체크함.
+    //where == 아이템 이름, 요구 클래스, 요구 레벨, 템렙
+    //where != "" or null 
+    //order by = 템렙 
+    //collection 전체 n개 ~ 0개까지 결과가 다양함 list로 받음
+    
+    //page = 현재 페이지 번호
+    //limit = 한 페이지에 표시될 최대 데이터 수
+    //ex) 데이터 300건이 조회 됐을 시, limit = 30, ??page에 30개의 데이터가 허용된다면,??
+      //1. 출력 시, 데이터 300건이 조회 되어야 한다.
+      //2. ????
+      //firebase database의 쿼리빌더 참조하자
   Future<List<ItemHeaderDTO>> getItemHeadersWithPagination(int page, int limit) async {
     try {
       QuerySnapshot snapshot;
@@ -63,6 +66,29 @@ class ItemRepository {
     }
   }
 
+  // 중복 제거: Item 변환 메서드
+  List<Item> _mapSnapshotToItems(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+    }).toList();
+  }
+
+  List<ItemHeaderDTO> _mapSnapshotToItemHeaders(QuerySnapshot snapshot){
+    return snapshot.docs.map((doc) {
+      return ItemHeaderDTO.fromJson(doc.data() as Map<String, dynamic>);
+    }).toList();
+  }
+
+  // 공통 예외 처리 메서드(?)
+  Future<List<Item>> fetchItems(int limit) async {
+    try {
+      QuerySnapshot snapshot = await _itemsCollection.limit(limit).get();
+      return _mapSnapshotToItems(snapshot);
+    } catch (e) {
+      _handleError(e);
+      return [];
+    }
+  }
 
   Future<List<Item>> fetchItemsWithPagination(int page, int limit) async {
     try {
@@ -96,9 +122,9 @@ class ItemRepository {
           .get();
       }else{
         snapshot = await _itemsCollection
-            .where('Name', isGreaterThanOrEqualTo: itemName)
-            .orderBy('Name', descending: false)
-            .get();
+          .where('Name', isGreaterThanOrEqualTo: itemName)
+          .orderBy('Name', descending: false)
+          .get();
       }
       // Firestore 쿼리 - 대소문자 구분없이 일부 단어가 포함된 항목을 검색
 
@@ -115,35 +141,7 @@ class ItemRepository {
       return [];
     }
   }
-
-
-  Future<Item?> fetchItemWhereID(int itemId) async {
-    try {
-      QuerySnapshot snapshot = await _itemsCollection
-          .where('ID', isEqualTo: itemId)
-          .get();
-
-      if (snapshot.docs.isNotEmpty) {
-        var data = snapshot.docs.first.data() as Map<String, dynamic>;
-        return Item.fromJson(data, snapshot.docs.first.id);
-      } else {
-        return null;
-      }
-    } catch (e) {
-      _handleError(e);
-      return null;
-    }
-  }
-
-  Future<List<ItemHeaderDTO>?> getItemHeaderWithPagination(int page, int limit, int itemId, String name, String classJob) async { //여기에 page, limit, 검색 조건들 추가
-    
-    try{  
-      QuerySnapshot snapshot;
-
-        
-
-    }catch(e){
-      return null;
-    }
+  void _handleError(Object e) {
+    print('Error: $e');
   }
 }

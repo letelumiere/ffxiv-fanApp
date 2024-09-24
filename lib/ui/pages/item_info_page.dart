@@ -149,7 +149,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
 Future<void> _fetchItemsWhereItemID(int itemId) async {
   try {
     print('Fetching item by ID...');
-    ItemDTO? item = await _itemService.fetchItemWhereID(itemId);
+    ItemDTO? item = await _itemService.getItemDetail(itemId);
     if (item != null) {
       setState(() {
         _selectedItem = item;
@@ -185,7 +185,7 @@ Future<void> _fetchItemsWhereItemID(int itemId) async {
 
       setState(() {
         _items = items;
-        _itemHeaders = itemHeaders;
+          _itemHeaders = itemHeaders;
       });
       print('Items fetched by name');
 

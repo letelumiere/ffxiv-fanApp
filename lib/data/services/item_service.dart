@@ -22,19 +22,10 @@ class ItemService extends ChangeNotifier {
     await Firebase.initializeApp();
   }
 
-  Future<List<ItemDTO>> fetchItems(int limit) async {
+  //getItemDetailWithID로 이름 바꿀 것
+  Future<ItemDTO?> getItemDetail(int itemID) async {
     try {
-      List<Item> items = await _itemRepository.fetchItems(limit);
-      return items.map((item) => ItemDTO.fromJson(item.toJson())).toList();
-    } catch (e) {
-      print('Error fetching items: $e');
-      return [];
-    }
-  }
-
-  Future<ItemDTO?> fetchItemWhereID(int itemID) async {
-    try {
-      Item? item = await _itemRepository.fetchItemWhereID(itemID);
+      Item? item = await _itemRepository.getItemDetail(itemID);
 
       if (item != null) {
         return ItemDTO.fromJson(item.toJson());
@@ -47,6 +38,8 @@ class ItemService extends ChangeNotifier {
     }
   }
 
+
+  //삭제 예정
   Future<List<ItemDTO>> fetchItemsWhereName(String itemName) async {  //ItemHeaderDTO로 변환하여 리턴해주어야 함 
     try {
       List<Item> items = await _itemRepository.fetchItemsWhereName(itemName);
@@ -56,7 +49,8 @@ class ItemService extends ChangeNotifier {
       return [];
     }
   }
-
+  
+  //getItemHeaderWithpagination과 통합 할것
   Future<List<ItemHeaderDTO>> fetchItemHeadersWhereName(String itemName) async {
     try {
       List<ItemDTO> itemDTOs = await fetchItemsWhereName(itemName);
@@ -68,6 +62,7 @@ class ItemService extends ChangeNotifier {
     }
   }
 
+  //  getItemHeaderWithpagination과 통합 할것
   Future<List<ItemDTO>> fetchItemsWithPagination(int page, int limit) async {
     try {
       List<Item> items = await _itemRepository.fetchItemsWithPagination(page, limit);
@@ -96,6 +91,19 @@ class ItemService extends ChangeNotifier {
     }
   }
 
+/*
+  Future<List<ItemDTO>> fetchItems(int limit) async {
+    try {
+      List<Item> items = await _itemRepository.fetchItems(limit);
+      return items.map((item) => ItemDTO.fromJson(item.toJson())).toList();
+    } catch (e) {
+      print('Error fetching items: $e');
+      return [];
+    }
+  }
+*/
+
+/*
   Future<void> saveItemMap(Map<String, dynamic> itemMap) async {
     try {
       await sharedPreferences.setString("itemMap", json.encode(itemMap));
@@ -103,4 +111,5 @@ class ItemService extends ChangeNotifier {
       debugPrint(e.toString());
     }
   }
+*/
 }
