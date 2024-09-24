@@ -121,7 +121,8 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
       isLoading = true;
     });
 
-    List<ItemDTO> moreItems = await _itemService.fetchItemsWithPagination(page, limit);
+    //List<itemHeaderDTO>를 받는 로직으로 바꾸자
+    List<ItemDTO> moreItems = await _itemService.fetchItemsWithPagination(page, limit); 
 
     setState(() {
       _items.addAll(moreItems);

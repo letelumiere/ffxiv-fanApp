@@ -37,13 +37,11 @@ class ItemRepository {
     //where != "" or null 
     //order by = 템렙 
     //collection 전체 n개 ~ 0개까지 결과가 다양함 list로 받음
-    
     //page = 현재 페이지 번호
     //limit = 한 페이지에 표시될 최대 데이터 수
-    //ex) 데이터 300건이 조회 됐을 시, limit = 30, ??page에 30개의 데이터가 허용된다면,??
-      //1. 출력 시, 데이터 300건이 조회 되어야 한다.
-      //2. ????
-      //firebase database의 쿼리빌더 참조하자
+    //헷갈리면 firebase database의 쿼리빌더 참조
+    //UI는 렌더링된 JSON데이터의 currentPage 변경"만" 관여.
+    //데이터 통신은 firebase에서 알아서 해주니 걱정 X
   Future<List<ItemHeaderDTO>> getItemHeadersWithPagination(int page, int limit) async {
     try {
       QuerySnapshot snapshot;
