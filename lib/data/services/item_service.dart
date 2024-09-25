@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ffixv/data/models/itemSearchCriteria.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -47,41 +48,13 @@ class ItemService extends ChangeNotifier {
     }
   }
 
-  //itemSearchCriteria  클래스 작성 예정 - 검색 조건이 작성된 클래스
-    //name
-    //classJob
-    //levelmin
-    //levelmax
-  /*  예시
-  class SearchCriteria {
-  final String? name;
-  final int? minPrice;
-  final int? maxPrice;
-  final String? category;
-
-  SearchCriteria({this.name, this.minPrice, this.maxPrice, this.category});
-}
-  */
-
-  Future<List<ItemHeaderDTO>>? fetchItemHeaders(/*SearchCriteria criteria, */ int page, int limit){  //검색조건 = searchCriteria라는 클래스를 만들어 넣는다?
+  Future<List<ItemHeaderDTO>>? fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit){  //검색조건 = searchCriteria라는 클래스를 만들어 넣는다?
     try{
       return null;
     }catch(e){
       return null; 
     }
   }
-
-  // ItemDTO를 ItemHeaderDTO로 변환하는 메서드  //모델 클래스에서 다시 가져옴. serice 내에서 처리해야 한다고 판단함
-  ItemHeaderDTO convertToItemHeaderDTO(ItemDTO itemDTO) {
-    return ItemHeaderDTO(
-      id: itemDTO.id ?? 0,
-      name: itemDTO.name ?? 'Unknown',
-      icon: itemDTO.icon ?? 'not found',
-      levelItem: itemDTO.levelItem ?? 0,
-      levelEquip: itemDTO.levelEquip ?? 0,
-    );
-  }
-
 
   void _handleServiceError(dynamic e) {
       // 서비스 관련 에러 처리 로직

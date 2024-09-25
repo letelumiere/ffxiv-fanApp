@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffixv/data/models/item.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
+import 'package:ffixv/data/models/itemSearchCriteria.dart';
 import 'package:ffixv/data/models/itemUICategory.dart';
 
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
@@ -29,7 +30,7 @@ class ItemRepository {
   }
 
     // ???
-  Future<List<ItemHeaderDTO>> fetchItemHeaders(int page, int limit) async {
+  Future<List<ItemHeaderDTO>> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
     try {
       QuerySnapshot snapshot;
 
