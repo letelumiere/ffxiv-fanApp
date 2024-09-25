@@ -13,8 +13,8 @@ class ItemHeaderDTO {
       name: json['name'] as String?,
       id: json['id'] as int?,
       icon: json['icon'] as String?,
-      levelEquip: json['levelEquip'] as int?,
-      levelItem: json['levelItem'] as int?,
+      levelEquip: json['level{Equip}'] as int?,
+      levelItem: json['level{Item}'] as int?,
     );
   }
   // JSON 직렬화 (to JSON)
@@ -23,13 +23,13 @@ class ItemHeaderDTO {
       'name': name,
       'id': id,
       'icon': icon,
-      'levelEquip': levelEquip,
-      'levelItem': levelItem,
+      'level{Equip}': levelEquip,
+      'level{Item}': levelItem,
     };
   }
 
   @override
   String toString() {
-    return 'ItemHeaderDTO(name: $name, id: $id, icon: $icon, levelEquip: $levelEquip, levelItem: $levelItem)';
+    return 'ItemHeaderDTO(name: $name, id: $id, icon: $icon, level{Equip}: $levelEquip, level{Item}: $levelItem)';
   }
 }

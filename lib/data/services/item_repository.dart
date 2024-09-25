@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffixv/data/models/item.dart';
-import 'package:ffixv/data/models/itemDTO.dart';
-import 'package:ffixv/data/models/itemSearchCriteria.dart';
-import 'package:ffixv/data/models/itemUICategory.dart';
 
+import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
+import 'package:ffixv/data/models/itemSearchCriteria.dart';
 
 class ItemRepository {
   final CollectionReference _itemsCollection;
@@ -29,20 +27,25 @@ class ItemRepository {
     }
   }
 
-    // ???
-  Future<List<ItemHeaderDTO>> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
+  // ???
+  //_itemCollection이가 이미 해당 메서드에서 collectionReference 처리 되었으므로 
+  //snapshot에 _itemCollection 대신, query.method().method()... 으로 처리하면 됨 
+  //ex) _itemCollection.limit(0).get();
+  Future<List<ItemHeaderDTO?>> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
     try {
-      QuerySnapshot snapshot;
-
+      Query query = itemQueryBuilder(criteria); 
+      QuerySnapshot snapshot; 
+        
       // 페이지네이션 처리
       if (page == 0) {
-        snapshot = await _itemsCollection.limit(limit).get();
+        snapshot = await query.limit(limit).get();
       } else {
-        QuerySnapshot lastSnapshot = await _itemsCollection
+        QuerySnapshot lastSnapshot = await query
             .limit(page * limit)
             .get();
+
         DocumentSnapshot lastDoc = lastSnapshot.docs.last;
-        snapshot = await _itemsCollection
+        snapshot = await query
             .startAfterDocument(lastDoc)
             .limit(limit)
             .get();
@@ -59,42 +62,42 @@ class ItemRepository {
     }
   }
 
-  //여기에 DB조회 카운트 추가
-  
-  /*
-  Future<List<ItemDTO>> fetchItemsWithCriteria(SearchCriteria criteria) async {
+  Query itemQueryBuilder(ItemSearchCriteria criteria){  
     Query query = _itemsCollection;
 
-    // 조건 추가
-    if (criteria.name != null) {
-      query = query.where('name', isEqualTo: criteria.name);
-    }
-    if (criteria.minPrice != null) {
-      query = query.where('price', isGreaterThanOrEqualTo: criteria.minPrice);
-    }
-    if (criteria.maxPrice != null) {
-      query = query.where('price', isLessThanOrEqualTo: criteria.maxPrice);
-    }
-    if (criteria.category != null) {
-      query = query.where('category', isEqualTo: criteria.category);
+    //이런 식으로 쭉쭉 조건을 붙여나간다
+    if(criteria.name != null || criteria.name != ""){
+      query = query
+        .where('name', isGreaterThanOrEqualTo: criteria.name)
+        .where('name', isLessThanOrEqualTo: criteria.name! + '\uf8ff');
     }
 
-    QuerySnapshot snapshot = await query.get();
-    return snapshot.docs.map((doc) {
-      return ItemDTO.fromJson(doc.data() as Map<String, dynamic>);
-    }).toList();
+    if(criteria.classJob != null){
+      query = query.where('ClassJob', isEqualTo: criteria.classJob);
     }
+    
+  /*
+    if(criteria.maxLevelEquip != null && criteria.minLevelEquip != null){
+      query = query
+        .where('level{Equip}', isLessThanOrEqualTo: criteria.maxLevelEquip)
+        .where('level{Equip}', isGreaterThanOrEqualTo: criteria.minLevelEquip);
+    }
+
+    if(criteria.maxLevelItem != null && criteria.minLevelItem != null){
+      query = query
+        .where('level{Equip}', isLessThanOrEqualTo: criteria.maxLevelItem)
+        .where('level{Equip}', isGreaterThanOrEqualTo: criteria.minLevelItem);        
+    }
+  */
+    return query;
   }
 
-*/
-  List<Item> _mapSnapshotToItems(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      return Item.fromJson(doc.data() as Map<String, dynamic>);
-    }).toList();
-  }
+
+
+  //여기에 DB조회 카운트 추가  
 
 
   void _handleError(Object e) {
-    print('Error: $e');
+    print('repository error: $e');
   }
 }
