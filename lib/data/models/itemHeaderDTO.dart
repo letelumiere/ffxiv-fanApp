@@ -1,7 +1,7 @@
 class ItemHeaderDTO {
   String? name;
   int? id;
-  int? icon;
+  String? icon;
   int? levelEquip;
   int? levelItem;
 
@@ -12,7 +12,7 @@ class ItemHeaderDTO {
     return ItemHeaderDTO(
       name: json['name'] as String?,
       id: json['id'] as int?,
-      icon: json['icon'] as int?,
+      icon: json['icon'] as String?,
       levelEquip: json['levelEquip'] as int?,
       levelItem: json['levelItem'] as int?,
     );

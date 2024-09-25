@@ -160,8 +160,8 @@ Future<void> _fetchItemsWhereItemID(int itemId) async {
       if (item.classJobCategory != null) {
         // classJobCategory 값을 이용해 _fetchXivStringMap 호출
 
-        await _fetchXivStringMap(item.classJobCategory!);
-        await _fetchItemUI(item.itemUICategory!);
+//        await _fetchXivStringMap(item.classJobCategory!);
+//        await _fetchItemUI(item.itemUICategory!);
       }
     } else {
       _showMessage('No item found with the given ID.');
