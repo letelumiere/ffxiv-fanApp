@@ -8,7 +8,7 @@ class ItemRepository {
   final CollectionReference _itemsCollection;
 
   ItemRepository(FirebaseFirestore firestore)
-      : _itemsCollection = firestore.collection('lodestone');
+      : _itemsCollection = firestore.collection('Item');
 
   // **** view<-service는 DTO로!! entity를  service<-repository로!!  ****//
 
@@ -22,7 +22,7 @@ class ItemRepository {
 
       if (snapshot.docs.isNotEmpty) {
         var data = snapshot.docs.first.data() as Map<String, dynamic>;
-        return Item.fromJson(data, snapshot.docs.first.id);
+        return Item.fromJson(data);
       } else {
         return null;
       }
@@ -67,7 +67,7 @@ class ItemRepository {
   // 중복 제거: Item 변환 메서드
   List<Item> _mapSnapshotToItems(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+      return Item.fromJson(doc.data() as Map<String, dynamic>);
     }).toList();
   }
 
@@ -128,7 +128,7 @@ class ItemRepository {
 
       // 쿼리 결과를 Item 객체로 변환 및 필터링
       List<Item> filteredItems = snapshot.docs.map((doc) {
-        return Item.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+        return Item.fromJson(doc.data() as Map<String, dynamic>);
       }).where((item) {
         return item.name!.toLowerCase().contains(itemName.toLowerCase());
       }).toList();
