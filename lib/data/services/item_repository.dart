@@ -58,7 +58,8 @@ class ItemRepository {
     }
   }
 
-
+  //여기에 DB조회 카운트 추가
+  
   /*
   Future<List<ItemDTO>> fetchItemsWithCriteria(SearchCriteria criteria) async {
     Query query = _itemsCollection;

@@ -47,16 +47,24 @@ class ItemService extends ChangeNotifier {
     }
   }
 
-  //itemSearchCriteria
+  //itemSearchCriteria  클래스 작성 예정 - 검색 조건이 작성된 클래스
     //name
     //classJob
     //levelmin
     //levelmax
+  /*  예시
+  class SearchCriteria {
+  final String? name;
+  final int? minPrice;
+  final int? maxPrice;
+  final String? category;
+
+  SearchCriteria({this.name, this.minPrice, this.maxPrice, this.category});
+}
+  */
 
   Future<List<ItemHeaderDTO>>? fetchItemHeaders(/*SearchCriteria criteria, */ int page, int limit){  //검색조건 = searchCriteria라는 클래스를 만들어 넣는다?
     try{
-
-      
       return null;
     }catch(e){
       return null; 
