@@ -1,16 +1,15 @@
+import 'package:ffixv/data/models/itemHeaderDTO.dart';
+import 'package:ffixv/data/services/item_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class ItemInfoViewModel extends StatefulWidget {
-  const ItemInfoViewModel({super.key});
+class ItemInfoViewModel extends ChangeNotifier {
+  final ItemService _itemService;
 
-  @override
-  State<ItemInfoViewModel> createState() => _ItemInfoViewModelState();
-}
+  ItemInfoViewModel(this._itemService);
 
-class _ItemInfoViewModelState extends State<ItemInfoViewModel> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
+  List<ItemHeaderDTO> _itemHeaders = [];
+  
+
+
 }

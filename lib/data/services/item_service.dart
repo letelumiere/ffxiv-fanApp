@@ -64,4 +64,6 @@ class ItemService extends ChangeNotifier {
       print('Service error: $e');
       // 추가적인 에러 처리 또는 로깅
   }
+
+  Map<String, dynamic> getItemMap() {}
 }
