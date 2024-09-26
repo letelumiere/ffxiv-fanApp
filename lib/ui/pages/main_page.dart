@@ -1,6 +1,6 @@
-import 'package:ffixv/ui/pages/item_info_page.dart';
+//import 'package:ffixv/ui/pages/item_info_page.dart';
 import 'package:ffixv/ui/pages/test_page.dart';
-import 'package:ffixv/ui/widgets/itemInfoPage/item_detail_layout.dart';
+//import 'package:ffixv/ui/widgets/itemInfoPage/item_detail_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:ffixv/ui/widgets/appDrawerMenu/app_drawer_menu_layout.dart';
 import 'package:ffixv/ui/pages/index_page.dart';
@@ -22,7 +22,7 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     _pages.addAll([
       IndexPage(callback: _showMessage),
-      ItemInfoPage(callback: _showMessage),
+//      ItemInfoPage(callback: _showMessage),
       TestPage(callback: _showMessage),
     ]);
   }

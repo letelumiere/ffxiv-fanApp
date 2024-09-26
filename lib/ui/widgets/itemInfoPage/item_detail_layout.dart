@@ -11,6 +11,7 @@ import 'tradable_section.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
 
 class ItemDetailLayout extends StatefulWidget {
+
   final ItemDTO itemDto;
   final Map<String, dynamic> xivStringMap;
   final void Function(String message) callback;
@@ -48,6 +49,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                   xivString: '',
                 ),
                 const SizedBox(height: 10),
+                
                 ItemStatsSection(baseParamList: itemDto.baseParam),
                 ItemRequireSection(
                   levelItem: itemDto.levelItem ?? 0,

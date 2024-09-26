@@ -1,5 +1,6 @@
 import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
+import 'package:ffixv/data/models/itemSearchCriteria.dart';
 import 'package:ffixv/data/services/classJobCategory_repository.dart';
 import 'package:ffixv/data/services/classJobCategory_service.dart';
 import 'package:ffixv/data/services/itemUICategory_service.dart';
@@ -39,6 +40,8 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
 
   String? inputText;
   bool isLoading = false;
+
+  ItemSearchCriteria? criteria;
   int page = 0;
 
   final int limit = 10;
@@ -122,7 +125,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     });
 
     //List<itemHeaderDTO>를 받는 로직으로 바꾸자
-    List<ItemDTO> moreItems = await _itemService.fetchItemsWithPagination(page, limit); 
+    List<ItemHeaderDTO> moreItems = await _itemService.fetchItemHeaders(criteria, , limit); 
 
     setState(() {
       _items.addAll(moreItems);

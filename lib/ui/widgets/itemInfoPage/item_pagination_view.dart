@@ -124,7 +124,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
 }
 
 class _ItemListTileContainer extends StatelessWidget {
-  final int? icon;
+  final String? icon;
   final String? name;
   final int? id;
   final int? levelItem;
