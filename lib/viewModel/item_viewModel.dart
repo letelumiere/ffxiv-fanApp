@@ -13,12 +13,16 @@ class ItemViewModel extends ChangeNotifier {    //페이지의 상태 변경에 
   List<ItemHeaderDTO> _itemHeaders = [];
   ItemDTO? _itemDto;
   ItemSearchCriteria? criteria;
-  int? page;
-  int? limit;
 
-  Future<void> fetchItemDetail() async {}
+  Future<void> fetchItemDetail(int itemId) async {
+    try{
+      _itemDto = _itemService.fetchItemDetail(itemId) as ItemDTO?;
+    }catch(e){
+      
+    }
+  }
 
-  Future<void> fetchItemHeaders(criteria, page, limit) async {
+  Future<void> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
 
   }
 }

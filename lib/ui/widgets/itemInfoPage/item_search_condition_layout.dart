@@ -31,7 +31,7 @@ class _ItemSearchConditionLayoutState extends State<ItemSearchConditionLayout> {
             onPressed: () async {
               if (inputText != null && inputText!.isNotEmpty) {
 //                criteria.name = inputText; 
-//                List<ItemHeaderDTO> results = await itemService.fetchItemHeaders(criteria);
+                List<ItemHeaderDTO?>? results = await itemService.fetchItemHeaders(criteria);
                 setState(() {
                   // 검색 결과를 상태로 반영할 수 있지만, 여기서는 단순히 디버그용으로 출력
                   print('Search Results:');
