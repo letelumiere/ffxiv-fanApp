@@ -48,9 +48,9 @@ class ItemService extends ChangeNotifier {
     }
   }
 
-  Future<List<ItemHeaderDTO?>?> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {  //검색조건 = searchCriteria라는 클래스를 만들어 넣는다?
+  Future<List<ItemHeaderDTO>?> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {  //검색조건 = searchCriteria라는 클래스를 만들어 넣는다?
     try{
-      List<ItemHeaderDTO?> itemHeaderList = await _itemRepository.fetchItemHeaders(criteria, page, limit);
+      List<ItemHeaderDTO>? itemHeaderList = await _itemRepository.fetchItemHeaders(criteria, page, limit);
 
       return itemHeaderList;
     }catch(e){
@@ -65,5 +65,5 @@ class ItemService extends ChangeNotifier {
       // 추가적인 에러 처리 또는 로깅
   }
 
-  Map<String, dynamic> getItemMap() {}
+
 }

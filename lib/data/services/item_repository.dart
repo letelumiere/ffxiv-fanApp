@@ -31,7 +31,7 @@ class ItemRepository {
   //_itemCollection이가 이미 해당 메서드에서 collectionReference 처리 되었으므로 
   //snapshot에 _itemCollection 대신, query.method().method()... 으로 처리하면 됨 
   //ex) _itemCollection.limit(0).get();
-  Future<List<ItemHeaderDTO?>> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
+  Future<List<ItemHeaderDTO>?> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
     try {
       Query query = itemQueryBuilder(criteria); 
       QuerySnapshot snapshot; 
