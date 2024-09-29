@@ -40,6 +40,7 @@ class ItemRepository {
       QuerySnapshot snapshot; 
       print("fetchItemqQuery =$query criteria parameters ===" );
       print(criteria.name);
+      print(criteria.)
       // 페이지네이션 처리
       if (page == 0) {
         snapshot = await query.limit(limit).get();
