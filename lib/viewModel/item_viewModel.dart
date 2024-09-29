@@ -43,6 +43,41 @@ class ItemViewModel extends ChangeNotifier {
     }
   }
 
+ Future<void> fetchItemList(ItemSearchCriteria criteria) async {
+  _isLoading = true;
+  notifyListeners();
+
+  try {
+    print('Fetching items List by name...');
+
+    // ItemService를 사용해 데이터를 가져오고, _itemHeaders에 할당
+    List<ItemHeaderDTO?>? fetchedHeaders = await _itemService.fetchItemList(criteria);
+
+    // 결과 출력
+    if (fetchedHeaders != null) {
+      for (var header in fetchedHeaders) {
+        if (header != null) {
+          print('Fetched header: ${header.name}'); // 각 아이템 출력
+        }else{
+          print('rickroled'); // 각 아이템 출력
+        }
+      }
+      
+      // _itemHeaders에 할당
+      _itemHeaders = fetchedHeaders.whereType<ItemHeaderDTO>().toList();
+    } else {
+      print('No headers found.'); // 결과가 없을 경우
+    }
+    
+  } catch (e) {
+    _message = "Error during item search: $e";
+    print(_message); // 에러 메시지 출력
+  } finally {
+    _isLoading = false;
+    notifyListeners();
+  }
+}
+
   // 검색 조건에 따라 itemHeaders를 가져오는 메서드
   Future<void> fetchItemHeaders(ItemSearchCriteria criteria) async {
     _isLoading = true;
@@ -52,10 +87,8 @@ class ItemViewModel extends ChangeNotifier {
       print('Fetching items by name...');
 
       // ItemService를 사용해 데이터를 가져오고, _itemHeaders에 할당
-      List<ItemHeaderDTO?>? fetchedHeaders = await _itemService.fetchItemHeaders(criteria, _page, _limit);
-      
+      List<ItemHeaderDTO?>? fetchedHeaders = await _itemService.fetchItemHeaders(criteria, _page, _limit);      
       print(fetchedHeaders?.length);
-
 
       if (fetchedHeaders != null) {
         _itemHeaders = fetchedHeaders.whereType<ItemHeaderDTO>().toList();

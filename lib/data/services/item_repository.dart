@@ -34,14 +34,35 @@ class ItemRepository {
   //_itemCollection이가 이미 해당 메서드에서 collectionReference 처리 되었으므로 
   //snapshot에 _itemCollection 대신, query.method().method()... 으로 처리하면 됨 
   //ex) _itemCollection.limit(0).get();
+  Future<List<ItemHeaderDTO>?> fetchItemWithName(String itemName) async {
+    try {
+      QuerySnapshot snapshot = await _itemsCollection
+          .where('Name', isGreaterThanOrEqualTo: itemName)
+          .where('Name', isLessThanOrEqualTo: itemName + '\uf8ff') // 문법 오류 수정
+          .get();
+
+
+
+      if (snapshot.docs.isNotEmpty) {
+        return snapshot.docs.map((doc) {
+          return ItemHeaderDTO.fromJson(doc.data() as Map<String, dynamic>);
+        }).toList();
+      } else {
+        return []; // 빈 리스트 반환
+      }
+    } catch (e) {
+      _handleError(e);
+      return null;
+    }
+  }
+
+
   Future<List<ItemHeaderDTO>?> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
     try {
       Query query = itemQueryBuilder(criteria); 
       QuerySnapshot snapshot; 
-      print("fetchItemqQuery =$query criteria parameters ===" );
-      print(criteria.name);
-      print(criteria.)
       // 페이지네이션 처리
+
       if (page == 0) {
         snapshot = await query.limit(limit).get();
       } else {
@@ -75,6 +96,8 @@ class ItemRepository {
       query = query
         .where('name', isGreaterThanOrEqualTo: criteria.name)
         .where('name', isLessThanOrEqualTo: criteria.name! + '\uf8ff');
+
+      
     }
 
     if(criteria.classJob != null){
