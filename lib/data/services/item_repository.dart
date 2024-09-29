@@ -8,7 +8,10 @@ class ItemRepository {
   final CollectionReference _itemsCollection;
 
   ItemRepository(FirebaseFirestore firestore) 
-    : _itemsCollection = firestore.collection('Item');
+    : _itemsCollection = firestore.collection('Item'){
+      assert(firestore != null, "Firestore instance cannot be null");
+    }
+
 
   Future<ItemDTO?> fetchItemDetail(int itemId) async {
     try {
@@ -35,7 +38,8 @@ class ItemRepository {
     try {
       Query query = itemQueryBuilder(criteria); 
       QuerySnapshot snapshot; 
-        
+      print("fetchItemqQuery =$query criteria parameters ===" );
+      print(criteria.name);
       // 페이지네이션 처리
       if (page == 0) {
         snapshot = await query.limit(limit).get();

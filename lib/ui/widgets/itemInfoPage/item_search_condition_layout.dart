@@ -1,12 +1,9 @@
-import 'package:ffixv/data/models/itemHeaderDTO.dart';
 import 'package:ffixv/data/models/itemSearchCriteria.dart';
-import 'package:ffixv/data/services/item_service.dart';
-import 'package:ffixv/ui/widgets/itemInfoPage/item_pagination_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:ffixv/data/models/itemSearchCriteria.dart';
 
 class ItemSearchConditionLayout extends StatefulWidget {
-  final void Function(String itemName) onSubmitted;
+  final void Function(ItemSearchCriteria criteria) onSubmitted;
 
   const ItemSearchConditionLayout({super.key, required this.onSubmitted});
 
@@ -19,8 +16,6 @@ class _ItemSearchConditionLayoutState extends State<ItemSearchConditionLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final itemService = Provider.of<ItemService>(context);
-    ItemSearchCriteria criteria;
     return Container(
       padding: const EdgeInsets.all(10.0),
       alignment: Alignment.center,
@@ -30,33 +25,23 @@ class _ItemSearchConditionLayoutState extends State<ItemSearchConditionLayout> {
             icon: const Icon(Icons.search),
             onPressed: () async {
               if (inputText != null && inputText!.isNotEmpty) {
-//                criteria.name = inputText; 
-                List<ItemHeaderDTO?>? results = await itemService.fetchItemHeaders(criteria);
-                setState(() {
-                  // 검색 결과를 상태로 반영할 수 있지만, 여기서는 단순히 디버그용으로 출력
-                  print('Search Results:');
-                  for (var item in results) {
-                    print(item);
-                  }
-                });
-
-                // 부모 위젯의 onSubmitted 콜백 호출
-                widget.onSubmitted(inputText!);
+                ItemSearchCriteria criteria = ItemSearchCriteria(name : inputText!);
+                print("input text = $inputText");
+                widget.onSubmitted(criteria);
               }
             },
           ),
         ],
         onChanged: (value) {
-          setState(() => inputText = value);
-          print('Current Input Text: $inputText');
+          setState(() => inputText = value);  // 입력된 값을 inputText에 저장
         },
         onSubmitted: (value) async {
           setState(() => inputText = value);
-          print('Submitted Input Text: $inputText');
 
           if (inputText != null && inputText!.isNotEmpty) {
+            ItemSearchCriteria criteria = ItemSearchCriteria(name: inputText!);
             // 부모 위젯의 onSubmitted 콜백 호출
-            widget.onSubmitted(inputText!);
+            widget.onSubmitted(criteria);
           }
         },
       ),
