@@ -50,6 +50,7 @@ class ItemService {
 
   Future<List<ItemHeaderDTO?>?> fetchItemList(ItemSearchCriteria criteria) async {  //검색조건 = searchCriteria라는 클래스를 만들어 넣는다?
     try{
+      print("criteria name = ${criteria.name}");
       List<ItemHeaderDTO>? itemHeaderList = await _itemRepository.fetchItemWithName(criteria.name!);
 
       return itemHeaderList;

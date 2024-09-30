@@ -41,8 +41,7 @@ class ItemRepository {
           .where('Name', isLessThanOrEqualTo: itemName + '\uf8ff') // 문법 오류 수정
           .get();
 
-
-
+  
       if (snapshot.docs.isNotEmpty) {
         return snapshot.docs.map((doc) {
           return ItemHeaderDTO.fromJson(doc.data() as Map<String, dynamic>);

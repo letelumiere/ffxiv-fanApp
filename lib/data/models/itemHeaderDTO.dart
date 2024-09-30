@@ -10,21 +10,21 @@ class ItemHeaderDTO {
   // JSON 역직렬화 (from JSON)
   factory ItemHeaderDTO.fromJson(Map<String, dynamic> json) {
     return ItemHeaderDTO(
-      name: json['name'] as String?,
-      id: json['id'] as int?,
-      icon: json['icon'] as String?,
-      levelEquip: json['level{Equip}'] as int?,
-      levelItem: json['level{Item}'] as int?,
+      name: json['Name'] as String?,
+      id: json['Id'] as int?,
+      icon: json['Icon'] as String?,
+      levelEquip: json['Level{Equip}'] as int?,
+      levelItem: json['Level{Item}'] as int?,
     );
   }
   // JSON 직렬화 (to JSON)
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
-      'id': id,
-      'icon': icon,
-      'level{Equip}': levelEquip,
-      'level{Item}': levelItem,
+      'Name': name,
+      'Id': id,
+      'Icon': icon,
+      'Level{Equip}': levelEquip,
+      'Level{Item}': levelItem,
     };
   }
 
