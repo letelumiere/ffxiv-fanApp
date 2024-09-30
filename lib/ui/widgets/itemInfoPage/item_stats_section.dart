@@ -1,6 +1,8 @@
+import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:flutter/material.dart';
 
 class ItemStatsSection extends StatelessWidget {
+  final ItemDTO itemDto;
   final List<int>? baseParamList;
 
   final List<String> baseStats = [
@@ -14,7 +16,7 @@ class ItemStatsSection extends StatelessWidget {
     "쿨다운",
   ];
 
-  ItemStatsSection({Key? key, required this.baseParamList}) : super(key: key);
+  ItemStatsSection({Key? key, this.baseParamList, required this.itemDto}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

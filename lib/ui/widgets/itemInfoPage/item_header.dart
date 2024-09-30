@@ -1,9 +1,10 @@
+import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:flutter/material.dart';
 
 class ItemHeader extends StatelessWidget {
-  final String name;
+  final ItemDTO itemDto;
 
-  const ItemHeader({Key? key, required this.name}) : super(key: key);
+  const ItemHeader({Key? key, required this.itemDto}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class ItemHeader extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+            Text("${itemDto.name}", style: TextStyle(fontWeight: FontWeight.bold)),
             Row(
               children: [
                 // 추가 정보가 있다면 여기에 추가

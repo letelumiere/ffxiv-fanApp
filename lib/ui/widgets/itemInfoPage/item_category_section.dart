@@ -1,18 +1,10 @@
+import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:flutter/material.dart';
 
 class ItemCategorySection extends StatelessWidget {
-  final String itemUICategory;
-  final bool isUnique;
-  final bool isUntradable;
-  final String xivString;
+  final ItemDTO itemDto;
 
-  const ItemCategorySection({
-    Key? key,
-    required this.itemUICategory,
-    required this.isUnique,
-    required this.isUntradable,
-    required this.xivString,
-  }) : super(key: key);
+  const ItemCategorySection({Key? key, required this.itemDto}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +12,13 @@ class ItemCategorySection extends StatelessWidget {
       Expanded(
         flex: 6,
         child: Text(  
-          "$itemUICategory",    // <- 여기에 xivString 대입
+          itemDto.itemUICategory,    // <- 여기에 xivString 대입
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
     ];
 
-    if (isUnique) {
+    if (itemDto.isUnique) {
       categoryWidgets.add(
         Expanded(
           child: Text('고유 아이템', style: TextStyle(fontWeight: FontWeight.normal)),
@@ -34,7 +26,7 @@ class ItemCategorySection extends StatelessWidget {
       );
     }
 
-    if (isUntradable) {
+    if (itemDto.isUntradable) {
       categoryWidgets.add(
         Expanded(
           child: Text('거래 불가', style: TextStyle(fontWeight: FontWeight.normal)),

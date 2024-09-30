@@ -1,13 +1,11 @@
 // description_section.dart
+import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:flutter/material.dart';
 
 class DescriptionSection extends StatelessWidget {
-  final String description;
+  final ItemDTO itemDto;
 
-  const DescriptionSection({
-    Key? key,
-    required this.description,
-  }) : super(key: key);
+  const DescriptionSection({Key? key, required this.itemDto}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +18,7 @@ class DescriptionSection extends StatelessWidget {
         ),
         const SizedBox(height: 10), // 구분선과 텍스트 사이의 간격
         Text(
-          description,
+          "${itemDto.description}",
           style: const TextStyle(fontSize: 16), // 텍스트 스타일
         ),
       ],

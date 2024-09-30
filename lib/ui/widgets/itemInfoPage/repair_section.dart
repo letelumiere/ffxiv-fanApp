@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 class RepairSection extends StatelessWidget {
   final ItemDTO itemDto;
 
-  const RepairSection({
-    Key? key, required this.itemDto}) : super(key: key);
+  const RepairSection({Key? key, required this.itemDto}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

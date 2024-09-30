@@ -1,3 +1,4 @@
+import 'package:ffixv/data/datasources/category_list.dart';
 import 'package:flutter/material.dart';
 import 'item_header.dart';
 import 'item_category_section.dart';
@@ -33,47 +34,25 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ItemHeader(name: itemDto.name ?? 'N/A'),
-                ItemCategorySection(
-                  itemUICategory: xivStringMap["itemUICategory"] ?? "",
-                  isUnique: itemDto.isUnique ?? false,
-                  isUntradable: itemDto.isUntradable ?? false, 
-                  xivString: '',
-                ),
+                ItemHeader(itemDto: itemDto),
+                ItemCategorySection(itemDto: itemDto),
                 const SizedBox(height: 10),
-                
-                ItemStatsSection(baseParamList: itemDto.baseParam),
-                ItemRequireSection(
-                  levelItem: itemDto.levelItem ?? 0,
-                  levelEquip: itemDto.levelEquip ?? 0,
-                  requireJob: itemDto.classJobCategory ?? 0, 
-                  xivString: xivStringMap["classJob"] ?? "",
-                ),
+                ItemStatsSection(baseParamList: baseParam, itemDto: itemDto),
+                ItemRequireSection(itemDto: itemDto),
                 const SizedBox(height: 10),
                 if (itemDto.baseParamValue != null && itemDto.baseParamValue!.any((value) => value != 0))
                   AdditionalStatsSection(baseParamValueList: itemDto.baseParamValue),
                 const SizedBox(height: 10),
                 if (itemDto.materiaSlotCount! > 0)
-                  MateriaSection(materiaSlotCount: itemDto.materiaSlotCount ?? 0),
+                  MateriaSection(itemDto: itemDto),
                 const SizedBox(height: 10),
                 if (itemDto.classJobRepair != 0)
-                  RepairSection(
-                    classJobRepair: itemDto.classJobRepair ?? 0,
-                    boolsMap: {
-                      "IsDesynthesizable": itemDto.desynth,
-                      "IsDyeable": itemDto.dyeCount,
-                    },
-                    materializeType: itemDto.materializeType!,
-                    levelEquip: itemDto.levelEquip!,
-                  ),
+                  RepairSection(itemDto: itemDto),
                 const SizedBox(height: 10),
                 if (itemDto.description != null && itemDto.description != "No description available")
-                  DescriptionSection(description: itemDto.description!),
+                  DescriptionSection(itemDto: itemDto),
                 const SizedBox(height: 10),
-                TradableSection(
-                  priceLow: itemDto.priceLow! ?? 0,
-                  isUntradable: itemDto.isUntradable ?? false,
-                ),
+                TradableSection(itemDto: itemDto),
                 const SizedBox(height: 10),
               ],
             ),

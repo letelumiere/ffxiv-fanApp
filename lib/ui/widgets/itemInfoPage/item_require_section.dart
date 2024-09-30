@@ -1,27 +1,19 @@
+import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:flutter/material.dart';
 
 class ItemRequireSection extends StatelessWidget {
-  final int levelItem;
-  final int levelEquip;
-  final int requireJob;
-  final String xivString;
+  final ItemDTO itemDto;
 
-  ItemRequireSection({
-    Key? key,
-    required this.levelItem,
-    required this.levelEquip,
-    required this.requireJob,
-    required this.xivString,
-  }) : super(key: key);
+  ItemRequireSection({Key? key,required this.itemDto}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildStatRow("아이템 레벨  ", levelItem.toString()),
-        if(xivString!="") 
-          _buildStatRow("", xivString),
-        _buildStatRow('레벨 ', "$levelEquip 이상"),
+        _buildStatRow("아이템 레벨  ", itemDto.levelItem.toString()),
+        if(itemDto.classJobCategory!="") 
+          _buildStatRow("", itemDto.classJobCategory),
+        _buildStatRow('레벨 ', "${itemDto.levelEquip} 이상"),
       ],
     );
   }
