@@ -60,18 +60,6 @@ class ItemService {
     }
   }
 
-  Future<List<ItemHeaderDTO?>?> fetchItemList(ItemSearchCriteria criteria) async {  //검색조건 = searchCriteria라는 클래스를 만들어 넣는다?
-    try{
-      List<ItemHeaderDTO>? itemHeaderList = await _itemRepository.fetchItemWithName(criteria.name!);
-
-      return itemHeaderList;
-    }catch(e){
-      _handleServiceError(e);
-      return null; 
-    }
-  }
-
-
   void _handleServiceError(dynamic e) {
       // 서비스 관련 에러 처리 로직
       print('Service error: $e');

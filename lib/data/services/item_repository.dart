@@ -28,55 +28,30 @@ class ItemRepository {
     }
   }
 
-  // ???
-  //_itemCollection이가 이미 해당 메서드에서 collectionReference 처리 되었으므로 
-  //snapshot에 _itemCollection 대신, query.method().method()... 으로 처리하면 됨 
-  //ex) _itemCollection.limit(0).get();
-Future<List<ItemHeaderDTO>?> fetchItemWithName(String itemName) async {
-  print('parameter of fetchItem with name = $itemName');
-  try {
-    QuerySnapshot snapshot = await _itemsCollection
-        .where('Name', isGreaterThanOrEqualTo: itemName)
-        // .where('Name', isLessThanOrEqualTo: itemName + '\uf8ff') // 문법 오류 수정
-        .orderBy("Name", descending: false)
-        .get();
-    if (snapshot.docs.isNotEmpty) {
-      // 쿼리 결과 출력
-      snapshot.docs.forEach((doc) {
-        print('Document ID: ${doc.id}, Data: ${doc.data()}');
-      });
-
-      // 결과를 ItemHeaderDTO 리스트로 변환 후 반환
-      return snapshot.docs.map((doc) {
-        return ItemHeaderDTO.fromJson(doc.data() as Map<String, dynamic>);
-      }).toList();
-    } else {
-      print('No documents found');
-      return []; // 빈 리스트 반환
-    }
-  } catch (e) {
-    _handleError(e);
-    return null;
-  }
-}
-
 
   Future<List<ItemHeaderDTO>?> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
     print('parameter of fetchItemHeaders method = '+ '${criteria.name}'+'${page} '+'${limit}');
 
     try {
-      // 먼저 모든 문서 조회
+      //쿼리 수정 필요. 
       QuerySnapshot snapshot = await _itemsCollection
           .where('Name', isGreaterThanOrEqualTo: criteria.name)
-          .where('Name', isLessThanOrEqualTo: criteria.name! + '\uf8ff') // 문법 오류 수정
+//          .where('Name', isLessThanOrEqualTo: criteria.name! + '\uf8ff') // 문법 오류 수정
+          .limit(limit)
           .get();
 
-      for (var doc in snapshot.docs) {
-        print(doc.data()); // 각 문서의 데이터 출력
+      if (snapshot.docs.isNotEmpty) {
+        print("Documents found: ${snapshot.docs.length}");
+      } else {
+        print("No documents found.");
       }
+
       // 페이지네이션 처리
       List<QueryDocumentSnapshot> docs = snapshot.docs;
 
+      for(var data in docs){
+        print(data.get(FieldPath.fromString('Name')));
+      }
 
       // 페이지네이션 로직 처리
       int startIndex = page * limit;
@@ -105,6 +80,7 @@ Future<List<ItemHeaderDTO>?> fetchItemWithName(String itemName) async {
     }
   }
 
+  
   Query itemQueryBuilder(ItemSearchCriteria criteria) {  
     Query query = _itemsCollection;
 
