@@ -40,13 +40,13 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                 ItemStatsSection(baseParamList: baseParam, itemDto: itemDto),
                 ItemRequireSection(itemDto: itemDto),
                 const SizedBox(height: 10),
-                if (itemDto.baseParamValue != null && itemDto.baseParamValue!.any((value) => value != 0))
-                  AdditionalStatsSection(baseParamValueList: itemDto.baseParamValue),
+//                if (itemDto.baseParamValue0!= null && itemDto.baseParamValue0!.any((value) => value != 0))
+//                  AdditionalStatsSection(baseParamValueList: itemDto.baseParamValue),
                 const SizedBox(height: 10),
-                if (itemDto.materiaSlotCount! > 0)
+                if (itemDto.materiaSlotCount > 0)
                   MateriaSection(itemDto: itemDto),
                 const SizedBox(height: 10),
-                if (itemDto.classJobRepair != 0)
+                if (itemDto.classJobRepair != "")
                   RepairSection(itemDto: itemDto),
                 const SizedBox(height: 10),
                 if (itemDto.description != null && itemDto.description != "No description available")
