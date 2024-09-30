@@ -55,75 +55,71 @@ class ItemRepository {
     }
   }
 
-
   Future<List<ItemHeaderDTO>?> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
     try {
-      Query query = itemQueryBuilder(criteria); 
-      QuerySnapshot snapshot; 
+      // 먼저 모든 문서 조회
+      QuerySnapshot snapshot = await _itemsCollection.get();
+
       // 페이지네이션 처리
+      List<QueryDocumentSnapshot> docs = snapshot.docs;
 
-      if (page == 0) {
-        snapshot = await query.limit(limit).get();
-      } else {
-        QuerySnapshot lastSnapshot = await query
-            .limit(page * limit)
-            .get();
+      // 페이지네이션 로직 처리
+      int startIndex = page * limit;
+      int endIndex = startIndex + limit;
 
-        DocumentSnapshot lastDoc = lastSnapshot.docs.last;
-        snapshot = await query
-            .startAfterDocument(lastDoc)
-            .limit(limit)
-            .get();
+      if (startIndex >= docs.length) {
+        return []; // 시작 인덱스가 데이터 범위를 벗어나면 빈 리스트 반환
       }
 
+      // 마지막 인덱스를 전체 문서 길이에 맞게 조정
+      if (endIndex > docs.length) {
+        endIndex = docs.length;
+      }
+
+      // 해당 페이지에 해당하는 문서만 선택
+      List<QueryDocumentSnapshot> pageDocs = docs.sublist(startIndex, endIndex);
+
       // 변환 및 반환
-      return snapshot.docs.map((doc) {
+      return pageDocs.map((doc) {
         return ItemHeaderDTO.fromJson(doc.data() as Map<String, dynamic>);
       }).toList();
-      
+
     } catch (e) {
       _handleError(e);
       return [];
     }
   }
 
-  Query itemQueryBuilder(ItemSearchCriteria criteria){  
+  Query itemQueryBuilder(ItemSearchCriteria criteria) {  
     Query query = _itemsCollection;
 
-    //이런 식으로 쭉쭉 조건을 붙여나간다
-    if(criteria.name != null || criteria.name != ""){
+    if (criteria.name != null && criteria.name!.isNotEmpty) {
       query = query
-        .where('name', isGreaterThanOrEqualTo: criteria.name)
-        .where('name', isLessThanOrEqualTo: criteria.name! + '\uf8ff');
-
-      
+        .where('Name', isGreaterThanOrEqualTo: criteria.name)
+        .where('Name', isLessThanOrEqualTo: criteria.name! + '\uf8ff')
+        .orderBy('Name');
     }
 
-    if(criteria.classJob != null){
+    if (criteria.classJob != null && criteria.classJob!.isNotEmpty) {
       query = query.where('ClassJob', isEqualTo: criteria.classJob);
     }
-    
-  /*
-    if(criteria.maxLevelEquip != null && criteria.minLevelEquip != null){
+
+    if (criteria.minLevelEquip != null && criteria.maxLevelEquip != null) {
       query = query
-        .where('level{Equip}', isLessThanOrEqualTo: criteria.maxLevelEquip)
-        .where('level{Equip}', isGreaterThanOrEqualTo: criteria.minLevelEquip);
+        .where('Level{Equip}', isGreaterThanOrEqualTo: criteria.minLevelEquip)
+        .where('Level{Equip}', isLessThanOrEqualTo: criteria.maxLevelEquip);
     }
 
-    if(criteria.maxLevelItem != null && criteria.minLevelItem != null){
+    if (criteria.minLevelItem != null && criteria.maxLevelItem != null) {
       query = query
-        .where('level{Equip}', isLessThanOrEqualTo: criteria.maxLevelItem)
-        .where('level{Equip}', isGreaterThanOrEqualTo: criteria.minLevelItem);        
+        .where('Level{Item}', isGreaterThanOrEqualTo: criteria.minLevelItem)
+        .where('LevelItem}', isLessThanOrEqualTo: criteria.maxLevelItem);
     }
-  */
+
     return query;
-  }
-
-
+}
 
   //여기에 DB조회 카운트 추가  
-
-
   void _handleError(Object e) {
     print('repository error: $e');
   }

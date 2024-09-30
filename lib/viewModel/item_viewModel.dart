@@ -15,8 +15,8 @@ class ItemViewModel extends ChangeNotifier {
   ItemSearchCriteria? _criteria;
   bool _isLoading = false;
   String? _message;
-  int _page = 0;
-  final int _limit = 10;
+  int _page = 5;
+  final int _limit = 500;
 
   List<ItemHeaderDTO> get itemHeaders => _itemHeaders;
   ItemDTO? get selectedItem => _selectedItem;
@@ -88,7 +88,11 @@ class ItemViewModel extends ChangeNotifier {
 
       // ItemService를 사용해 데이터를 가져오고, _itemHeaders에 할당
       List<ItemHeaderDTO?>? fetchedHeaders = await _itemService.fetchItemHeaders(criteria, _page, _limit);      
-      print(fetchedHeaders?.length);
+
+
+      for (var header in fetchedHeaders!) {
+          print('Fetched header: ${header!.name}'); // 각 아이템 출력
+      }
 
       if (fetchedHeaders != null) {
         _itemHeaders = fetchedHeaders.whereType<ItemHeaderDTO>().toList();

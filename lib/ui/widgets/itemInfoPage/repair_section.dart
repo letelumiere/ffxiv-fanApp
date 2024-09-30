@@ -1,24 +1,17 @@
+import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:flutter/material.dart';
 
 class RepairSection extends StatelessWidget {
-  final int classJobRepair;
-  final Map<String, dynamic> boolsMap;
-  final int materializeType;
-  final int levelEquip;
+  final ItemDTO itemDto;
 
   const RepairSection({
-    Key? key,
-    required this.classJobRepair,
-    required this.boolsMap,
-    required this.materializeType,
-    required this.levelEquip,
-  }) : super(key: key);
+    Key? key, required this.itemDto}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String desynth = boolsMap["IsDesynthesizable"] == true ? '○' : '✕';
-    String dyeable = boolsMap["IsDyeable"] == true ? '○' : '✕';
-    String materialize = materializeType > 0 ? '○' : '✕';
+    String desynth = itemDto.desynth == true ? '○' : '✕';
+    String dyeable = itemDto.dyeCount == true ? '○' : '✕';
+    String materialize = itemDto.materializeType > 0 ? '○' : '✕';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +21,7 @@ class RepairSection extends StatelessWidget {
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
-        _buildStatRow('수리  ', ' $classJobRepair 레벨 이상'),
+        _buildStatRow('수리  ', ' ${itemDto.classJobRepair} ${itemDto.levelEquip} 레벨 이상'),
         Row(
           children: [
             Expanded(child: _buildStatRow('마테리아화 : ', materialize)),

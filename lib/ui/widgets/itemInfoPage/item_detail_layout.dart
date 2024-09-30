@@ -11,12 +11,10 @@ import 'tradable_section.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
 
 class ItemDetailLayout extends StatefulWidget {
-
   final ItemDTO itemDto;
-  final Map<String, dynamic> xivStringMap;
   final void Function(String message) callback;
 
-  ItemDetailLayout({required this.itemDto, required this.xivStringMap, required this.callback, Key? key}) : super(key: key);
+  ItemDetailLayout({required this.itemDto, required this.callback, Key? key}) : super(key: key);
 
   @override
   State<ItemDetailLayout> createState() => _ItemDetailLayoutState();
@@ -25,13 +23,7 @@ class ItemDetailLayout extends StatefulWidget {
 class _ItemDetailLayoutState extends State<ItemDetailLayout> {
   @override
   Widget build(BuildContext context) {
-    // 필요한 데이터 초기화 및 가공
     final itemDto = widget.itemDto;
-    final Map<String, dynamic> xivStringMap = widget.xivStringMap;
-
-    print(xivStringMap);
-    print(xivStringMap["itemUICategory"]);
-
 
     return SingleChildScrollView(
       child: Column(

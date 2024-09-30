@@ -1,14 +1,15 @@
+import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:flutter/material.dart';
 
 class MateriaSection extends StatelessWidget {
-  final int materiaSlotCount;
+  final ItemDTO itemDto;
 
-  const MateriaSection({Key? key, required this.materiaSlotCount}) : super(key: key);
+  const MateriaSection({Key? key, required this.itemDto}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String slots = "";
-    for (int i = 0; i < materiaSlotCount; i++) {
+    for (int i = 0; i < itemDto.materiaSlotCount; i++) {
       slots += "○";
     }
 
