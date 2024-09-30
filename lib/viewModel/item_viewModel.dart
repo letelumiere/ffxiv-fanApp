@@ -42,6 +42,7 @@ class ItemViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
   // 검색 조건에 따라 itemHeaders를 가져오는 메서드
   Future<void> fetchItemHeaders(ItemSearchCriteria criteria) async {
     _isLoading = true;
@@ -53,14 +54,14 @@ class ItemViewModel extends ChangeNotifier {
       // ItemService를 사용해 데이터를 가져오고, _itemHeaders에 할당
       List<ItemHeaderDTO?>? fetchedHeaders = await _itemService.fetchItemHeaders(criteria, _page, _limit);      
 
+      print("repository connected");
+
       for (var header in fetchedHeaders!) {
           print('Fetched header: ${header!.name}'); // 각 아이템 출력
       }
 
       if (fetchedHeaders != null) {
         _itemHeaders = fetchedHeaders.whereType<ItemHeaderDTO>().toList();
-      }else{
-        print('fetchedHeaders is null');
       }
       
     } catch (e) {

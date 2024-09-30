@@ -30,15 +30,15 @@ class ItemRepository {
 
 
   Future<List<ItemHeaderDTO>?> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
-    print('parameter of fetchItemHeaders method = '+ '${criteria.name}'+'${page} '+'${limit}');
+    print('parameter of fetchItemHeaders method = '+ '${criteria.name} '+'${page} '+'${limit}');
 
     try {
-      //쿼리 수정 필요. 
-      QuerySnapshot snapshot = await _itemsCollection
-          .where('Name', isGreaterThanOrEqualTo: criteria.name)
-//          .where('Name', isLessThanOrEqualTo: criteria.name! + '\uf8ff') // 문법 오류 수정
-          .limit(limit)
-          .get();
+      QuerySnapshot snapshot;
+        snapshot = await _itemsCollection
+            .where('Name', isGreaterThanOrEqualTo: criteria.name)
+  //          .where('Name', isLessThanOrEqualTo: criteria.name! + '\uf8ff') // 문법 오류 수정
+            .limit(10)  //limit(10)은 임시
+            .get();
 
       if (snapshot.docs.isNotEmpty) {
         print("Documents found: ${snapshot.docs.length}");

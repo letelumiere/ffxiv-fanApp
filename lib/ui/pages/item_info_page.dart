@@ -1,5 +1,6 @@
 import 'package:ffixv/data/models/itemSearchCriteria.dart';
 import 'package:ffixv/data/services/item_service.dart';
+import 'package:ffixv/ui/widgets/itemInfoPage/item_pagination_view.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_search_condition_layout.dart';
 import 'package:ffixv/viewModel/item_viewModel.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,16 @@ class ItemInfoPage extends StatelessWidget {
                     await viewModel.fetchItemHeaders(criteria);
                   },
                 ),
-                //여기에 itemPaginationView(if조건문)과 itemDetailLayout(if조건문도 포함해야 함)
+                Expanded(
+                  child: viewModel.itemHeaders.isEmpty 
+                    ? const Center(child: Text('No items found.')) 
+                    : ItemPaginationView(
+                      itemHeaderDtos: viewModel.itemHeaders, 
+                      onItemSelected: (itemHeader) async{
+                        await viewModel.fetchItemsWhereItemID(itemHeader.id!);
+                      }
+                    ),                //여기에 itemPaginationView(if조건문)과 itemDetailLayout(if조건문도 포함해야 함)
+                ),
               ],
             )
           );
