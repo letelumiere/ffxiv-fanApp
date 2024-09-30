@@ -51,7 +51,8 @@ class ItemService {
   Future<List<ItemHeaderDTO?>?> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {  //검색조건 = searchCriteria라는 클래스를 만들어 넣는다?
     try{
       List<ItemHeaderDTO>? itemHeaderList = await _itemRepository.fetchItemHeaders(criteria, page, limit);
-      
+      print(itemHeaderList?.length);
+
       return itemHeaderList;
     }catch(e){
       _handleServiceError(e);
@@ -61,7 +62,6 @@ class ItemService {
 
   Future<List<ItemHeaderDTO?>?> fetchItemList(ItemSearchCriteria criteria) async {  //검색조건 = searchCriteria라는 클래스를 만들어 넣는다?
     try{
-      print("criteria name = ${criteria.name}");
       List<ItemHeaderDTO>? itemHeaderList = await _itemRepository.fetchItemWithName(criteria.name!);
 
       return itemHeaderList;

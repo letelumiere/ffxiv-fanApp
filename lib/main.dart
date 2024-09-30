@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffixv/firebase_options.dart';
 import 'package:ffixv/ui/pages/main_page.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+
   );
+
+//  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);  
+
   runApp(const MyApp());
 }
 

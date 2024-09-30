@@ -27,8 +27,8 @@ class ItemInfoPage extends StatelessWidget {
               children: [
                 ItemSearchConditionLayout(
                   onSubmitted: (ItemSearchCriteria criteria) async {
-                    await viewModel.fetchItemHeaders(criteria);
-//                      await viewModel.fetchItemList(criteria);
+//                    await viewModel.fetchItemHeaders(criteria);
+                      await viewModel.fetchItemList(criteria);
                   },
                 ),
                 //여기에 itemPaginationView(if조건문)과 itemDetailLayout(if조건문도 포함해야 함)
