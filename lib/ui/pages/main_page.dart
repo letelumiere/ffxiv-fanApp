@@ -28,7 +28,7 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     _pages.addAll([
       IndexPage(callback: _showMessage),
-      ItemInfoPage(),
+      ItemInfoPage(callback: _showMessage),
       // TestPage(callback: _showMessage),
     ]);
 

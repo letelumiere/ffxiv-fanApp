@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ItemInfoPage extends StatelessWidget {
-  const ItemInfoPage({super.key});
+  const ItemInfoPage({super.key, required this.callback});
+
+  final void Function(String message) callback;
 
   @override
   Widget build(BuildContext context) {

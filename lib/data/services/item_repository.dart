@@ -58,7 +58,10 @@ class ItemRepository {
   Future<List<ItemHeaderDTO>?> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
     try {
       // 먼저 모든 문서 조회
-      QuerySnapshot snapshot = await _itemsCollection.get();
+      QuerySnapshot snapshot = await _itemsCollection
+          .where('Name', isGreaterThanOrEqualTo: criteria.name)
+          .where('Name', isLessThanOrEqualTo: criteria.name! + '\uf8ff') // 문법 오류 수정
+          .get();
 
       // 페이지네이션 처리
       List<QueryDocumentSnapshot> docs = snapshot.docs;

@@ -84,11 +84,12 @@ class ItemViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      print('Fetching items by name...');
+      print('Fetching itemHeaders by name...');
 
       // ItemService를 사용해 데이터를 가져오고, _itemHeaders에 할당
       List<ItemHeaderDTO?>? fetchedHeaders = await _itemService.fetchItemHeaders(criteria, _page, _limit);      
 
+      print("repository connected");
 
       for (var header in fetchedHeaders!) {
           print('Fetched header: ${header!.name}'); // 각 아이템 출력
