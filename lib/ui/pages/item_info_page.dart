@@ -23,7 +23,7 @@ class ItemInfoPage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-          return Scaffold(
+          child: Scaffold(  //return = UI 재빌드. 
             body: Column(
               children: [
                 ItemSearchConditionLayout(
