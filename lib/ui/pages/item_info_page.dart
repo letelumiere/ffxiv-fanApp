@@ -18,8 +18,8 @@ class ItemInfoPage extends StatelessWidget {
         Provider.of<ItemService>(context, listen: false)
       ),
       child: Consumer<ItemViewModel>(
-        builder: (context, viewModel, child){
-          if(viewModel.isLoading){
+        builder: (context, viewModel, child) {
+          if (viewModel.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 
@@ -32,20 +32,24 @@ class ItemInfoPage extends StatelessWidget {
                   },
                 ),
                 Expanded(
-                  child: viewModel.itemHeaders.isEmpty 
-                    ? const Center(child: Text('No items found.')) 
-                    : ItemPaginationView(
-                      itemHeaderDtos: viewModel.itemHeaders, 
-                      onItemSelected: (itemHeader) async{
-                        await viewModel.fetchItemsWhereItemID(itemHeader.id!);
-                      }
-                    ),                //여기에 itemPaginationView(if조건문)과 itemDetailLayout(if조건문도 포함해야 함)
+                  child: Consumer<ItemViewModel>( // 여기서 다시 Consumer 사용
+                    builder: (context, viewModel, child) {
+                      return viewModel.itemHeaders.isEmpty 
+                        ? const Center(child: Text('No items found.')) 
+                        : ItemPaginationView(
+                            itemHeaderDtos: viewModel.itemHeaders, 
+                            onItemSelected: (itemHeader) async {
+                              await viewModel.fetchItemsWhereItemID(itemHeader.id!);
+                            },
+                          );
+                    },
+                  ),
                 ),
               ],
-            )
+            ),
           );
-        }
-      )
+        },
+      ),
     );
   }
 }
