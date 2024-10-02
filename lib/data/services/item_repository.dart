@@ -28,57 +28,57 @@ class ItemRepository {
     }
   }
 
+Future<List<ItemHeaderDTO>> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
+  try {
+    QuerySnapshot snapshot = await _itemsCollection
+        .where('Name', isGreaterThanOrEqualTo: criteria.name)
+        // .where('Name', isLessThanOrEqualTo: criteria.name! + '\uf8ff') // 범위 검색 추가
+        .limit(limit)
+        .get();
 
-  Future<List<ItemHeaderDTO>?> fetchItemHeaders(ItemSearchCriteria criteria, int page, int limit) async {
-    print('parameter of fetchItemHeaders method = '+ '${criteria.name} '+'${page} '+'${limit}');
+    if (snapshot.docs.isEmpty) {
+      print("No documents found.");
+      return []; // 빈 리스트 반환
+    }
 
-    try {
-      QuerySnapshot snapshot;
-        snapshot = await _itemsCollection
-            .where('Name', isGreaterThanOrEqualTo: criteria.name)
-  //          .where('Name', isLessThanOrEqualTo: criteria.name! + '\uf8ff') // 문법 오류 수정
-            .limit(10)  //limit(10)은 임시
-            .get();
+    print("Documents found: ${snapshot.docs.length}");
 
-      if (snapshot.docs.isNotEmpty) {
-        print("Documents found: ${snapshot.docs.length}");
-      } else {
-        print("No documents found.");
-      }
+    // 페이지네이션 처리
+    List<QueryDocumentSnapshot> docs = snapshot.docs;
 
-      // 페이지네이션 처리
-      List<QueryDocumentSnapshot> docs = snapshot.docs;
+    int startIndex = page * limit;
+    int endIndex = startIndex + limit;
 
-      for(var data in docs){
-        print(data.get(FieldPath.fromString('Name')));
-      }
-
-      // 페이지네이션 로직 처리
-      int startIndex = page * limit;
-      int endIndex = startIndex + limit;
-
-      if (startIndex >= docs.length) {
-        return []; // 시작 인덱스가 데이터 범위를 벗어나면 빈 리스트 반환
-      }
-
-      // 마지막 인덱스를 전체 문서 길이에 맞게 조정
-      if (endIndex > docs.length) {
-        endIndex = docs.length;
-      }
-
-      // 해당 페이지에 해당하는 문서만 선택
-      List<QueryDocumentSnapshot> pageDocs = docs.sublist(startIndex, endIndex);
-
-      // 변환 및 반환
-      return pageDocs.map((doc) {
-        return ItemHeaderDTO.fromJson(doc.data() as Map<String, dynamic>);
-      }).toList();
-
-    } catch (e) {
-      _handleError(e);
+    // 시작 인덱스가 데이터 범위를 벗어날 경우 빈 리스트 반환
+    if (startIndex >= docs.length) {
       return [];
     }
+
+    // 마지막 인덱스 조정
+    endIndex = endIndex > docs.length ? docs.length : endIndex;
+
+    // 해당 페이지에 해당하는 문서 선택
+    List<QueryDocumentSnapshot> pageDocs = docs.sublist(startIndex, endIndex);
+
+    // 변환 및 반환
+    return pageDocs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>?; // nullable 처리
+
+      if (data != null) {
+//        print("Document ID: ${doc.id}, Data: $data"); // 문서 ID와 데이터를 출력
+        return ItemHeaderDTO.fromJson(data);
+      } else {
+//        print("Document data is null for doc ID: ${doc.id}");
+        return ItemHeaderDTO(); // 기본값 반환 또는 다른 처리
+      }
+    }).toList();
+
+  } catch (e) {
+    print("Error fetching item headers: $e");
+    _handleError(e);
+    return []; // 빈 리스트 반환
   }
+}
 
   
   Query itemQueryBuilder(ItemSearchCriteria criteria) {  
