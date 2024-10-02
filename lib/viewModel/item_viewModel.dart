@@ -74,7 +74,7 @@ class ItemViewModel extends ChangeNotifier {
   Future<void> fetchItemsWhereItemID(int itemId) async {
     _isLoading = true;
     notifyListeners();
-
+    
     try {
       _selectedItem = await _itemService.fetchItemDetail(itemId);
     } catch (e) {

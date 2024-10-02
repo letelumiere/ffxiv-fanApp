@@ -1,5 +1,6 @@
 import 'package:ffixv/data/models/itemSearchCriteria.dart';
 import 'package:ffixv/data/services/item_service.dart';
+import 'package:ffixv/ui/widgets/itemInfoPage/item_detail_layout.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_pagination_view.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_search_condition_layout.dart';
 import 'package:ffixv/viewModel/item_viewModel.dart';
@@ -52,6 +53,19 @@ class ItemInfoPage extends StatelessWidget {
                 // itemHeaders가 비어 있을 때
                 if (itemHeaders.isEmpty) {
                   return const Center(child: Text('No items found.'));
+                }
+                
+                // 선택된 아이템의 세부 정보를 표시
+                if (viewModel.selectedItem != null) {
+                  return Column(
+                    children: [
+                      ItemDetailLayout(
+                        itemDto: viewModel.selectedItem!,
+                        callback: (message) => callback(message),
+                      ),
+                      const SizedBox(height: 10), // 여유 공간 추가
+                    ],
+                  );
                 }
 
                 // itemHeaders가 있을 때

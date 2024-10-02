@@ -127,6 +127,7 @@ class _ItemListTileContainer extends StatelessWidget {
   final String? icon;
   final String? name;
   final int? id;
+  final int? levelEquip;
   final int? levelItem;
   final VoidCallback onTap;
 
@@ -135,6 +136,7 @@ class _ItemListTileContainer extends StatelessWidget {
     this.icon,
     this.name,
     this.id,
+    this.levelEquip,
     this.levelItem,
     required this.onTap,
   });
@@ -144,8 +146,8 @@ class _ItemListTileContainer extends StatelessWidget {
     return ListTile(
       leading: icon != null ? Image.asset('assets/icons/BlueMage.png', width: 40, height: 40) : null, //storage에 파일 업로드 후 asset 주소 바꿀 것
       title: Text(name ?? 'Unknown', style: const TextStyle(fontWeight: FontWeight.bold)),
-      //subtitle: Text('ID: $id'),   // 한글어 외국어 병행 시, 이쪽엔 외국어 표기
-      //trailing: Text("$levelItem", style: TextStyle(color: Colors.amber)),  //아이템 레벨, 착용 레벨 표시 되도록
+      subtitle: Text('ID: ${id}'),   // 한글어 외국어 병행 시, 이쪽엔 외국어 표기
+      trailing: Text("${id} ${levelItem} ${levelEquip}", style: TextStyle(color: Colors.amber)),  //아이템 레벨, 착용 레벨 표시 되도록
       onTap: onTap,
     );
   }
