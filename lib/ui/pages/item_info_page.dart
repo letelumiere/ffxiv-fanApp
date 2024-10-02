@@ -16,54 +16,55 @@ class ItemInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ItemViewModel>(
-      create: (context) => ItemViewModel(
-        Provider.of<ItemService>(context, listen: false),
-      ),
-      child: Scaffold(
-        body: Column(
-          children: [
-            ItemSearchConditionLayout(
-              onSubmitted: (ItemSearchCriteria criteria) async {
-                try {
-                  await Provider.of<ItemViewModel>(context, listen: false)
-                      .fetchItemHeaders(criteria);
-                } catch (e) {
-                  // 에러 발생 시 처리
-                  callback("Error: $e");
+    // ChangeNotifierProvider를 통해 ViewModel 생성
+    final viewModel = Provider.of<ItemViewModel>(context, listen: true);
+    
+    return Scaffold(
+      body: Column(
+        children: [
+          ItemSearchConditionLayout(
+            onSubmitted: (ItemSearchCriteria criteria) async {
+              try {
+                await viewModel.fetchItemHeaders(criteria);
+              } catch (e) {
+                callback("Error: $e");
+              }
+            },
+          ),
+          Expanded(
+            child: Consumer<ItemViewModel>(
+              builder: (context, viewModel, child) {
+                final itemHeaders = viewModel.itemHeaders;
+
+                print('=== Builder called=== ');                  
+                print('Builder items = ${itemHeaders.length}');
+
+                // 로딩 상태 처리
+                if (viewModel.isLoading) {
+                  return const Center(child: CircularProgressIndicator());
                 }
+
+                // 에러 메시지 처리
+                if (viewModel.message != null) {
+                  return Center(child: Text(viewModel.message!));
+                }
+
+                // itemHeaders가 비어 있을 때
+                if (itemHeaders.isEmpty) {
+                  return const Center(child: Text('No items found.'));
+                }
+
+                // itemHeaders가 있을 때
+                return ItemPaginationView(
+                  itemHeaderDtos: itemHeaders,
+                  onItemSelected: (itemHeader) async {
+                    await viewModel.fetchItemsWhereItemID(itemHeader.id!);
+                  },
+                );
               },
             ),
-            Expanded(
-              child: Consumer<ItemViewModel>(
-                builder: (context, viewModel, child) {
-                  final itemHeaders = viewModel.itemHeaders;  
-
-                  print('=== Builder called=== ');                  
-                  print('Builder items = ${itemHeaders.length}');
-                  
-                  if (viewModel.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  if (viewModel.message != null) {
-                    return Center(child: Text(viewModel.message!));
-                  }
-
-                  if (viewModel.itemHeaders.isEmpty) {
-                    return const Center(child: Text('No items found.'));
-                  }
-                  return ItemPaginationView(
-                    itemHeaderDtos: itemHeaders,
-                    onItemSelected: (itemHeader) async {
-                      await viewModel.fetchItemsWhereItemID(itemHeader.id!);
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
