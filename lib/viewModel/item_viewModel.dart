@@ -1,9 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
 import 'package:ffixv/data/models/itemSearchCriteria.dart';
 import 'package:ffixv/data/services/item_service.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ItemViewModel extends ChangeNotifier {
   final ItemService _itemService;
@@ -12,29 +12,31 @@ class ItemViewModel extends ChangeNotifier {
 
   List<ItemHeaderDTO> _itemHeaders = [];
   ItemDTO? _selectedItem;
-  ItemSearchCriteria? _criteria; // 검색 조건
+  ItemSearchCriteria? _criteria;
   bool _isLoading = false;
   String? _message;
-  int _page = 0; // 페이지 수
-  final int _limit = 10; // 한 페이지당 아이템 수
+  int _page = 0; // 현재 페이지 수
+  final int _limit = 30; // 한 페이지당 아이템 수
+  DocumentSnapshot? _lastDocument; // 마지막 문서 추가
 
   List<ItemHeaderDTO> get itemHeaders => _itemHeaders;
   ItemDTO? get selectedItem => _selectedItem;
   bool get isLoading => _isLoading;
   String? get message => _message;
+  int get page => _page;
+  int get limit => _limit;
+  ItemSearchCriteria? get criteria => _criteria;
 
-  // 초기화 메서드
+  // 총 페이지 수 계산
+  int get totalPages => (_itemHeaders.length / _limit).ceil(); 
+
   Future<void> initialize() async {
     _isLoading = true;
     notifyListeners();
 
     try {
       await _itemService.initializeFirebase();
-
-      // _criteria가 null일 경우 기본 값을 설정하거나 예외 처리
-      if (_criteria != null) {
-        await fetchItemHeaders(_criteria!);
-      }
+      await fetchItemHeaders(_criteria ?? ItemSearchCriteria(), _limit);
     } catch (e) {
       _message = "Error during initialization: $e";
     } finally {
@@ -43,21 +45,20 @@ class ItemViewModel extends ChangeNotifier {
     }
   }
 
-    // 검색 조건에 따라 itemHeaders를 가져오는 메서드
-  Future<void> fetchItemHeaders(ItemSearchCriteria criteria) async {
+  Future<void> fetchItemHeaders(ItemSearchCriteria criteria, int limit) async {
     _criteria = criteria; // 현재 검색 조건 저장
     _isLoading = true;
-    notifyListeners();  // 로딩 시작 알림
+    notifyListeners(); // 로딩 시작 알림
 
     try {
-      List<ItemHeaderDTO?>? fetchedHeaders = await _itemService.fetchItemHeaders(criteria, _page, _limit);
+      List<ItemHeaderDTO>? fetchedHeaders = await _itemService.getItemHeaders(criteria, _lastDocument, limit);
 
       if (fetchedHeaders != null) {
-        _itemHeaders = fetchedHeaders.whereType<ItemHeaderDTO>().toList(); 
-
-        // 출력 데이터
-        for(var data in _itemHeaders){
-          print("${data.name}");
+        if (fetchedHeaders.isNotEmpty) {
+          _itemHeaders.addAll(fetchedHeaders);
+          _lastDocument = fetchedHeaders.last.documentSnapshot; // 마지막 문서 업데이트
+        } else {
+          _message = "No more items available."; // 더 이상 아이템이 없는 경우
         }
       } else {
         _itemHeaders.clear(); // 검색 결과가 없을 경우 리스트 초기화
@@ -66,17 +67,16 @@ class ItemViewModel extends ChangeNotifier {
       _message = "Error during item search: $e";
     } finally {
       _isLoading = false;
-      notifyListeners();  // 상태 업데이트 알림
+      notifyListeners(); // 상태 업데이트 알림
     }
-  } 
+  }
 
-  // 아이템 ID로 특정 아이템을 가져오는 메서드
   Future<void> fetchItemsWhereItemID(int itemId) async {
     _isLoading = true;
     notifyListeners();
-    
+
     try {
-      _selectedItem = await _itemService.fetchItemDetail(itemId);
+      _selectedItem = await _itemService.getItemDetail(itemId);
     } catch (e) {
       _message = "Error fetching item by ID: $e";
     } finally {
@@ -84,4 +84,14 @@ class ItemViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+Future<void> changePage(int newPage) async {
+  _page = newPage;
+  notifyListeners(); // 페이지 변경 알림
+
+  // 새로운 페이지의 데이터 로드 (필요한 경우)
+  await fetchItemHeaders(_criteria ?? ItemSearchCriteria(), _limit);
+  
+  return; // 명시적으로 void를 반환
+}
 }

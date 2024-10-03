@@ -1,154 +1,94 @@
 import 'package:ffixv/data/models/itemLevel.dart';
 import 'package:flutter/material.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
+import 'package:ffixv/viewModel/item_viewModel.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:flutter/material.dart';
+import 'package:ffixv/data/models/itemHeaderDTO.dart';
 
 class ItemPaginationView extends StatefulWidget {
   final List<ItemHeaderDTO> itemHeaderDtos;
-  final void Function(ItemHeaderDTO) onItemSelected; // Callback
+  final Function(ItemHeaderDTO) onItemSelected;
+  final Function(int) onPageChanged;
+  final int totalPages; // 총 페이지 수 추가
 
-  const ItemPaginationView({super.key, required this.itemHeaderDtos, required this.onItemSelected});
+  const ItemPaginationView({
+    Key? key,
+    required this.itemHeaderDtos,
+    required this.onItemSelected,
+    required this.onPageChanged,
+    required this.totalPages, // 총 페이지 수를 인자로 받음
+  }) : super(key: key);
 
   @override
   _ItemPaginationViewState createState() => _ItemPaginationViewState();
 }
 
 class _ItemPaginationViewState extends State<ItemPaginationView> {
-  static const int _pageSize = 10;
-  
-  int _currentPage = 0;
-  List<ItemHeaderDTO> _currentItems = [];
+  final List<int> _pageNumbers = []; // 페이지 번호 리스트
+  int _currentPage = 1;
 
   @override
   void initState() {
     super.initState();
-    _loadPageData();
+    // 페이지 번호 리스트 초기화
+    _pageNumbers.addAll(List.generate(widget.totalPages, (index) => index + 1));
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // 아이템 리스트
         Expanded(
           child: ListView.builder(
-            itemCount: _currentItems.length,
+            itemCount: widget.itemHeaderDtos.length,
             itemBuilder: (context, index) {
-              return _ItemListTileContainer(
-                icon: _currentItems[index].icon,
-                name: _currentItems[index].name,
-                id: _currentItems[index].id,
-                levelItem: _currentItems[index].levelItem,
-                onTap: () => _onItemSelected(_currentItems[index]),
+              final itemHeader = widget.itemHeaderDtos[index];
+
+              return ListTile(
+                leading: itemHeader.icon != null 
+                    ? Image.asset('assets/icons/BlueMage.png', width: 40, height: 40) // 아이콘이 있을 경우 표시
+                    : null,
+                title: Text(itemHeader.name ?? 'Unknown', style: const TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: Text('ID: ${itemHeader.id}'), // ID 표시
+                trailing: Text("${itemHeader.levelItem} ${itemHeader.levelEquip}", style: const TextStyle(color: Colors.amber)), // 레벨 표시
+                onTap: () {
+                  widget.onItemSelected(itemHeader);
+                },
               );
             },
           ),
         ),
-        _buildPaginationControls(),
-      ],
-    );
-  }
-
-  // Pagination controls with limited page buttons (previous 2, current, next 2)
-  Widget _buildPaginationControls() {
-    int totalPages = (widget.itemHeaderDtos.length / _pageSize).ceil();
-    int startPage = (_currentPage - 2).clamp(0, totalPages - 1);
-    int endPage = (_currentPage + 2).clamp(0, totalPages - 1);
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // Previous button
-        if (_currentPage > 0) ElevatedButton(
-          onPressed: _goToPreviousPage,
-          child: const Text('Previous'),
-        ),
-        // Page buttons (only show 2 before and 2 after current page)
-        ...List.generate(endPage - startPage + 1, (index) {
-          int pageIndex = startPage + index;
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: ElevatedButton(
-              onPressed: () => _goToPage(pageIndex),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: pageIndex == _currentPage ? Colors.blue : Colors.grey, // Highlight current page
+        // 페이지 네비게이션
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: _pageNumbers.map((page) {
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  _currentPage = page;
+                });
+                widget.onPageChanged(page);
+              },
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                decoration: BoxDecoration(
+                  color: _currentPage == page ? Colors.blue : Colors.grey,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                child: Text(
+                  page.toString(),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
-              child: Text('${pageIndex + 1}'),
-            ),
-          );
-        }),
-        // Next button
-        if (_currentPage < totalPages - 1) ElevatedButton(
-          onPressed: _goToNextPage,
-          child: const Text('Next'),
+            );
+          }).toList(),
         ),
       ],
-    );
-  }
-
-  // Loads the current page data based on the page number
-  void _loadPageData() {
-    setState(() {
-      final start = _currentPage * _pageSize;
-      final end = start + _pageSize;
-      _currentItems = widget.itemHeaderDtos.sublist(start, end.clamp(0, widget.itemHeaderDtos.length));
-    });
-  }
-
-  // Goes to the previous page
-  void _goToPreviousPage() {
-    setState(() {
-      _currentPage--;
-      _loadPageData();
-    });
-  }
-
-  // Goes to the next page
-  void _goToNextPage() {
-    setState(() {
-      _currentPage++;
-      _loadPageData();
-    });
-  }
-
-  // Goes to a specific page
-  void _goToPage(int pageIndex) {
-    setState(() {
-      _currentPage = pageIndex;
-      _loadPageData();
-    });
-  }
-
-  // Callback when an item is selected
-  void _onItemSelected(ItemHeaderDTO selectedItem) {
-    widget.onItemSelected(selectedItem);
-  }
-}
-
-class _ItemListTileContainer extends StatelessWidget {
-  final String? icon;
-  final String? name;
-  final int? id;
-  final int? levelEquip;
-  final int? levelItem;
-  final VoidCallback onTap;
-
-  const _ItemListTileContainer({
-    super.key,
-    this.icon,
-    this.name,
-    this.id,
-    this.levelEquip,
-    this.levelItem,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: icon != null ? Image.asset('assets/icons/BlueMage.png', width: 40, height: 40) : null, //storage에 파일 업로드 후 asset 주소 바꿀 것
-      title: Text(name ?? 'Unknown', style: const TextStyle(fontWeight: FontWeight.bold)),
-      subtitle: Text('ID: ${id}'),   // 한글어 외국어 병행 시, 이쪽엔 외국어 표기
-      trailing: Text("${id} ${levelItem} ${levelEquip}", style: TextStyle(color: Colors.amber)),  //아이템 레벨, 착용 레벨 표시 되도록
-      onTap: onTap,
     );
   }
 }
