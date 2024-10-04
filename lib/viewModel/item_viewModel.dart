@@ -85,13 +85,11 @@ class ItemViewModel extends ChangeNotifier {
     }
   }
 
-Future<void> changePage(int newPage) async {
-  _page = newPage;
-  notifyListeners(); // 페이지 변경 알림
-
-  // 새로운 페이지의 데이터 로드 (필요한 경우)
-  await fetchItemHeaders(_criteria ?? ItemSearchCriteria(), _limit);
-  
-  return; // 명시적으로 void를 반환
-}
+  Future<void> changePage(int newPage) async {
+    if (newPage >= 0) {
+      _page = newPage;
+      _lastDocument = _itemHeaders.isNotEmpty ? _itemHeaders.last.documentSnapshot : null; // lastDocument 업데이트
+      await fetchItemHeaders(_criteria ?? ItemSearchCriteria(), _limit); // 새 페이지의 데이터 로드
+    }
+  }
 }

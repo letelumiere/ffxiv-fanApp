@@ -23,19 +23,18 @@ class ItemRepository {
     }
   }
 
-  Future<List<ItemHeaderDTO>?> getItemHeaders(ItemSearchCriteria criteria, DocumentSnapshot? lastDocument, int limit) async {
+  // 새롭게 수정된 메서드
+  Future<List<ItemHeaderDTO>?> getItemHeaders(ItemSearchCriteria criteria, DocumentSnapshot? lastDocument, int limit, {String? additionalParameter}) async {
     try {
-      //Query query = itemQueryBuilder(criteria);
-        Query query = _itemsCollection
+      Query query = _itemsCollection
           .where('Name', isGreaterThanOrEqualTo: criteria.name)
-          .orderBy('Name',descending: false)
+          .orderBy('Name', descending: false)
           .limit(limit);
 
       if (lastDocument != null) {
         query = query.startAfterDocument(lastDocument);
       }
-      query = query.limit(limit);
-      
+
       QuerySnapshot snapshot = await query.get();
 
       if (snapshot.docs.isEmpty) {
@@ -43,7 +42,6 @@ class ItemRepository {
       }
 
       return snapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>?;        
         return ItemHeaderDTO.fromJson(doc.data() as Map<String, dynamic>, doc);
       }).toList();
       

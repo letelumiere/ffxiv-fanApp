@@ -1,25 +1,18 @@
-import 'package:ffixv/data/models/itemLevel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
-import 'package:ffixv/viewModel/item_viewModel.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'package:flutter/material.dart';
-import 'package:ffixv/data/models/itemHeaderDTO.dart';
+import 'package:firebase_pagination/firebase_pagination.dart'; // firebase_pagination 추가
 
 class ItemPaginationView extends StatefulWidget {
-  final List<ItemHeaderDTO> itemHeaderDtos;
   final Function(ItemHeaderDTO) onItemSelected;
   final Function(int) onPageChanged;
-  final int totalPages; // 총 페이지 수 추가
+  final int totalPages;
 
   const ItemPaginationView({
     Key? key,
-    required this.itemHeaderDtos,
     required this.onItemSelected,
     required this.onPageChanged,
-    required this.totalPages, // 총 페이지 수를 인자로 받음
+    required this.totalPages,
   }) : super(key: key);
 
   @override
@@ -27,13 +20,12 @@ class ItemPaginationView extends StatefulWidget {
 }
 
 class _ItemPaginationViewState extends State<ItemPaginationView> {
-  final List<int> _pageNumbers = []; // 페이지 번호 리스트
+  final List<int> _pageNumbers = [];
   int _currentPage = 1;
 
   @override
   void initState() {
     super.initState();
-    // 페이지 번호 리스트 초기화
     _pageNumbers.addAll(List.generate(widget.totalPages, (index) => index + 1));
   }
 
@@ -43,18 +35,19 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
       children: [
         // 아이템 리스트
         Expanded(
-          child: ListView.builder(
-            itemCount: widget.itemHeaderDtos.length,
-            itemBuilder: (context, index) {
-              final itemHeader = widget.itemHeaderDtos[index];
+          child: FirestorePagination<ItemHeaderDTO>(
+            // firebase_pagination을 이용하여 Firestore의 아이템 목록을 페이지네이션
+            query: FirebaseFirestore.instance.collection('items').limit(10), // 쿼리 예시
+            itemBuilder: (context, snapshot, index) {
+              final itemHeader = snapshot.data![index];
 
               return ListTile(
                 leading: itemHeader.icon != null 
-                    ? Image.asset('assets/icons/BlueMage.png', width: 40, height: 40) // 아이콘이 있을 경우 표시
+                    ? Image.asset('assets/icons/BlueMage.png', width: 40, height: 40)
                     : null,
                 title: Text(itemHeader.name ?? 'Unknown', style: const TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text('ID: ${itemHeader.id}'), // ID 표시
-                trailing: Text("${itemHeader.levelItem} ${itemHeader.levelEquip}", style: const TextStyle(color: Colors.amber)), // 레벨 표시
+                subtitle: Text('ID: ${itemHeader.id}'),
+                trailing: Text("${itemHeader.levelItem} ${itemHeader.levelEquip}", style: const TextStyle(color: Colors.amber)),
                 onTap: () {
                   widget.onItemSelected(itemHeader);
                 },
