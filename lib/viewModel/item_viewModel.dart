@@ -36,7 +36,7 @@ class ItemViewModel extends ChangeNotifier {
 
     try {
       await _itemService.initializeFirebase();
-      await fetchItemHeaders(_criteria ?? ItemSearchCriteria(), _limit);
+      await fetchItemHeaders(_criteria ?? ItemSearchCriteria()); // 기본 검색 조건으로 초기화
     } catch (e) {
       _message = "Error during initialization: $e";
     } finally {
@@ -44,24 +44,21 @@ class ItemViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-  Future<void> fetchItemHeaders(ItemSearchCriteria criteria, int limit) async {
+  
+  Future<void> fetchItemHeaders(ItemSearchCriteria criteria) async {
     _criteria = criteria; // 현재 검색 조건 저장
     _isLoading = true;
     notifyListeners(); // 로딩 시작 알림
 
     try {
-      List<ItemHeaderDTO>? fetchedHeaders = await _itemService.getItemHeaders(criteria, _lastDocument, limit);
+      // Repository에서 아이템 헤더를 가져옵니다.
+      List<ItemHeaderDTO>? fetchedHeaders = await _itemService.getItemHeaders(criteria, _lastDocument, _limit);
 
-      if (fetchedHeaders != null) {
-        if (fetchedHeaders.isNotEmpty) {
-          _itemHeaders.addAll(fetchedHeaders);
-          _lastDocument = fetchedHeaders.last.documentSnapshot; // 마지막 문서 업데이트
-        } else {
-          _message = "No more items available."; // 더 이상 아이템이 없는 경우
-        }
+      if (fetchedHeaders!.isNotEmpty) {
+        _itemHeaders = fetchedHeaders!; // 가져온 헤더를 저장
+        _lastDocument = fetchedHeaders.last.documentSnapshot; // 마지막 문서 업데이트
       } else {
-        _itemHeaders.clear(); // 검색 결과가 없을 경우 리스트 초기화
+        _message = "No more items available."; // 더 이상 아이템이 없는 경우
       }
     } catch (e) {
       _message = "Error during item search: $e";
@@ -85,13 +82,24 @@ class ItemViewModel extends ChangeNotifier {
     }
   }
 
-Future<void> changePage(int newPage) async {
-  _page = newPage;
-  notifyListeners(); // 페이지 변경 알림
+  Future<void> changePage(int newPage) async {
+    if (newPage != _page) {
+      _page = newPage;
+      await _itemService.initializeFirebase();
 
-  // 새로운 페이지의 데이터 로드 (필요한 경우)
-  await fetchItemHeaders(_criteria ?? ItemSearchCriteria(), _limit);
-  
-  return; // 명시적으로 void를 반환
-}
+      notifyListeners();
+
+      // 페이지 변경 시 새로운 데이터를 가져옵니다.
+      List<ItemHeaderDTO>? fetchedHeaders = await _itemService.getItemHeaders(
+        _criteria ?? ItemSearchCriteria(),
+        _lastDocument,
+        _limit,
+      );
+
+      if (fetchedHeaders != null && fetchedHeaders.isNotEmpty) {
+        _itemHeaders.addAll(fetchedHeaders);
+        _lastDocument = fetchedHeaders.last.documentSnapshot; // 마지막 문서 업데이트
+      }
+    }
+  }
 }

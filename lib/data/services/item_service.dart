@@ -34,16 +34,15 @@ class ItemService {
     }
   }
 
-Future<List<ItemHeaderDTO>?> getItemHeaders(ItemSearchCriteria criteria, DocumentSnapshot? lastDocument, int limit) async {
-  try {
-    // ItemRepository의 getItemHeaders 호출하여 데이터 가져오기
-    List<ItemHeaderDTO>? fetchedHeaders = await _itemRepository.getItemHeaders(criteria, lastDocument, limit);
-    return fetchedHeaders; // DTO 리스트 반환
-  } catch (e) {
-    _handleServiceError(e);
-    return null;
+  Future<List<ItemHeaderDTO>?> getItemHeaders(ItemSearchCriteria criteria, DocumentSnapshot? lastDocument, int limit) async {
+    try {
+      List<ItemHeaderDTO>? fetchedHeaders = await _itemRepository.getItemHeaders(criteria, lastDocument, limit);
+      return fetchedHeaders;
+    } catch (e) {
+      _handleServiceError(e);
+      return null;
+    }
   }
-}
 
   void _handleServiceError(dynamic e) {
     print('Service error: $e');
