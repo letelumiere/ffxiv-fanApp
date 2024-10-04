@@ -36,7 +36,7 @@ class ItemViewModel extends ChangeNotifier {
 
     try {
       await _itemService.initializeFirebase();
-      await fetchItemHeaders(_criteria ?? ItemSearchCriteria()); // 기본 검색 조건으로 초기화
+//      await fetchItemHeaders(_criteria ?? ItemSearchCriteria()); // 기본 검색 조건으로 초기화
     } catch (e) {
       _message = "Error during initialization: $e";
     } finally {

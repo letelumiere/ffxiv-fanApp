@@ -18,14 +18,8 @@ dependencies:
   provider: ^6.0.0
   html_parser_plus: ^0.1.4
   url_launcher: ^6.0.0
-<<<<<<< HEAD
   firebase_storage: ^12.2.0
   firebase_pagination: ^4.0.1  
-=======
-  firebase_storage: ^12.2.0  
-  firebase_pagination: ^4.0.1
-
->>>>>>> d5f9f6be78459cc20784d163dc29415dd429debd
 
 dev_dependencies:
   flutter_test:

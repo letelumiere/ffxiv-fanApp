@@ -46,6 +46,8 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
       },
       limit: 10, // 한 번에 불러올 데이터 수 제한
       viewType: ViewType.list,
+      isLive: false,
+      
       //onError: (error) => Center(child: Text('Error: $error')), // 에러 처리
       onEmpty: const Center(child: Text('No items found.')), // 데이터가 없을 때 처리
     );

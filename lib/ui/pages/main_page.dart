@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffixv/data/services/item_repository.dart';
 import 'package:ffixv/data/services/item_service.dart';
+import 'package:ffixv/ui/pages/index_page.dart';
 import 'package:ffixv/ui/pages/item_info_page.dart';
 import 'package:ffixv/viewModel/item_viewModel.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     _pages.addAll([
-      // Other pages...
+      IndexPage(callback: _showMessage),
       ItemInfoPage(callback: _showMessage), // ItemInfoPage 추가
     ]);
 
