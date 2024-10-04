@@ -6,7 +6,7 @@ class ItemHeaderDTO {
   String? icon;
   int? levelEquip;
   int? levelItem;
-  DocumentSnapshot? documentSnapshot; // DocumentSnapshot 추가
+  DocumentSnapshot<Object?>? documentSnapshot; // DocumentSnapshot의 타입을 수정
 
   // 기본 생성자
   ItemHeaderDTO({
@@ -19,7 +19,7 @@ class ItemHeaderDTO {
   });
 
   // JSON 역직렬화 (from JSON)
-  factory ItemHeaderDTO.fromJson(Map<String, dynamic> json, DocumentSnapshot? doc) {
+  factory ItemHeaderDTO.fromJson(Map<String, dynamic> json, DocumentSnapshot<Object?>? doc) {
     return ItemHeaderDTO(
       name: json['Name'] as String?,
       id: json['ID'] as int?,

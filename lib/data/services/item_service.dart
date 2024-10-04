@@ -43,7 +43,6 @@ class ItemService {
       return null;
     }
   }
-
   void _handleServiceError(dynamic e) {
     print('Service error: $e');
   }
