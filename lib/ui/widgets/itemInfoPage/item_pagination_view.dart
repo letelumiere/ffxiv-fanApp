@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
-import 'package:firebase_pagination/firebase_pagination.dart'; // firebase_pagination 추가
+import 'package:firebase_pagination/firebase_pagination.dart';
 
 class ItemPaginationView extends StatefulWidget {
   final Function(ItemHeaderDTO) onItemSelected;
@@ -35,11 +35,18 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
       children: [
         // 아이템 리스트
         Expanded(
-          child: FirestorePagination<ItemHeaderDTO>(
-            // firebase_pagination을 이용하여 Firestore의 아이템 목록을 페이지네이션
-            query: FirebaseFirestore.instance.collection('items').limit(10), // 쿼리 예시
+          child: FirestorePagination(
+            query: FirebaseFirestore.instance.collection('Item').limit(10), // 쿼리 예시
             itemBuilder: (context, snapshot, index) {
-              final itemHeader = snapshot.data![index];
+              final DocumentSnapshot<Object?> documentSnapshot = snapshot[index];
+              final data = documentSnapshot.data() as Map<String, dynamic>?;
+
+              if (data == null) {
+                return const Center(child: Text('No data available.'));
+              }
+
+              // ItemHeaderDTO 객체 생성
+              final itemHeader = ItemHeaderDTO.fromJson(data, documentSnapshot);
 
               return ListTile(
                 leading: itemHeader.icon != null 
