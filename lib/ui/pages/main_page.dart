@@ -9,6 +9,8 @@ import 'package:ffixv/ui/widgets/appDrawerMenu/app_drawer_menu_layout.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_pagination/firebase_pagination.dart'; // firebase_pagination 추가
+import 'package:ffixv/data/services/item_service.dart';
+
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -42,6 +44,7 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       _selectedIndex = index;
     });
+
     Navigator.of(context).pop(); // Drawer 닫기
   }
 
