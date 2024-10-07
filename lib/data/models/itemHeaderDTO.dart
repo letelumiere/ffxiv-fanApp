@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ItemHeaderDTO {
   String? name;
-  int? id;
+  int? itemId;
   String? icon;
   int? levelEquip;
   int? levelItem;
@@ -11,7 +11,7 @@ class ItemHeaderDTO {
   // 기본 생성자
   ItemHeaderDTO({
     this.name,
-    this.id,
+    this.itemId,
     this.icon,
     this.levelEquip,
     this.levelItem,
@@ -22,7 +22,7 @@ class ItemHeaderDTO {
   factory ItemHeaderDTO.fromJson(Map<String, dynamic> json, DocumentSnapshot<Object?>? doc) {
     return ItemHeaderDTO(
       name: json['Name'] as String?,
-      id: json['ID'] as int?,
+      itemId: json['ID'] as int?,
       icon: json['Icon'] as String?,
       levelEquip: json['Level{Equip}'] as int?,
       levelItem: json['Level{Item}'] as int?,
@@ -34,7 +34,7 @@ class ItemHeaderDTO {
   Map<String, dynamic> toJson() {
     return {
       'Name': name,
-      'ID': id,
+      'ID': itemId,
       'Icon': icon,
       'Level{Equip}': levelEquip,
       'Level{Item}': levelItem,
@@ -43,6 +43,6 @@ class ItemHeaderDTO {
 
   @override
   String toString() {
-    return 'ItemHeaderDTO(name: $name, id: $id, icon: $icon, levelEquip: $levelEquip, levelItem: $levelItem, documentSnapshot: $documentSnapshot)';
+    return 'ItemHeaderDTO(name: $name, id: $itemId, icon: $icon, levelEquip: $levelEquip, levelItem: $levelItem, documentSnapshot: $documentSnapshot)';
   }
 }

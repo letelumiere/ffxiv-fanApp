@@ -50,7 +50,7 @@ class ItemDTO {
   final String equipSlotCategory;
   final int filterGroup;
   final String grandCompany;
-  final int id;
+  final int itemId;
   final String icon;
   final bool isAdvancedMeldingPermitted;
   final bool isCollectable;
@@ -146,7 +146,7 @@ class ItemDTO {
     required this.equipSlotCategory,
     required this.filterGroup,
     required this.grandCompany,
-    required this.id,
+    required this.itemId,
     required this.icon,
     required this.isAdvancedMeldingPermitted,
     required this.isCollectable,
@@ -244,7 +244,7 @@ class ItemDTO {
       equipSlotCategory: json['EquipSlotCategory'],
       filterGroup: json['FilterGroup'],
       grandCompany: json['GrandCompany'],
-      id: json['ID'],
+      itemId: json['ID'],
       icon: json['Icon'],
       isAdvancedMeldingPermitted: json['IsAdvancedMeldingPermitted'],
       isCollectable: json['IsCollectable'],
@@ -343,7 +343,7 @@ class ItemDTO {
       "EquipSlotCategory": equipSlotCategory,
       "FilterGroup": filterGroup,
       "GrandCompany": grandCompany,
-      "ID": id,
+      "ID": itemId,
       "Icon": icon,
       "IsAdvancedMeldingPermitted": isAdvancedMeldingPermitted,
       "IsCollectable": isCollectable,

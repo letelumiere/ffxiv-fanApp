@@ -53,7 +53,7 @@ class ItemInfoPage extends StatelessWidget {
                 // 페이지네이션
                 return ItemPaginationView(
                   onItemSelected: (itemHeader) async {
-                    await viewModel.fetchItemsWhereItemID(itemHeader.id!);
+                    await viewModel.fetchItemsWhereItemID(itemHeader.itemId!);
                   },
                 );
               },

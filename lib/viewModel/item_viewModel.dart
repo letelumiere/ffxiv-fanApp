@@ -16,7 +16,7 @@ class ItemViewModel extends ChangeNotifier {
   bool _isLoading = false;
   String? _message;
   int _page = 0; // 현재 페이지 수
-  final int _limit = 1; // 한 페이지당 아이템 수
+  final int _limit = 30; // 한 페이지당 아이템 수
   DocumentSnapshot? _lastDocument; // 마지막 문서 추가
 
   List<ItemHeaderDTO> get itemHeaders => _itemHeaders;

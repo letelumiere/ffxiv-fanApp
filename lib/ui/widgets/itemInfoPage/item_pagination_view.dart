@@ -27,14 +27,14 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
 
         // 'DocumentSnapshot'을 인자로 넘기고 'fromJson' 사용
         final itemHeader = ItemHeaderDTO.fromJson(data, doc);
-        print('${itemHeader.id}   ${itemHeader.name}   ${itemHeader.levelEquip}   ${itemHeader.icon}  ${itemHeader.levelItem}');
+        print('${itemHeader.itemId}   ${itemHeader.name}   ${itemHeader.levelEquip}   ${itemHeader.icon}  ${itemHeader.levelItem}');
 
         return ListTile(
           leading: itemHeader.icon != null
               ? Image.asset('assets/icons/BlueMage.png', width: 40, height: 40)  // 아이콘 표시
               : null,
           title: Text(itemHeader.name ?? 'Unknown', style: const TextStyle(fontWeight: FontWeight.bold)),
-          subtitle: Text('ID: ${itemHeader.id}'), // ID 표시
+          subtitle: Text('ID: ${itemHeader.itemId}'), // ID 표시
           trailing: Text("${itemHeader.levelItem} ${itemHeader.levelEquip}", style: const TextStyle(color: Colors.amber)), // 레벨 표시
           onTap: () {
             widget.onItemSelected(itemHeader);  // 아이템 선택 시 콜백 실행
