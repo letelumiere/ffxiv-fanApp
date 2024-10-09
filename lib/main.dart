@@ -1,23 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ffixv/data/services/item_repository.dart';
+import 'package:ffixv/data/services/item_service.dart';
 import 'package:ffixv/firebase_options.dart';
 import 'package:ffixv/ui/pages/main_page.dart';
+import 'package:ffixv/viewModel/item_viewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-
-final storage = FirebaseStorage.instance;
-
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-
+    options: DefaultFirebaseOptions.currentPlatform, // FirebaseOptions를 제공
   );
 
-//  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);  
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<ItemService>(
+          create: (_) => ItemService(
+            itemRepository: ItemRepository(FirebaseFirestore.instance),
+            sharedPreferences: sharedPreferences,
+          ),
+        ),
+        ChangeNotifierProvider<ItemViewModel>(
+          create: (context) => ItemViewModel(
+            Provider.of<ItemService>(context, listen: false),
+          ),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -26,13 +43,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'FFXIV Fan App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.black45,
       ),
-      home: MainPage(),
+      home: const MainPage(),
     );
   }
 }

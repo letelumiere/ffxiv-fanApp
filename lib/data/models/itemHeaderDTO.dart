@@ -4,9 +4,10 @@ class ItemHeaderDTO {
   String? name;
   int? itemId;
   String? icon;
+  String? itemUICategory; // 추가된 파라미터
   int? levelEquip;
   int? levelItem;
-  DocumentSnapshot<Object?>? documentSnapshot; // DocumentSnapshot의 타입을 수정
+  DocumentSnapshot<Object?>? documentSnapshot;
 
   // 기본 생성자
   ItemHeaderDTO({
@@ -15,6 +16,7 @@ class ItemHeaderDTO {
     this.icon,
     this.levelEquip,
     this.levelItem,
+    this.itemUICategory, // 추가된 파라미터
     this.documentSnapshot,
   });
 
@@ -26,7 +28,8 @@ class ItemHeaderDTO {
       icon: json['Icon'] as String?,
       levelEquip: json['Level{Equip}'] as int?,
       levelItem: json['Level{Item}'] as int?,
-      documentSnapshot: doc, // DocumentSnapshot 할당
+      itemUICategory: json['ItemUICategory'] as String?, // JSON에서 카테고리 할당
+      documentSnapshot: doc,
     );
   }
 
@@ -38,11 +41,12 @@ class ItemHeaderDTO {
       'Icon': icon,
       'Level{Equip}': levelEquip,
       'Level{Item}': levelItem,
+      'ItemUICategory': itemUICategory, // 카테고리 포함
     };
   }
 
   @override
   String toString() {
-    return 'ItemHeaderDTO(name: $name, id: $itemId, icon: $icon, levelEquip: $levelEquip, levelItem: $levelItem, documentSnapshot: $documentSnapshot)';
+    return 'ItemHeaderDTO(name: $name, id: $itemId, icon: $icon, levelEquip: $levelEquip, levelItem: $levelItem, itemUICategory: $itemUICategory, documentSnapshot: $documentSnapshot)';
   }
 }

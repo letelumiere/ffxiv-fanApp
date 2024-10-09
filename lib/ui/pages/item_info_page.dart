@@ -7,7 +7,8 @@ import 'package:ffixv/ui/widgets/itemInfoPage/item_detail_layout.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_pagination_view.dart';
 
 class ItemInfoPage extends StatelessWidget {
-  const ItemInfoPage({super.key, required this.callback});
+  final String uiCategory;
+  const ItemInfoPage({super.key, required this.callback, required this.uiCategory});
 
   final void Function(String message) callback;
 
@@ -54,7 +55,7 @@ class ItemInfoPage extends StatelessWidget {
                 return ItemPaginationView(
                   onItemSelected: (itemHeader) async {
                     await viewModel.fetchItemsWhereItemID(itemHeader.itemId!);
-                  },
+                  }, uiCategory: uiCategory,
                 );
               },
             ),

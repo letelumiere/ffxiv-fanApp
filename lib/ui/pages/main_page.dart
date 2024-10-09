@@ -1,17 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffixv/data/datasources/category_list.dart';
-import 'package:ffixv/data/services/item_repository.dart';
-import 'package:ffixv/data/services/item_service.dart';
 import 'package:ffixv/ui/pages/index_page.dart';
 import 'package:ffixv/ui/pages/item_info_page.dart';
-import 'package:ffixv/viewModel/item_viewModel.dart';
-import 'package:flutter/material.dart';
 import 'package:ffixv/ui/widgets/appDrawerMenu/app_drawer_menu_layout.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_pagination/firebase_pagination.dart'; // firebase_pagination 추가
-import 'package:ffixv/data/services/item_service.dart';
-
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -22,36 +14,35 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   PageType _selectedPage = PageType.indexPage;
-  final List<Widget> _pages = [];
+  String _selectedCategory = ""; // 초기 선택된 카테고리
   SharedPreferences? _sharedPreferences;
 
   @override
   void initState() {
     super.initState();
-    _pages.addAll([
-      IndexPage(callback: _showMessage),
-      ItemInfoPage(callback: _showMessage), // ItemInfoPage 추가
-    ]);
-
-    _initializeSharedPreferences();
   }
 
-  void _initializeSharedPreferences() async {
-    _sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {}); // UI 업데이트
-  }
-
-  void _onItemTapped(PageType selectedPage) {
-    if(_selectedPage == selectedPage){
-      Navigator.of(context).pop();
+  void _onItemTapped(PageType selectedPage, String uiCategory) {
+    print("${selectedPage} ${_selectedPage} ${uiCategory}");
+    // 선택된 페이지가 현재 선택된 페이지와 같으면 드로어를 닫고 상태 업데이트
+    if (_selectedPage == selectedPage) {
+      setState(() {
+        _selectedCategory = uiCategory; // 선택된 카테고리 업데이트
+        _selectedPage = PageType.itemInfoPage;
+      });
+      Navigator.of(context).pop(); // 드로어 닫기
       return;
     }
 
+    // 드로어 닫기
+    Navigator.of(context).pop();
+
+    // 상태 업데이트
     setState(() {
-      _selectedPage = selectedPage;
+      _selectedPage = selectedPage; // 선택된 페이지 업데이트
+      _selectedCategory = uiCategory; // 선택된 카테고리 업데이트 
     });
 
-    Navigator.of(context).pop(); // Drawer 닫기
   }
 
   void _showMessage(String message) {
@@ -62,42 +53,22 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    // SharedPreferences가 초기화되지 않았을 때 로딩 표시
-    if (_sharedPreferences == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    return MultiProvider(
-      providers: [
-        Provider<ItemService>(
-          create: (_) => ItemService(
-            itemRepository: ItemRepository(FirebaseFirestore.instance),
-            sharedPreferences: _sharedPreferences!,
-          ),
-        ),
-        ChangeNotifierProvider<ItemViewModel>(
-          create: (context) => ItemViewModel(
-            Provider.of<ItemService>(context, listen: false),
-          ),
-        ),
-      ],
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("파판앱테스트"),
-          backgroundColor: Colors.blue,
-        ),
-        drawer: AppMenuDrawers(onItemTapped: _onItemTapped),
-        body: _getPage(_selectedPage),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("파판앱테스트"),
+        backgroundColor: Colors.blue,
       ),
+      drawer: AppMenuDrawers(onItemTapped: _onItemTapped),
+      body: _getPage(_selectedPage), // 선택된 페이지를 반환하여 표시
     );
   }
 
-  Widget _getPage(PageType pageType){
-    switch(pageType){
+  Widget _getPage(PageType pageType) {
+    switch (pageType) {
       case PageType.indexPage:
         return IndexPage(callback: _showMessage);
       case PageType.itemInfoPage:
-        return ItemInfoPage(callback: _showMessage);
+        return ItemInfoPage(callback: _showMessage, uiCategory: _selectedCategory);
       default:
         return IndexPage(callback: _showMessage);
     }

@@ -10,6 +10,7 @@ class ItemViewModel extends ChangeNotifier {
 
   ItemViewModel(this._itemService);
 
+  String _currentCategory = "";
   List<ItemHeaderDTO> _itemHeaders = [];
   ItemDTO? _selectedItem;
   ItemSearchCriteria? _criteria;
@@ -19,6 +20,7 @@ class ItemViewModel extends ChangeNotifier {
   final int _limit = 30; // 한 페이지당 아이템 수
   DocumentSnapshot? _lastDocument; // 마지막 문서 추가
 
+  String get currentCategory => currentCategory;
   List<ItemHeaderDTO> get itemHeaders => _itemHeaders;
   ItemDTO? get selectedItem => _selectedItem;
   bool get isLoading => _isLoading;
@@ -29,6 +31,11 @@ class ItemViewModel extends ChangeNotifier {
 
   // 총 페이지 수 계산
   int get totalPages => (_itemHeaders.length / _limit).ceil(); 
+
+//  void setCategory(String category){
+//    _currentCategory = category;
+//    notifyListeners();
+//  }
 
   Future<void> initialize() async {
     _isLoading = true;

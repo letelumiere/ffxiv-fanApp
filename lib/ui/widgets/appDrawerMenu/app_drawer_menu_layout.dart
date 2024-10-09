@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ffixv/data/datasources/category_list.dart';
 
 class AppMenuDrawers extends StatelessWidget {
-  final Function(PageType) onItemTapped;
+  final Function(PageType, String) onItemTapped;
 
   const AppMenuDrawers({required this.onItemTapped, super.key});
 
@@ -11,6 +11,11 @@ class AppMenuDrawers extends StatelessWidget {
     return Drawer(
       child: Column(
         children: <Widget>[
+          ListTile(
+            leading: const Icon(Icons.airline_seat_individual_suite),
+            title: const Text("전체 아이템"),
+            onTap: () => onItemTapped(PageType.itemInfoPage, ""),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: itemCategory2List.length,
@@ -19,10 +24,10 @@ class AppMenuDrawers extends StatelessWidget {
                 List<String> subItems = itemCategory3Map[category] ?? [];
                 return ExpansionTile(
                   title: Text(category),
-                  children: subItems.map((subItems) {
+                  children: subItems.map((item) {
                     return ListTile(
-                      title: Text("   ${subItems}"),
-                      onTap: () => onItemTapped(PageType.itemInfoPage), //ItemInfoPage로 가면서, 해당 subItem을 ItemUICategory 검색조건으로
+                      title: Text("   $item"),
+                      onTap: () => onItemTapped(PageType.itemInfoPage, item), //ItemInfoPage로 가면서, 해당 subItem을 ItemUICategory 검색조건으로
                     );
                   }).toList(),
                 );
@@ -32,21 +37,8 @@ class AppMenuDrawers extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.airline_seat_individual_suite),
             title: const Text("toMainPage"),
-            onTap: () => onItemTapped(PageType.indexPage),
+            onTap: () => onItemTapped(PageType.indexPage, ""),
           ),
-
-          ListTile(
-            leading: const Icon(Icons.airline_seat_individual_suite),
-            title: const Text("toItemInfoPage"),
-            onTap: () => onItemTapped(PageType.itemInfoPage),
-          ),
-/*
-          ListTile(
-            leading: const Icon(Icons.airline_seat_individual_suite),
-            title: const Text("toTestPage"),
-            onTap: () => onItemTapped(1),
-          ),
-*/
           ListTile(
             leading: const Icon(Icons.close),
             title: const Text("close Icon"),
