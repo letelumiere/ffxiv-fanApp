@@ -51,7 +51,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
 
         // 'DocumentSnapshot'을 인자로 넘기고 'fromJson' 사용
         final itemHeader = ItemHeaderDTO.fromJson(data, doc);
-//        print('${itemHeader.itemId}   ${itemHeader.name}   ${itemHeader.levelEquip}   ${itemHeader.icon}  ${itemHeader.levelItem}');
+        print('${itemHeader.itemId}   ${itemHeader.name}   ${itemHeader.levelEquip}   ${itemHeader.icon}  ${itemHeader.levelItem}');
 
         return ListTile(
           leading: itemHeader.icon != null
@@ -65,7 +65,6 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
           },
         );
       },
-      limit: 5, // 한 번에 불러올 데이터 수 제한
       viewType: ViewType.list,
       isLive: true,
       
