@@ -28,6 +28,10 @@ Future<List<ItemHeaderDTO>> getItemHeaders(ItemSearchCriteria criteria, Document
     // 기본 쿼리 설정
     Query query = _itemsCollection.orderBy('Name').limit(limit); // orderBy를 먼저 호출
 
+    if(criteria.itemUICategory != null){
+      query = query.where('ItemUICategory', isEqualTo: criteria.itemUICategory);
+    }
+
     // 검색 조건에 따른 필터 추가
     if (criteria.name != null && criteria.name!.isNotEmpty) {
       query = query.where('Name', isGreaterThanOrEqualTo: criteria.name);

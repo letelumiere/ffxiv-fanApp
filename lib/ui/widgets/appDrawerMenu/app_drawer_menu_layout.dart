@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ffixv/data/datasources/category_list.dart';
 
 class AppMenuDrawers extends StatelessWidget {
-  final Function(int) onItemTapped;
+  final Function(PageType) onItemTapped;
 
   const AppMenuDrawers({required this.onItemTapped, super.key});
 
@@ -21,8 +21,8 @@ class AppMenuDrawers extends StatelessWidget {
                   title: Text(category),
                   children: subItems.map((subItems) {
                     return ListTile(
-                      title: Text(subItems),
-                      onTap: () => onItemTapped(2), //해당 파라미터는 추후 수정. 어차피 검색창으로 가야 함
+                      title: Text("   ${subItems}"),
+                      onTap: () => onItemTapped(PageType.itemInfoPage), //ItemInfoPage로 가면서, 해당 subItem을 ItemUICategory 검색조건으로
                     );
                   }).toList(),
                 );
@@ -32,13 +32,13 @@ class AppMenuDrawers extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.airline_seat_individual_suite),
             title: const Text("toMainPage"),
-            onTap: () => onItemTapped(0),
+            onTap: () => onItemTapped(PageType.indexPage),
           ),
 
           ListTile(
             leading: const Icon(Icons.airline_seat_individual_suite),
             title: const Text("toItemInfoPage"),
-            onTap: () => onItemTapped(1),
+            onTap: () => onItemTapped(PageType.itemInfoPage),
           ),
 /*
           ListTile(

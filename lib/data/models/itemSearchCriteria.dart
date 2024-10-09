@@ -3,6 +3,7 @@ class ItemSearchCriteria {
   String? classJob;
   String? equipSlot;
   String? itemCategory;
+  String? itemUICategory;
   int? minLevelEquip;
   int? maxLevelEquip;
   int? minLevelItem;
@@ -13,7 +14,8 @@ class ItemSearchCriteria {
     this.name, 
     this.classJob, 
     this.equipSlot, 
-    this.itemCategory, 
+    this.itemCategory,
+    this.itemUICategory, 
     this.minLevelEquip, 
     this.maxLevelEquip, 
     this.minLevelItem, 
@@ -27,6 +29,7 @@ class ItemSearchCriteria {
       classJob: json['ClassJob'] as String?,
       equipSlot: json['EquipSlot'] as String?,
       itemCategory: json['ItemCategory'] as String?,
+      itemUICategory: json['ItemUICategory'] as String?,
       minLevelEquip: json['InLevelEquip'] as int?,
       maxLevelEquip: json['MaxLevelEquip'] as int?,
       minLevelItem: json['MinLevelItem'] as int?,
@@ -41,6 +44,7 @@ class ItemSearchCriteria {
       'ClassJob': classJob,
       'EquipSlot': equipSlot,
       'ItemCategory': itemCategory,
+      'ItemUICategory': itemUICategory,
       'MinLevelEquip': minLevelEquip,
       'MaxLevelEquip': maxLevelEquip,
       'MinLevelItem': minLevelItem,
@@ -54,6 +58,7 @@ class ItemSearchCriteria {
     String? classJob,
     String? equipSlot,
     String? itemCategory,
+    String? itemUICategory,
     int? minLevelEquip,
     int? maxLevelEquip,
     int? minLevelItem,
@@ -64,6 +69,7 @@ class ItemSearchCriteria {
       classJob: classJob ?? this.classJob,
       equipSlot: equipSlot ?? this.equipSlot,
       itemCategory: itemCategory ?? this.itemCategory,
+      itemUICategory: itemUICategory ?? this.itemUICategory,
       minLevelEquip: minLevelEquip ?? this.minLevelEquip,
       maxLevelEquip: maxLevelEquip ?? this.maxLevelEquip,
       minLevelItem: minLevelItem ?? this.minLevelItem,

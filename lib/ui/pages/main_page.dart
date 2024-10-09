@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ffixv/data/datasources/category_list.dart';
 import 'package:ffixv/data/services/item_repository.dart';
 import 'package:ffixv/data/services/item_service.dart';
 import 'package:ffixv/ui/pages/index_page.dart';
@@ -20,7 +21,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
+  PageType _selectedPage = PageType.indexPage;
   final List<Widget> _pages = [];
   SharedPreferences? _sharedPreferences;
 
@@ -40,9 +41,14 @@ class _MainPageState extends State<MainPage> {
     setState(() {}); // UI 업데이트
   }
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(PageType selectedPage) {
+    if(_selectedPage == selectedPage){
+      Navigator.of(context).pop();
+      return;
+    }
+
     setState(() {
-      _selectedIndex = index;
+      _selectedPage = selectedPage;
     });
 
     Navigator.of(context).pop(); // Drawer 닫기
@@ -81,11 +87,19 @@ class _MainPageState extends State<MainPage> {
           backgroundColor: Colors.blue,
         ),
         drawer: AppMenuDrawers(onItemTapped: _onItemTapped),
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: _pages,
-        ),
+        body: _getPage(_selectedPage),
       ),
     );
+  }
+
+  Widget _getPage(PageType pageType){
+    switch(pageType){
+      case PageType.indexPage:
+        return IndexPage(callback: _showMessage);
+      case PageType.itemInfoPage:
+        return ItemInfoPage(callback: _showMessage);
+      default:
+        return IndexPage(callback: _showMessage);
+    }
   }
 }
