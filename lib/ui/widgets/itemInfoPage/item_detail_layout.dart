@@ -37,11 +37,11 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                 ItemHeader(itemDto: itemDto),
                 ItemCategorySection(itemDto: itemDto),
                 const SizedBox(height: 10),
-                ItemStatsSection(baseParamList: baseParam, itemDto: itemDto),
+                ItemStatsSection(itemDto: itemDto,),
                 ItemRequireSection(itemDto: itemDto),
                 const SizedBox(height: 10),
-//                if (itemDto.baseParamValue0!= null && itemDto.baseParamValue0!.any((value) => value != 0))
-//                  AdditionalStatsSection(baseParamValueList: itemDto.baseParamValue),
+//               if (itemDto.baseParamValue0!= null && itemDto.baseParamValue0!.any((value) => value != 0))
+                  AdditionalStatsSection(itemDto: itemDto,),
                 const SizedBox(height: 10),
                 if (itemDto.materiaSlotCount > 0)
                   MateriaSection(itemDto: itemDto),

@@ -8,9 +8,13 @@ class RepairSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     String desynth = itemDto.desynth == true ? '○' : '✕';
     String dyeable = itemDto.dyeCount == true ? '○' : '✕';
     String materialize = itemDto.materializeType > 0 ? '○' : '✕';
+
+    String str = itemDto.itemRepair.toString();
+    String repairMaterial = str.substring(str.length-1)+"등급 암흑물질";
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,7 +24,9 @@ class RepairSection extends StatelessWidget {
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
-        _buildStatRow('수리  ', ' ${itemDto.classJobRepair} ${itemDto.levelEquip} 레벨 이상'),
+        _buildStatRow('수리 레벨    ', ' ${itemDto.classJobRepair} ${itemDto.levelEquip} 레벨 이상'),
+        _buildStatRow('수리 재료    ', ' ${repairMaterial}'),
+
         Row(
           children: [
             Expanded(child: _buildStatRow('마테리아화 : ', materialize)),
