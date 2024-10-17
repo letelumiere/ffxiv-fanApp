@@ -1,14 +1,14 @@
 import 'package:ffixv/data/datasources/category_list.dart';
 import 'package:flutter/material.dart';
-import 'item_header.dart';
-import 'item_category_section.dart';
-import 'item_stats_section.dart';
-import 'item_require_section.dart';
-import 'additional_stats_section.dart';
-import 'materia_section.dart';
-import 'repair_section.dart';
-import 'description_section.dart';
-import 'tradable_section.dart';
+import 'itemDetailSections/item_header.dart';
+import 'itemDetailSections/item_category_section.dart';
+import 'itemDetailSections/item_stats_section.dart';
+import 'itemDetailSections/item_require_section.dart';
+import 'itemDetailSections/additional_stats_section.dart';
+import 'itemDetailSections/materia_section.dart';
+import 'itemDetailSections/repair_section.dart';
+import 'itemDetailSections/description_section.dart';
+import 'itemDetailSections/tradable_section.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
 
 class ItemDetailLayout extends StatefulWidget {
