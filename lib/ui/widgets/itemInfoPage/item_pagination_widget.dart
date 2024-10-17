@@ -22,6 +22,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
 
   @override
   void initState() {
+    print("haw haw   ${widget.uiCategory}");
     super.initState();
     _initializeQuery(widget.uiCategory); // 초기 카테고리로 쿼리 초기화
   }
@@ -84,6 +85,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
         Expanded(
           child: FirestorePagination(
             query: _query,
+
             itemBuilder: (context, snapshot, index) {
               final doc = snapshot[index];
               final data = doc.data() as Map<String, dynamic>;

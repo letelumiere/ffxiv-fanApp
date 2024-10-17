@@ -15,6 +15,7 @@ class ItemInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ItemViewModel>(context, listen: true);
+    
 
     return Scaffold(
       body: Column(
@@ -37,18 +38,17 @@ class ItemInfoPage extends StatelessWidget {
                 if (viewModel.isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
-
                 // 에러 메시지 처리
                 if (viewModel.message != null) {
                   return Center(child: Text(viewModel.message!));
                 }
-
                 // 아이템 상세 정보 (ItemDetailLayout이 선택된 경우)
                 if (viewModel.selectedItem != null) {
                   // 팝업으로 ItemDetailLayout 표시
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     showDialog(
                       context: context,
+                      barrierDismissible: false,
                       builder: (BuildContext context) {
                         return Dialog(
                           backgroundColor: const Color.fromARGB(255, 53, 52, 52),
@@ -58,7 +58,6 @@ class ItemInfoPage extends StatelessWidget {
                                 itemDto: viewModel.selectedItem!,
                                 callback: (message) {
                                   // 메시지를 부모에게 전달하고 팝업을 닫기
-                                  callback(message);
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -81,11 +80,9 @@ class ItemInfoPage extends StatelessWidget {
                       },
                     );
                   });
-
                   // 선택된 아이템이 있을 때는 아무것도 반환하지 않음 (다이얼로그가 표시됨)
                   return const SizedBox.shrink(); 
                 }
-
                 // 페이지네이션 (아이템이 선택되지 않았을 때)
                 return ItemPaginationView(
                   onItemSelected: (itemHeader) async {

@@ -10,32 +10,41 @@ class ItemViewModel extends ChangeNotifier {
 
   ItemViewModel(this._itemService);
 
-  String _currentCategory = "";
-  List<ItemHeaderDTO> _itemHeaders = [];
+  // 상태 변수
+  String? _currentCategory;
+  String? _message;
+  bool _isLoading = false;
+  bool _isInitialized = false;
+
+  // 데이터 리스트
   ItemDTO? _selectedItem;
   ItemSearchCriteria? _criteria;
-  bool _isLoading = false;
-  String? _message;
+  List<ItemHeaderDTO> _itemHeaders = [];
+
+  // 페이지 관련 변수
   int _page = 0; // 현재 페이지 수
-  final int _limit = 5; // 한 페이지당 아이템 수
+  int _limit = 5; // 한 페이지당 아이템 수
   DocumentSnapshot? _lastDocument; // 마지막 문서 추가
 
-  String get currentCategory => currentCategory;
-  List<ItemHeaderDTO> get itemHeaders => _itemHeaders;
-  ItemDTO? get selectedItem => _selectedItem;
-  bool get isLoading => _isLoading;
+  // Getter 메서드
+  String? get currentCategory => _currentCategory;
   String? get message => _message;
+  bool get isLoading => _isLoading;
+  bool get isInitialized => _isInitialized;
+  ItemDTO? get selectedItem => _selectedItem;
+  ItemSearchCriteria? get criteria => _criteria;
+  List<ItemHeaderDTO> get itemHeaders => _itemHeaders;
   int get page => _page;
   int get limit => _limit;
-  ItemSearchCriteria? get criteria => _criteria;
 
   // 총 페이지 수 계산
-  int get totalPages => (_itemHeaders.length / _limit).ceil(); 
+  int get totalPages => (_itemHeaders.length / _limit).ceil();  
 
-//  void setCategory(String category){
-//    _currentCategory = category;
-//    notifyListeners();
-//  }
+  //  void setCategory(String category){
+  //    _currentCategory = category;
+  //    notifyListeners();
+  //  }
+
 
   void itemPopup() async {
     _selectedItem = null;
@@ -80,6 +89,28 @@ class ItemViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> fetchItemHeadersNameCategory(String itemName, String itemCategory) async {
+    _isLoading = true;
+    notifyListeners(); // 로딩 시작 알림
+
+    try {
+      // Repository에서 아이템 헤더를 가져옵니다.
+      List<ItemHeaderDTO>? fetchedHeaders = await _itemService.getItemHeadersNameCategory(itemName, itemCategory);
+
+      if (fetchedHeaders!.isNotEmpty) {
+        _itemHeaders = fetchedHeaders!; // 가져온 헤더를 저장
+        _lastDocument = fetchedHeaders.last.documentSnapshot; // 마지막 문서 업데이트
+      } else {
+        _message = "No more items available."; // 더 이상 아이템이 없는 경우
+      }
+    } catch (e) {
+      _message = "Error during item search: $e";
+    } finally {
+      _isLoading = false;
+      notifyListeners(); // 상태 업데이트 알림
+    }
+  }
+
   Future<void> fetchItemsWhereItemID(int itemId) async {
     _isLoading = true;
     notifyListeners();
@@ -93,6 +124,7 @@ class ItemViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
 /*
   Future<void> changePage(int newPage) async {
     if (newPage != _page) {

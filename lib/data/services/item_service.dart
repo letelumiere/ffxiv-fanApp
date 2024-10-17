@@ -43,6 +43,17 @@ class ItemService {
       return null;
     }
   }
+
+  Future<List<ItemHeaderDTO>?> getItemHeadersNameCategory(String itemName, String itemCategory) async {
+      try {
+        List<ItemHeaderDTO>? fetchedHeaders = await _itemRepository.getItemHeadersNameCategory(itemName, itemCategory);
+        return fetchedHeaders;
+      } catch (e) {
+        _handleServiceError(e);
+        return null;
+      }
+  }
+
   void _handleServiceError(dynamic e) {
     print('Service error: $e');
   }

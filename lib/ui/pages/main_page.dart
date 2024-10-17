@@ -24,14 +24,10 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _onItemTapped(PageType selectedPage, String uiCategory) {
-    // 선택된 페이지가 현재 페이지와 다르면 상태를 업데이트
-    if (_selectedPage != selectedPage || _selectedCategory != uiCategory) {
-      setState(() {
-        _selectedPage = selectedPage;
-        _selectedCategory = uiCategory;
-      });
-    }
-
+    setState(() {
+      _selectedPage = selectedPage;
+      _selectedCategory = uiCategory;
+    });
     Navigator.of(context).pop(); // Drawer 닫기
   }
 
@@ -46,7 +42,6 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("FFXIV Item Database"),
-//        backgroundColor: Colors.blue,
       ),
       drawer: AppMenuDrawer(onItemTapped: _onItemTapped),
       body: _getPage(_selectedPage),
@@ -58,7 +53,6 @@ class _MainPageState extends State<MainPage> {
       case PageType.indexPage:
         return IndexPage(callback: _showMessage);
       case PageType.itemInfoPage:
-        // uiCategory가 변경될 때마다 새로운 인스턴스를 생성
         return ItemInfoPage(callback: _showMessage, uiCategory: _selectedCategory);
       default:
         return IndexPage(callback: _showMessage);
