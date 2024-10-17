@@ -26,6 +26,8 @@ class _ItemSearchConditionLayoutState extends State<ItemSearchConditionLayout> {
       padding: const EdgeInsets.all(10.0),
       alignment: Alignment.center,
       child: SearchBar(
+        backgroundColor: const WidgetStatePropertyAll(Color.fromARGB(255, 70, 70, 70)),
+        hintText: "검색할 아이템을 입력하세요",
         trailing: [
           IconButton(
             icon: const Icon(Icons.search),

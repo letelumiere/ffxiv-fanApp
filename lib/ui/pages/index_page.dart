@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_color/flutter_color.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({super.key, required void Function(String message) callback});
@@ -11,9 +12,7 @@ class _IndexPageState extends State<IndexPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueGrey,
-      body: const Text("intro. mainPage"),
+    return const Scaffold(
     );
   }
 }

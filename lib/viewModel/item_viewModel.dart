@@ -37,12 +37,17 @@ class ItemViewModel extends ChangeNotifier {
 //    notifyListeners();
 //  }
 
+  void itemPopup() async {
+    _selectedItem = null;
+    notifyListeners();
+  }
+
   Future<void> initialize() async {
     _isLoading = true;
     notifyListeners();
 
     try {
-     await _itemService.initializeFirebase();
+      await _itemService.initializeFirebase();
 
     } catch (e) {
       _message = "Error during initialization: $e";
@@ -88,7 +93,7 @@ class ItemViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-
+/*
   Future<void> changePage(int newPage) async {
     if (newPage != _page) {
       _page = newPage;
@@ -109,4 +114,5 @@ class ItemViewModel extends ChangeNotifier {
       }
     }
   }
+  */
 }

@@ -4,6 +4,7 @@ import 'package:ffixv/ui/pages/item_info_page.dart';
 import 'package:ffixv/ui/widgets/appDrawerMenu/app_drawer_menu_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_color/flutter_color.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_color/flutter_color.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,11 +46,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'FFXIV Fan App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-        scaffoldBackgroundColor: Colors.black45,
+        colorScheme: const ColorScheme.dark( // 색상 스킴 설정
+//          primary: Color(0xFF007ACC),
+          secondary: Color(0xFFF39C12),
+        ),
+        scaffoldBackgroundColor: const Color(0xFF1E1E1E),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF1E1E1E),
+          iconTheme: IconThemeData(color: Colors.white),
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 18),
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          bodyMedium: TextStyle(color: Colors.grey),
+          bodySmall: TextStyle(color: Colors.grey),
+        ),
       ),
       home: const MainPage(),
     );
   }
 }
+

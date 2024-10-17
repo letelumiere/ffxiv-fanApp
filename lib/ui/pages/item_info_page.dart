@@ -43,19 +43,56 @@ class ItemInfoPage extends StatelessWidget {
                   return Center(child: Text(viewModel.message!));
                 }
 
-                // 아이템 상세 정보
+                // 아이템 상세 정보 (ItemDetailLayout이 선택된 경우)
                 if (viewModel.selectedItem != null) {
-                  return ItemDetailLayout(
-                    itemDto: viewModel.selectedItem!,
-                    callback: (message) => callback(message),
-                  );
+                  // 팝업으로 ItemDetailLayout 표시
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          backgroundColor: const Color.fromARGB(255, 53, 52, 52),
+                          child: Stack(
+                            children: [
+                              ItemDetailLayout(
+                                itemDto: viewModel.selectedItem!,
+                                callback: (message) {
+                                  // 메시지를 부모에게 전달하고 팝업을 닫기
+                                  callback(message);
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              // 닫기 버튼
+                              Positioned(
+                                top: 10,
+                                right: 10,
+                                child: IconButton(
+                                  icon: const Icon(Icons.close, color: Colors.redAccent),
+                                  onPressed: () {
+                                    // 팝업을 닫기 (Pagination 초기화 없음)
+                                    viewModel.itemPopup();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  });
+
+                  // 선택된 아이템이 있을 때는 아무것도 반환하지 않음 (다이얼로그가 표시됨)
+                  return const SizedBox.shrink(); 
                 }
 
-                // 페이지네이션
+                // 페이지네이션 (아이템이 선택되지 않았을 때)
                 return ItemPaginationView(
                   onItemSelected: (itemHeader) async {
+                    // 아이템 선택 시 상세 정보 가져오기
                     await viewModel.fetchItemsWhereItemID(itemHeader.itemId!);
-                  }, uiCategory: uiCategory,
+                  },
+                  uiCategory: uiCategory,
                 );
               },
             ),
