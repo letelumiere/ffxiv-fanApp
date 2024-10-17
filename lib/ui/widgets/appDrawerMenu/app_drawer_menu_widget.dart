@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ffixv/data/datasources/category_list.dart';
 
-class AppMenuDrawers extends StatelessWidget {
+class AppMenuDrawer extends StatelessWidget {
   final Function(PageType, String) onItemTapped;
 
-  const AppMenuDrawers({required this.onItemTapped, super.key});
+  const AppMenuDrawer({required this.onItemTapped, super.key});
 
   @override
   Widget build(BuildContext context) {

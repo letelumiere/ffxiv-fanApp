@@ -1,7 +1,7 @@
 import 'package:ffixv/data/datasources/category_list.dart';
 import 'package:ffixv/ui/pages/index_page.dart';
 import 'package:ffixv/ui/pages/item_info_page.dart';
-import 'package:ffixv/ui/widgets/appDrawerMenu/app_drawer_menu_layout.dart';
+import 'package:ffixv/ui/widgets/appDrawerMenu/app_drawer_menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_color/flutter_color.dart';
@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
         title: const Text("파판앱테스트"),
         backgroundColor: Colors.blue,
       ),
-      drawer: AppMenuDrawers(onItemTapped: _onItemTapped),
+      drawer: AppMenuDrawer(onItemTapped: _onItemTapped),
       body: _getPage(_selectedPage),
     );
   }
