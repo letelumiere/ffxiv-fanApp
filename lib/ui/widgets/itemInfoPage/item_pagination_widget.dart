@@ -47,7 +47,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
       children: [
         // 헤더 추가
         Container(
-          color: Colors.blueAccent,
+          color:  const Color.fromARGB(255, 70, 70, 70),
           padding: const EdgeInsets.all(8.0),
           child: const Row(
             children: [

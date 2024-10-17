@@ -45,8 +45,8 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("파판앱테스트"),
-        backgroundColor: Colors.blue,
+        title: const Text("FFXIV Item Database"),
+//        backgroundColor: Colors.blue,
       ),
       drawer: AppMenuDrawer(onItemTapped: _onItemTapped),
       body: _getPage(_selectedPage),
