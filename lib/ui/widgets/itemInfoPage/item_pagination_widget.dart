@@ -13,6 +13,7 @@ class ItemPaginationView extends StatefulWidget {
     required this.uiCategory,
   });
 
+
   @override
   _ItemPaginationViewState createState() => _ItemPaginationViewState();
 }
@@ -22,8 +23,8 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
 
   @override
   void initState() {
-    print("haw haw   ${widget.uiCategory}");
     super.initState();
+    print("ItemPageNationview initState  ${widget.uiCategory}");
     _initializeQuery(widget.uiCategory); // 초기 카테고리로 쿼리 초기화
   }
 
@@ -44,6 +45,9 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
 
   @override
   Widget build(BuildContext context) {
+    print("itemPages Bulild ${widget.uiCategory}");
+    print(context);
+
     return Column(
       children: [
         // 헤더 추가

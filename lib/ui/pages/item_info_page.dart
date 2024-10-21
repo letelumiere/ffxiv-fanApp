@@ -15,7 +15,7 @@ class ItemInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ItemViewModel>(context, listen: true);
-    
+    print("itemInfoPage's uiCategory States = {$uiCategory}");
 
     return Scaffold(
       body: Column(
@@ -85,6 +85,7 @@ class ItemInfoPage extends StatelessWidget {
                 }
                 // 페이지네이션 (아이템이 선택되지 않았을 때)
                 return ItemPaginationView(
+                  key: ValueKey(uiCategory),
                   onItemSelected: (itemHeader) async {
                     // 아이템 선택 시 상세 정보 가져오기
                     await viewModel.fetchItemsWhereItemID(itemHeader.itemId!);
