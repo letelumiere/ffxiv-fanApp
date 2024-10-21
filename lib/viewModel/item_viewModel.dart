@@ -45,12 +45,6 @@ class ItemViewModel extends ChangeNotifier {
   //    notifyListeners();
   //  }
 
-
-  void itemPopup() async {
-    _selectedItem = null;
-    notifyListeners();
-  }
-
   Future<void> initialize() async {
     _isLoading = true;
     notifyListeners();
@@ -65,7 +59,20 @@ class ItemViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-  
+
+  void itemPopup() async {
+    _selectedItem = null;
+    notifyListeners();
+  }
+
+/*
+  void updateSearchCriteria(String searchTerm, String uiCategory){
+    print("updateSearchCriteria parameter = ${searchTerm} ${uiCategory}");
+    _criteria = criteria?.copyWith(name: searchTerm, itemUICategory: uiCategory);
+
+    print("_criteria.name = ${_criteria?.name} , _criteria.uiCategory = ${_criteria?.itemUICategory}");
+  }
+*/
   Future<void> fetchItemHeaders(ItemSearchCriteria criteria) async {
     _criteria = criteria; // 현재 검색 조건 저장
     _isLoading = true;
@@ -73,6 +80,7 @@ class ItemViewModel extends ChangeNotifier {
 
     try {
       // Repository에서 아이템 헤더를 가져옵니다.
+      print("fetchItems criteria is ${criteria.name}, ${criteria.itemUICategory}");
       List<ItemHeaderDTO>? fetchedHeaders = await _itemService.getItemHeaders(criteria, _lastDocument, _limit);
 
       if (fetchedHeaders!.isNotEmpty) {

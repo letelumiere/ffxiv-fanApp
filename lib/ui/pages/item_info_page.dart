@@ -15,7 +15,12 @@ class ItemInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ItemViewModel>(context, listen: true);
-    print("itemInfoPage's uiCategory States = {$uiCategory}");
+    String inputText = "";
+//    String category = "";
+
+    print("itemInfoPage's viewModel States itemName = ${viewModel.criteria?.name}");
+//    print("itemInfoPage's States itemName = ${viewModel.criteria?.name}");
+    print("itemInfoPage's uiCategory States category = ${uiCategory}");
 
     return Scaffold(
       body: Column(
@@ -24,8 +29,7 @@ class ItemInfoPage extends StatelessWidget {
           ItemSearchConditionLayout(
             onSubmitted: (ItemSearchCriteria criteria) async {
               try {
-                // 새로운 검색 조건으로 데이터 가져오기
-                await viewModel.fetchItemHeaders(criteria);
+                await viewModel.fetchItemHeadersNameCategory(criteria.name!, uiCategory);
               } catch (e) {
                 callback("Error: $e");
               }
@@ -91,6 +95,8 @@ class ItemInfoPage extends StatelessWidget {
                     await viewModel.fetchItemsWhereItemID(itemHeader.itemId!);
                   },
                   uiCategory: uiCategory,
+                  searchTerm : inputText,
+                  
                 );
               },
             ),

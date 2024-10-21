@@ -6,16 +6,17 @@ import 'package:firebase_pagination/firebase_pagination.dart';
 class ItemPaginationView extends StatefulWidget {
   final Function(ItemHeaderDTO) onItemSelected;
   final String uiCategory;
-
+  final String? searchTerm;
+  
   const ItemPaginationView({
     super.key,
     required this.onItemSelected,
-    required this.uiCategory,
+    required this.uiCategory, 
+    this.searchTerm, 
   });
 
-
   @override
-  _ItemPaginationViewState createState() => _ItemPaginationViewState();
+  State<ItemPaginationView> createState() => _ItemPaginationViewState();
 }
 
 class _ItemPaginationViewState extends State<ItemPaginationView> {
@@ -24,25 +25,22 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
   @override
   void initState() {
     super.initState();
-    print("ItemPageNationview initState  ${widget.uiCategory}");
-    _initializeQuery(widget.uiCategory); // 초기 카테고리로 쿼리 초기화
+    print("ItemPageNationview initState  category =  ${widget.uiCategory} , searchTerm =   ${widget.searchTerm}");
+    
+    _initializeQuery(widget.uiCategory, widget.searchTerm); // 초기 카테고리로 쿼리 초기화
   }
 
-  void _initializeQuery(String category) {
-    _query = FirebaseFirestore.instance
-        .collection('Item')
-        .where('ItemUICategory', isEqualTo: category);
-  }
+  void _initializeQuery(String category, String? searchTerm) {
+    // 쿼리 생성
+    _query = FirebaseFirestore.instance.collection('Item')
+      .where('ItemUICategory', isEqualTo: category);
 
-  @override
-  void didUpdateWidget(ItemPaginationView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // uiCategory가 변경되면 쿼리 초기화
-    if (oldWidget.uiCategory != widget.uiCategory) {
-      _initializeQuery(widget.uiCategory); // 새로운 카테고리로 쿼리 초기화
+    // 검색어가 있을 경우 추가 조건 적용
+    if (searchTerm != null && searchTerm.isNotEmpty) {
+      _query = _query.where('name', isGreaterThanOrEqualTo: searchTerm)
+                     .where('name', isLessThanOrEqualTo: '$searchTerm\uf8ff'); // 이름으로 검색
     }
   }
-
   @override
   Widget build(BuildContext context) {
     print("itemPages Bulild ${widget.uiCategory}");

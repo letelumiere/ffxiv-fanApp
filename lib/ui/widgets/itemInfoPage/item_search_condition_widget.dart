@@ -1,8 +1,10 @@
 import 'package:ffixv/data/models/itemSearchCriteria.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_color/flutter_color.dart'; // SearchBar 사용을 위한 import 추가
+
 class ItemSearchConditionLayout extends StatefulWidget {
   final void Function(ItemSearchCriteria criteria) onSubmitted;
-
+  
   const ItemSearchConditionLayout({super.key, required this.onSubmitted});
 
   @override
@@ -12,11 +14,21 @@ class ItemSearchConditionLayout extends StatefulWidget {
 class _ItemSearchConditionLayoutState extends State<ItemSearchConditionLayout> {
   String? inputText;
 
+
   void _submitCriteria() {
     if (inputText != null && inputText!.isNotEmpty) {
       ItemSearchCriteria criteria = ItemSearchCriteria(name: inputText!);
-      print("input text = $inputText");
       widget.onSubmitted(criteria);
+
+      // 입력 필드 초기화
+      setState(() {
+        inputText = ''; // 초기화 (빈 문자열로 설정)
+      });
+    } else {
+      // 입력 값이 없을 때 경고 표시
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('검색어를 입력하세요.')),
+      );
     }
   }
 
@@ -41,6 +53,8 @@ class _ItemSearchConditionLayoutState extends State<ItemSearchConditionLayout> {
           setState(() => inputText = value);
           _submitCriteria();
         },
+        // SearchBar에 초기화된 텍스트를 적용
+        controller: TextEditingController(text: inputText), // 현재 inputText를 SearchBar에 설정
       ),
     );
   }
