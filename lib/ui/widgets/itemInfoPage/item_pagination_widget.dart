@@ -38,7 +38,10 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
     // 검색어가 있을 경우 추가 조건 적용
     if (searchTerm != null && searchTerm.isNotEmpty) {
       _query = _query.where('name', isGreaterThanOrEqualTo: searchTerm)
-                     .where('name', isLessThanOrEqualTo: '$searchTerm\uf8ff'); // 이름으로 검색
+                     .where('name', isLessThanOrEqualTo: searchTerm)
+                     .orderBy('name'); // 이름으로 검색
+
+//                     .where('name', isLessThanOrEqualTo: '$searchTerm\uf8ff'); // 이름으로 검색
     }
   }
   @override

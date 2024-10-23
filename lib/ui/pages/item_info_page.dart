@@ -18,8 +18,7 @@ class ItemInfoPage extends StatelessWidget {
     String inputText = "";
 //    String category = "";
 
-    print("itemInfoPage's viewModel States itemName = ${viewModel.criteria?.name}");
-//    print("itemInfoPage's States itemName = ${viewModel.criteria?.name}");
+    print("initialized itemInfoPage's viewModel States itemName = ${viewModel.criteria?.name}, uiCategory = ${viewModel.criteria?.itemUICategory}");
     print("itemInfoPage's uiCategory States category = ${uiCategory}");
 
     return Scaffold(
@@ -29,6 +28,8 @@ class ItemInfoPage extends StatelessWidget {
           ItemSearchConditionLayout(
             onSubmitted: (ItemSearchCriteria criteria) async {
               try {
+                print("ItemSearcchCondition = ${criteria.name} ${criteria.itemUICategory}");
+                inputText = criteria.name!;
                 await viewModel.fetchItemHeadersNameCategory(criteria.name!, uiCategory);
               } catch (e) {
                 callback("Error: $e");

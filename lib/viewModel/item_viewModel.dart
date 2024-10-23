@@ -100,7 +100,7 @@ class ItemViewModel extends ChangeNotifier {
   Future<void> fetchItemHeadersNameCategory(String itemName, String itemCategory) async {
     _isLoading = true;
     notifyListeners(); // 로딩 시작 알림
-
+    print("fetchItemHeadersNamesCategory's parameter = ${itemName}, ${itemCategory}");
     try {
       // Repository에서 아이템 헤더를 가져옵니다.
       List<ItemHeaderDTO>? fetchedHeaders = await _itemService.getItemHeadersNameCategory(itemName, itemCategory);

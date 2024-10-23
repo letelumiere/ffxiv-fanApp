@@ -56,10 +56,11 @@ Future<List<ItemHeaderDTO>> getItemHeaders(ItemSearchCriteria criteria, Document
 }
 
 Future<List<ItemHeaderDTO>> getItemHeadersNameCategory(String itemName, String itemCategory) async {
+  print("get ItemHeadersNameCategory ${itemName} ${itemCategory}");
   try {
     // 기본 쿼리 설정
     Query query = _itemsCollection.orderBy('Name'); // orderBy를 먼저 호출
-
+/*
     if(itemCategory != null && itemCategory != ""){
       query = query.where('ItemUICategory', isEqualTo: itemCategory);
     }
@@ -68,7 +69,7 @@ Future<List<ItemHeaderDTO>> getItemHeadersNameCategory(String itemName, String i
     if (itemName != null && itemName.isNotEmpty) {
       query = query.where('Name', isGreaterThanOrEqualTo: itemName);
     }
-
+*/
     // 마지막 문서가 있으면 쿼리 설정
 //    if (lastDocument != null) {
 //      query = query.startAfterDocument(lastDocument);
