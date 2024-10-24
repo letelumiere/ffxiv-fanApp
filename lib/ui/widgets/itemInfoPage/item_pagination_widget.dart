@@ -25,7 +25,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
   @override
   void initState() {
     super.initState();
-    print("ItemPageNationview initState  category =  ${widget.uiCategory} , searchTerm =   ${widget.searchTerm}");
+//    print("ItemPageNationview initState  category =  ${widget.uiCategory} , searchTerm =   ${widget.searchTerm}");
     
     _initializeQuery(widget.uiCategory, widget.searchTerm); // 초기 카테고리로 쿼리 초기화
   }
@@ -39,10 +39,8 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
     // 검색어가 있을 경우 추가 조건 적용
     if (searchTerm != null && searchTerm.isNotEmpty) {
       _query = _query.where('name', isGreaterThanOrEqualTo: searchTerm)
-                     .where('name', isLessThanOrEqualTo: searchTerm)
+                     .where('name', isLessThanOrEqualTo: '$searchTerm\uf8ff')
                      .orderBy('name'); // 이름으로 검색
-                     
-//                     .where('name', isLessThanOrEqualTo: '$searchTerm\uf8ff'); // 이름으로 검색
     }
   }
   @override

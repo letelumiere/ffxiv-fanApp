@@ -13,6 +13,7 @@ class ItemViewModel extends ChangeNotifier {
   // 상태 변수
   String? _currentCategory;
   String? _message;
+  String? _searchTerm;
   bool _isLoading = false;
   bool _isInitialized = false;
 
@@ -29,6 +30,7 @@ class ItemViewModel extends ChangeNotifier {
   // Getter 메서드
   String? get currentCategory => _currentCategory;
   String? get message => _message;
+  String? get searchTerm => _searchTerm;
   bool get isLoading => _isLoading;
   bool get isInitialized => _isInitialized;
   ItemDTO? get selectedItem => _selectedItem;
@@ -115,6 +117,7 @@ class ItemViewModel extends ChangeNotifier {
       _message = "Error during item search: $e";
     } finally {
       _isLoading = false;
+      _searchTerm;
       notifyListeners(); // 상태 업데이트 알림
     }
   }

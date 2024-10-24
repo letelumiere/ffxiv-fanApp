@@ -1,3 +1,4 @@
+import 'package:ffixv/data/datasources/category_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ffixv/viewModel/item_viewModel.dart';
@@ -17,7 +18,6 @@ class ItemInfoPage extends StatelessWidget {
     final viewModel = Provider.of<ItemViewModel>(context, listen: true);
     String inputText = "";
 //    String category = "";
-
     print("initialized itemInfoPage's viewModel States itemName = ${viewModel.criteria?.name}, uiCategory = ${viewModel.criteria?.itemUICategory}");
     print("itemInfoPage's uiCategory States category = ${uiCategory}");
 
@@ -90,7 +90,7 @@ class ItemInfoPage extends StatelessWidget {
                 }
                 // 페이지네이션 (아이템이 선택되지 않았을 때)
                 return ItemPaginationView(
-                  key: ValueKey(uiCategory),
+                  key: ValueKey('${uiCategory}_${viewModel.searchTerm}'),
                   onItemSelected: (itemHeader) async {
                     // 아이템 선택 시 상세 정보 가져오기
                     await viewModel.fetchItemsWhereItemID(itemHeader.itemId!);
