@@ -21,10 +21,12 @@ dependencies:
   firebase_storage: ^12.2.0
   firebase_pagination: ^4.0.1  
   flutter_color: ^2.1.0
+  firebase_data_connect: ^0.1.2+1
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  firebase_data_connect: ^0.1.2+1
   
 
 flutter:

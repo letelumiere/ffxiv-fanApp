@@ -32,6 +32,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
 
   void _initializeQuery(String category, String? searchTerm) {
     // 쿼리 생성
+    print("initializeQuery status  = ${category} ${searchTerm}");
     _query = FirebaseFirestore.instance.collection('Item')
       .where('ItemUICategory', isEqualTo: category);
 
@@ -40,7 +41,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
       _query = _query.where('name', isGreaterThanOrEqualTo: searchTerm)
                      .where('name', isLessThanOrEqualTo: searchTerm)
                      .orderBy('name'); // 이름으로 검색
-
+                     
 //                     .where('name', isLessThanOrEqualTo: '$searchTerm\uf8ff'); // 이름으로 검색
     }
   }
@@ -97,7 +98,7 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
 
               // 'DocumentSnapshot'을 인자로 넘기고 'fromJson' 사용
               final itemHeader = ItemHeaderDTO.fromJson(data, doc);
-              print('${itemHeader.itemId}   ${itemHeader.name}   ${itemHeader.levelEquip}   ${itemHeader.icon}  ${itemHeader.levelItem}');
+//              print('${itemHeader.itemId}   ${itemHeader.name}   ${itemHeader.levelEquip}   ${itemHeader.icon}  ${itemHeader.levelItem}');
 
               return InkWell(
                 onTap: () {
