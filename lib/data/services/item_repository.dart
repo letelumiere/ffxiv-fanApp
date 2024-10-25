@@ -67,7 +67,9 @@ Future<List<ItemHeaderDTO>> getItemHeadersNameCategory(String itemName, String i
 
     // 검색 조건에 따른 필터 추가
     if (itemName != null && itemName.isNotEmpty) {
-      query = query.where('Name', isEqualTo: itemName);
+      query.where('name', isGreaterThanOrEqualTo: itemName)
+          .where('name', isLessThanOrEqualTo: '$itemName\uf8ff')
+          .orderBy('name'); // 이름으로 검색
     }
 
     // 마지막 문서가 있으면 쿼리 설정

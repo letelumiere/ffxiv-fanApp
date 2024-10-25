@@ -47,6 +47,17 @@ class ItemViewModel extends ChangeNotifier {
   //    notifyListeners();
   //  }
 
+  void updateSearchTerm(String inputText){
+    _searchTerm = inputText;
+    notifyListeners();
+  }
+
+  void resetSearchTerm(){
+    _searchTerm = null;
+    notifyListeners();
+  }
+
+
   Future<void> initialize() async {
     _isLoading = true;
     notifyListeners();
@@ -103,6 +114,7 @@ class ItemViewModel extends ChangeNotifier {
     _isLoading = true;
     notifyListeners(); // 로딩 시작 알림
     print("fetchItemHeadersNamesCategory's parameter = ${itemName}, ${itemCategory}");
+    updateSearchTerm(itemName);
     try {
       // Repository에서 아이템 헤더를 가져옵니다.
       List<ItemHeaderDTO>? fetchedHeaders = await _itemService.getItemHeadersNameCategory(itemName, itemCategory);
@@ -117,7 +129,7 @@ class ItemViewModel extends ChangeNotifier {
       _message = "Error during item search: $e";
     } finally {
       _isLoading = false;
-      _searchTerm;
+      resetSearchTerm();
       notifyListeners(); // 상태 업데이트 알림
     }
   }

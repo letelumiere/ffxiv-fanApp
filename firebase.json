@@ -25,7 +25,9 @@
   "emulators": {
     "firestore": {
       "host": "localhost",
-      "port": 8080
+      "port": 8080,
+      "export_on_exit": "emulator-data", 
+      "import_on_startup": "emulator-data" 
     },
     "database": {
       "host": "localhost",

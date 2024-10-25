@@ -16,21 +16,19 @@ class ItemInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ItemViewModel>(context, listen: true);
-    String inputText = "";
-//    String category = "";
-    print("initialized itemInfoPage's viewModel States itemName = ${viewModel.criteria?.name}, uiCategory = ${viewModel.criteria?.itemUICategory}");
-    print("itemInfoPage's uiCategory States category = ${uiCategory}");
-
+//    print("build itemInfoPage's viewModel States itemName = ${viewModel.criteria?.name}, viewModel searchTerm = ${viewModel.searchTerm} uiCategory = ${viewModel.criteria?.itemUICategory}");
+    print("build itemInfoPage's viewModel States viewModel searchTerm = ${viewModel.searchTerm}  ,  uiCategory = ${uiCategory}");
+    
     return Scaffold(
       body: Column(
         children: [
           // 검색 레이아웃
           ItemSearchConditionLayout(
-            onSubmitted: (ItemSearchCriteria criteria) async {
+            onSubmitted: (String? inputText) async {
+//            onSubmitted: (ItemSearchCriteria criteria) async {
               try {
-                print("ItemSearcchCondition = ${criteria.name} ${criteria.itemUICategory}");
-                inputText = criteria.name!;
-                await viewModel.fetchItemHeadersNameCategory(criteria.name!, uiCategory);
+//                print("ItemSearch Condition = ${criteria.name} ${criteria.itemUICategory} ${viewModel.searchTerm}");
+                await viewModel.fetchItemHeadersNameCategory(inputText!, uiCategory);
               } catch (e) {
                 callback("Error: $e");
               }
@@ -96,7 +94,7 @@ class ItemInfoPage extends StatelessWidget {
                     await viewModel.fetchItemsWhereItemID(itemHeader.itemId!);
                   },
                   uiCategory: uiCategory,
-                  searchTerm : inputText,
+                  searchTerm : viewModel.searchTerm,
                   
                 );
               },
