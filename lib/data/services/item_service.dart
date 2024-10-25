@@ -47,6 +47,16 @@ class ItemService {
   Future<List<ItemHeaderDTO>?> getItemHeadersNameCategory(String itemName, String itemCategory) async {
       try {
         List<ItemHeaderDTO>? fetchedHeaders = await _itemRepository.getItemHeadersNameCategory(itemName, itemCategory);
+
+        print("fetchedHeader's get datas");
+        if (fetchedHeaders != null) {
+          for (var header in fetchedHeaders) {
+            print("Fetched Item Header: ${header.name}"); // 원하는 속성을 출력합니다.
+          }
+        } else {
+          print("No headers fetched.");
+        }
+
         return fetchedHeaders;
       } catch (e) {
         _handleServiceError(e);

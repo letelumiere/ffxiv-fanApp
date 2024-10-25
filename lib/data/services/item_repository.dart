@@ -5,7 +5,7 @@ import 'package:ffixv/data/models/itemSearchCriteria.dart';
  
 class ItemRepository {
   final CollectionReference _itemsCollection;
-
+  
   ItemRepository(FirebaseFirestore firestore) 
       : _itemsCollection = firestore.collection('Item');
 
@@ -55,40 +55,40 @@ Future<List<ItemHeaderDTO>> getItemHeaders(ItemSearchCriteria criteria, Document
   }
 }
 
-Future<List<ItemHeaderDTO>> getItemHeadersNameCategory(String itemName, String itemCategory) async {
-  print("Repository's query, 'getItemHeadersNameCategory' parameter = ${itemName} ${itemCategory}");
-  try {
-    // 기본 쿼리 설정
-    Query query = _itemsCollection.orderBy('Name'); // orderBy를 먼저 호출
+  Future<List<ItemHeaderDTO>> getItemHeadersNameCategory(String itemName, String itemCategory) async {
+    print("Repository's query, 'getItemHeadersNameCategory' parameter = ${itemName} ${itemCategory}");
+    try {
+      // 기본 쿼리 설정
+      Query query = _itemsCollection.orderBy('Name'); // orderBy를 먼저 호출
 
-    if(itemCategory != null && itemCategory != ""){
-      query = query.where('ItemUICategory', isEqualTo: itemCategory);
+      if(itemCategory != null && itemCategory.isNotEmpty){
+        query = query.where('ItemUICategory', isEqualTo: itemCategory);
+      }
+
+      // 검색 조건에 따른 필터 추가
+      if (itemName != null && itemName.isNotEmpty) {
+//        query.where('Name', isGreaterThanOrEqualTo: itemName)
+//            .where('Name', isLessThanOrEqualTo: '$itemName\uf8ff');
+          query.where('Name', isEqualTo: itemName);
+      }
+
+      // 마지막 문서가 있으면 쿼리 설정
+  //    if (lastDocument != null) {
+  //      query = query.startAfterDocument(lastDocument);
+  //    }
+
+      // 쿼리 실행
+      QuerySnapshot snapshot = await query.limit(10).get();
+
+      // 결과를 ItemHeaderDTO로 변환하여 리스트로 반환
+      return snapshot.docs.map((doc) {
+        return ItemHeaderDTO.fromJson(doc.data() as Map<String, dynamic>, doc);
+      }).toList();
+    } catch (e) {
+      _handleError(e);
+      return [];
     }
-
-    // 검색 조건에 따른 필터 추가
-    if (itemName != null && itemName.isNotEmpty) {
-      query.where('name', isGreaterThanOrEqualTo: itemName)
-          .where('name', isLessThanOrEqualTo: '$itemName\uf8ff')
-          .orderBy('name'); // 이름으로 검색
-    }
-
-    // 마지막 문서가 있으면 쿼리 설정
-//    if (lastDocument != null) {
-//      query = query.startAfterDocument(lastDocument);
-//    }
-
-    // 쿼리 실행
-    QuerySnapshot snapshot = await query.limit(3).get();
-
-    // 결과를 ItemHeaderDTO로 변환하여 리스트로 반환
-    return snapshot.docs.map((doc) {
-      return ItemHeaderDTO.fromJson(doc.data() as Map<String, dynamic>, doc);
-    }).toList();
-  } catch (e) {
-    _handleError(e);
-    return [];
   }
-}
 
 
   Query itemQueryBuilder(ItemSearchCriteria criteria) {  

@@ -78,14 +78,6 @@ class ItemViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-/*
-  void updateSearchCriteria(String searchTerm, String uiCategory){
-    print("updateSearchCriteria parameter = ${searchTerm} ${uiCategory}");
-    _criteria = criteria?.copyWith(name: searchTerm, itemUICategory: uiCategory);
-
-    print("_criteria.name = ${_criteria?.name} , _criteria.uiCategory = ${_criteria?.itemUICategory}");
-  }
-*/
   Future<void> fetchItemHeaders(ItemSearchCriteria criteria) async {
     _criteria = criteria; // 현재 검색 조건 저장
     _isLoading = true;
@@ -113,7 +105,6 @@ class ItemViewModel extends ChangeNotifier {
   Future<void> fetchItemHeadersNameCategory(String itemName, String itemCategory) async {
     _isLoading = true;
     notifyListeners(); // 로딩 시작 알림
-    print("fetchItemHeadersNamesCategory's parameter = ${itemName}, ${itemCategory}");
     updateSearchTerm(itemName);
     try {
       // Repository에서 아이템 헤더를 가져옵니다.
@@ -133,19 +124,34 @@ class ItemViewModel extends ChangeNotifier {
       notifyListeners(); // 상태 업데이트 알림
     }
   }
-
   Future<void> fetchItemsWhereItemID(int itemId) async {
     _isLoading = true;
     notifyListeners();
 
     try {
       _selectedItem = await _itemService.getItemDetail(itemId);
+      
+      // 디버깅 출력
+      print('Fetched item: $_selectedItem');
+
+      if (_selectedItem == null) {
+        throw Exception('Item not found for ID: $itemId');
+      }
     } catch (e) {
       _message = "Error fetching item by ID: $e";
     } finally {
       _isLoading = false;
       notifyListeners();
     }
+  }
+  
+  Query queryPagination(String itemName, String itemCategory) {
+    Query query = FirebaseFirestore.instance
+              .collection("Item")
+              .orderBy("Name", descending: true)
+              .where("Name", isEqualTo: itemName)
+              .where("ItemUICategory", isEqualTo: itemCategory);
+    return query;
   }
 
 /*

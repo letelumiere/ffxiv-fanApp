@@ -1,11 +1,11 @@
+import 'dart:async';
 import 'package:ffixv/data/models/itemSearchCriteria.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_color/flutter_color.dart'; // SearchBar 사용을 위한 import 추가
+import 'package:flutter_color/flutter_color.dart';
 
 class ItemSearchConditionLayout extends StatefulWidget {
-  //final void Function(ItemSearchCriteria criteria) onSubmitted;
   final void Function(String searchTerm) onSubmitted;
-  
+
   const ItemSearchConditionLayout({super.key, required this.onSubmitted});
 
   @override
@@ -14,42 +14,41 @@ class ItemSearchConditionLayout extends StatefulWidget {
 
 class _ItemSearchConditionLayoutState extends State<ItemSearchConditionLayout> {
   String? inputText;
-/*
-  void _submitCriteria() {
-    if (inputText != null && inputText!.isNotEmpty) {
-      ItemSearchCriteria criteria = ItemSearchCriteria(name: inputText!);
-      widget.onSubmitted(criteria);
+  late TextEditingController _controller;
+  Timer? _debounce;
 
-      // 입력 필드 초기화
-      setState(() {
-        inputText = ''; // 초기화 (빈 문자열로 설정)
-      });
-    } else {
-      // 입력 값이 없을 때 경고 표시
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('검색어를 입력하세요.')),
-      );
-    }
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
   }
-*/
 
-  //_submitCreiteria의 대체
+  @override
+  void dispose() {
+    _controller.dispose();
+    _debounce?.cancel();
+    super.dispose();
+  }
+
   void _submitInputText() {
-    if (inputText != null && inputText!.isNotEmpty) {
-      widget.onSubmitted(inputText!);
-
-      // 입력 필드 초기화
+    if (_controller.text.isNotEmpty) {
+      widget.onSubmitted(_controller.text);
       setState(() {
-        inputText = ''; // 초기화 (빈 문자열로 설정)
+        _controller.clear();
       });
     } else {
-      // 입력 값이 없을 때 경고 표시
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('검색어를 입력하세요.')),
       );
     }
   }
 
+  void _onSearchChanged(String query) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 300), () {
+      setState(() => inputText = query);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,21 +61,17 @@ class _ItemSearchConditionLayoutState extends State<ItemSearchConditionLayout> {
         trailing: [
           IconButton(
             icon: const Icon(Icons.search),
-//            onPressed: _submitCriteria,
             onPressed: _submitInputText,
-
           ),
         ],
+        controller: _controller,
         onChanged: (value) {
-          setState(() => inputText = value);
+          _onSearchChanged(value);
         },
         onSubmitted: (value) {
           setState(() => inputText = value);
-//          _submitCriteria();
           _submitInputText();
         },
-        // SearchBar에 초기화된 텍스트를 적용
-        controller: TextEditingController(text: inputText), // 현재 inputText를 SearchBar에 설정
       ),
     );
   }

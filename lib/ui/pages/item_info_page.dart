@@ -1,8 +1,6 @@
-import 'package:ffixv/data/datasources/category_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ffixv/viewModel/item_viewModel.dart';
-import 'package:ffixv/data/models/itemSearchCriteria.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_search_condition_widget.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_detail_widget.dart';
 import 'package:ffixv/ui/widgets/itemInfoPage/item_pagination_widget.dart';
@@ -16,19 +14,17 @@ class ItemInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ItemViewModel>(context, listen: true);
-//    print("build itemInfoPage's viewModel States itemName = ${viewModel.criteria?.name}, viewModel searchTerm = ${viewModel.searchTerm} uiCategory = ${viewModel.criteria?.itemUICategory}");
-    print("build itemInfoPage's viewModel States viewModel searchTerm = ${viewModel.searchTerm}  ,  uiCategory = ${uiCategory}");
-    
+    print(ValueKey('${uiCategory}_${viewModel.searchTerm}'));
+
     return Scaffold(
       body: Column(
         children: [
           // 검색 레이아웃
           ItemSearchConditionLayout(
             onSubmitted: (String? inputText) async {
-//            onSubmitted: (ItemSearchCriteria criteria) async {
               try {
-//                print("ItemSearch Condition = ${criteria.name} ${criteria.itemUICategory} ${viewModel.searchTerm}");
-                await viewModel.fetchItemHeadersNameCategory(inputText!, uiCategory);
+//                await viewModel.fetchItemHeadersNameCategory(inputText!, uiCategory);
+                  viewModel.updateSearchTerm(inputText!);
               } catch (e) {
                 callback("Error: $e");
               }
@@ -94,8 +90,7 @@ class ItemInfoPage extends StatelessWidget {
                     await viewModel.fetchItemsWhereItemID(itemHeader.itemId!);
                   },
                   uiCategory: uiCategory,
-                  searchTerm : viewModel.searchTerm,
-                  
+                  searchTerm : viewModel.searchTerm,                   
                 );
               },
             ),

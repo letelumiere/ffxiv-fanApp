@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ffixv/viewModel/item_viewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
 import 'package:firebase_pagination/firebase_pagination.dart';
+import 'package:provider/provider.dart';
 
 class ItemPaginationView extends StatefulWidget {
   final Function(ItemHeaderDTO) onItemSelected;
@@ -12,7 +14,7 @@ class ItemPaginationView extends StatefulWidget {
     super.key,
     required this.onItemSelected,
     required this.uiCategory, 
-    this.searchTerm, 
+    this.searchTerm,
   });
 
   @override
@@ -20,33 +22,56 @@ class ItemPaginationView extends StatefulWidget {
 }
 
 class _ItemPaginationViewState extends State<ItemPaginationView> {
-  late Query<Map<String, dynamic>> _query;
+  late Query<Object?> _query;
 
   @override
   void initState() {
-    super.initState();
-//    print("ItemPageNationview initState  category =  ${widget.uiCategory} , searchTerm =   ${widget.searchTerm}");
-    
-    _initializeQuery(widget.uiCategory, widget.searchTerm); // 초기 카테고리로 쿼리 초기화
+    super.initState();    
+    final viewModel = Provider.of<ItemViewModel>(context, listen: false);    
+    print("itemPagination parameter searchTerm = ${widget.searchTerm}");
+    _initializeQuery(widget.uiCategory, viewModel.searchTerm); // 초기 카테고리로 쿼리 초기화
   }
 
-  void _initializeQuery(String category, String? searchTerm) {
-    // 쿼리 생성
-    print("initializeQuery status  = ${category} ${searchTerm}");
-    _query = FirebaseFirestore.instance.collection('Item')
-      .where('ItemUICategory', isEqualTo: category);
+  @override
+  void didUpdateWidget(covariant ItemPaginationView oldWidget) {
 
-    // 검색어가 있을 경우 추가 조건 적용
-    if (searchTerm != null && searchTerm.isNotEmpty) {
-      _query = _query.where('name', isGreaterThanOrEqualTo: searchTerm)
-                     .where('name', isLessThanOrEqualTo: '$searchTerm\uf8ff')
-                     .orderBy('name'); // 이름으로 검색
+    super.didUpdateWidget(oldWidget);
+    final viewModel = Provider.of<ItemViewModel>(context, listen: false);
+
+    print("if didUpdated , parameter has printed this");
+    print("SearchTerm oldWidget = ${oldWidget.searchTerm} searchTerm viewModel = ${viewModel.searchTerm}");
+    print("Category oldWidget = ${widget.uiCategory} category Widget = ${widget.uiCategory}");
+
+
+    if (oldWidget.uiCategory != widget.uiCategory || oldWidget.searchTerm != viewModel.searchTerm) {
+      _initializeQuery(widget.uiCategory, viewModel.searchTerm);
     }
   }
+void _initializeQuery(String category, String? searchTerm) {
+  print("Initializing query with category = $category and searchTerm: $searchTerm");
+  
+  // 기본 쿼리 설정
+  _query = FirebaseFirestore.instance.collection('Item')
+      .where('ItemUICategory', isEqualTo: category);
+  
+  // 검색어가 있을 경우 추가 조건 적용
+  if (searchTerm != null && searchTerm.isNotEmpty) {
+    _query = _query
+      .orderBy('Name')  // 검색 대상 필드를 먼저 정렬
+      .where('Name', isGreaterThanOrEqualTo: searchTerm) // 검색어가 포함된 이름
+      .where('Name', isLessThanOrEqualTo: '$searchTerm\uf8ff'); // 검색어로 끝나는 이름
+  }
+
+  // 쿼리 초기화 확인
+  print("Current query: $_query");
+  print("\n");
+}
+
   @override
   Widget build(BuildContext context) {
-    print("itemPages Bulild ${widget.uiCategory}");
-    print(context);
+    final viewModel = Provider.of<ItemViewModel>(context);
+    print("=== itemPaginationView Build ===");
+    print("${widget.uiCategory}, ${widget.searchTerm}");
 
     return Column(
       children: [
@@ -78,8 +103,8 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  '아이템 레벨',
                   textAlign: TextAlign.center,
+                  '아이템 레벨',
                   //style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -89,15 +114,13 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
         Expanded(
           child: FirestorePagination(
             query: _query,
-
             itemBuilder: (context, snapshot, index) {
               final doc = snapshot[index];
               final data = doc.data() as Map<String, dynamic>;
+              final itemHeader = ItemHeaderDTO.fromJson(data, doc); // 'DocumentSnapshot'을 인자로 넘기고 'fromJson' 사용
 
-              // 'DocumentSnapshot'을 인자로 넘기고 'fromJson' 사용
-              final itemHeader = ItemHeaderDTO.fromJson(data, doc);
-//              print('${itemHeader.itemId}   ${itemHeader.name}   ${itemHeader.levelEquip}   ${itemHeader.icon}  ${itemHeader.levelItem}');
-
+              print('${itemHeader.name}');
+              
               return InkWell(
                 onTap: () {
                   widget.onItemSelected(itemHeader);
@@ -150,7 +173,11 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
             },
             viewType: ViewType.list,
             isLive: true,
-            onEmpty: const Center(child: Text('No items found.')), // 데이터가 없을 때 처리
+            onEmpty: Builder(
+              builder: (context) {
+                return const Center(child: Text('No items found.'));
+              }
+            ), // 데이터가 없을 때 처리            
           ),
           
         ),
