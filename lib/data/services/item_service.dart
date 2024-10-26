@@ -22,6 +22,7 @@ class ItemService {
   Future<ItemDTO?> getItemDetail(int itemId) async {
     try {
       ItemDTO? itemDto = await _itemRepository.getItemDetail(itemId);
+
       if (itemDto != null) {
         return itemDto;
       } else {

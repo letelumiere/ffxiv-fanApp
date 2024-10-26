@@ -12,8 +12,11 @@ class ItemRepository {
   Future<ItemDTO?> getItemDetail(int itemId) async {
     try {
       QuerySnapshot snapshot = await _itemsCollection.where('ID', isEqualTo: itemId).get();
+      print("Query Result: ${snapshot.docs}");
+
       if (snapshot.docs.isNotEmpty) {
         var data = snapshot.docs.first.data() as Map<String, dynamic>;
+
         return ItemDTO.fromJson(data);
       }
       return null;

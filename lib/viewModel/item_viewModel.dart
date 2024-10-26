@@ -130,7 +130,7 @@ class ItemViewModel extends ChangeNotifier {
 
     try {
       _selectedItem = await _itemService.getItemDetail(itemId);
-      
+        
       // 디버깅 출력
       print('Fetched item: $_selectedItem');
 
