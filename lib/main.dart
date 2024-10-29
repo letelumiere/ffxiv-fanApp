@@ -12,10 +12,10 @@ import 'package:flutter_color/flutter_color.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-//  await Firebase.initializeApp(
-//    options: DefaultFirebaseOptions.currentPlatform, // FirebaseOptions를 제공
-//  );
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform, // FirebaseOptions를 제공
+  );
+/*
   const FirebaseOptions firebaseOptions_emulator = FirebaseOptions(
 
     apiKey: 'AIzaSyCpX9N9lkJk2FVz31pTZUyIVo92mRoNNps',
@@ -30,7 +30,7 @@ void main() async {
 
   await Firebase.initializeApp(options: firebaseOptions_emulator);
   FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
-
+*/
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
   runApp(

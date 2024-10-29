@@ -126,7 +126,7 @@ class ItemRepository {
 Future<List<ItemHeaderDTO>> getItemHeaders(ItemSearchCriteria criteria, DocumentSnapshot? lastDocument, int limit) async {
   try {
     // 기본 쿼리 설정
-    Query query = _itemsCollection.orderBy('Name').limit(limit); // orderBy를 먼저 호출
+    Query query = _itemsCollection.orderBy('Name'); // orderBy를 먼저 호출
 
     if(criteria.itemUICategory != null){
       query = query.where('ItemUICategory', isEqualTo: criteria.itemUICategory);
