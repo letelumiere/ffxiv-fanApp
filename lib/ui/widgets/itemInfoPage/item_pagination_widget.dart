@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffixv/viewModel/item_viewModel.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
 import 'package:firebase_pagination/firebase_pagination.dart';
@@ -118,57 +119,83 @@ void _initializeQuery(String category, String? searchTerm) {
               final doc = snapshot[index];
               final data = doc.data() as Map<String, dynamic>;
               final itemHeader = ItemHeaderDTO.fromJson(data, doc); // 'DocumentSnapshot'을 인자로 넘기고 'fromJson' 사용
+              print('${itemHeader.name} ${itemHeader.icon} ');
 
-              print('${itemHeader.name}');
-              
-              return InkWell(
-                onTap: () {
-                  widget.onItemSelected(itemHeader);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 20), // 왼쪽에 공백 추가
-                      // 아이템 이름
-                      Expanded(
-                        flex: 2,
-                        child: Row(
-                          children: [
-                            itemHeader.icon != null
-                                ? Image.asset('assets/icons/BlueMage.png', width: 40, height: 40) // 아이콘 표시
-                                : const SizedBox(width: 40, height: 40), // 빈 공간
-                            const SizedBox(width: 8),
+              return FutureBuilder<String?>(
+                future: viewModel.getImageUrl(itemHeader.icon ?? ''),
+                builder: (context, imageSnapshot) {
+                  String? imageUrl;
+
+                  if (imageSnapshot.connectionState == ConnectionState.done) {
+                    if (imageSnapshot.hasError) {
+                      // 에러가 발생한 경우
+                      print("Error getting image URL: ${imageSnapshot.error}");
+                      imageUrl = null; // 에러 발생 시 null로 설정
+                    } else {
+                      imageUrl = imageSnapshot.data; // 정상적으로 로드된 경우
+                    }
+                  } else if (imageSnapshot.connectionState == ConnectionState.waiting) {
+                    // 여전히 로딩 중일 때는 기본 아이콘을 표시할 수 있습니다.
+                    imageUrl = null; // 이 경우 기본 아이콘을 표시하도록 설정
+                  }
+                  return InkWell(
+                    onTap: () {
+                      widget.onItemSelected(itemHeader);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 20), // 왼쪽에 공백 추가
+                                                  // 아이템 이름
                             Expanded(
-                              child: Text(
-                                itemHeader.name ?? 'Unknown',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                            flex: 2,
+                            child: Row(
+                            children: [
+                              imageUrl != null
+                                  ? Image.network(
+                                      imageUrl!,
+                                      width: 40,
+                                      height: 40,
+                                      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                        return const SizedBox(width: 40, height: 40, child: Icon(Icons.error)); // 오류 발생 시 아이콘 표시
+                                      },
+                                    ) // 아이콘 표시
+                                  : const SizedBox(width: 40, height: 40, child: Icon(Icons.error)), // 빈 공간
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  itemHeader.name ?? 'Unknown',
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
                               ),
+                            ],
                             ),
-                          ],
-                        ),
+                            ),
+
+                          // 요구 레벨
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              "${itemHeader.levelEquip}",
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.amber),
+                            ),
+                          ),
+                          // 아이템 레벨
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              "${itemHeader.levelItem}",
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.amber),
+                            ),
+                          ),
+                        ],
                       ),
-                      // 요구 레벨
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          "${itemHeader.levelEquip}",
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(color: Colors.amber),
-                        ),
-                      ),
-                      // 아이템 레벨
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          "${itemHeader.levelItem}",
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(color: Colors.amber),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                }
               );
             },
             viewType: ViewType.list,

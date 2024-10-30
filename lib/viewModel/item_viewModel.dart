@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
 import 'package:ffixv/data/models/itemHeaderDTO.dart';
@@ -16,11 +17,14 @@ class ItemViewModel extends ChangeNotifier {
   String? _searchTerm;
   bool _isLoading = false;
   bool _isInitialized = false;
+  FirebaseStorage storage = FirebaseStorage.instance;
 
   // 데이터 리스트
   ItemDTO? _selectedItem;
   ItemSearchCriteria? _criteria;
   List<ItemHeaderDTO> _itemHeaders = [];
+  List<String?> _imageUrls = [];
+
 
   // 페이지 관련 변수
   int _page = 0; // 현재 페이지 수
@@ -36,6 +40,8 @@ class ItemViewModel extends ChangeNotifier {
   ItemDTO? get selectedItem => _selectedItem;
   ItemSearchCriteria? get criteria => _criteria;
   List<ItemHeaderDTO> get itemHeaders => _itemHeaders;
+  List<String?> get imageUrls => _imageUrls;
+
   int get page => _page;
   int get limit => _limit;
 
@@ -57,7 +63,6 @@ class ItemViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-
   Future<void> initialize() async {
     _isLoading = true;
     notifyListeners();
@@ -78,6 +83,25 @@ class ItemViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Reference createImageReference(String fullPath){
+    return storage.ref(fullPath);
+  }
+
+  Future<String?> getImageUrl(String icon) async {
+    try {
+      // Firebase Storage에서 이미지 URL 가져오기
+      String childUrl = changeFileExtension(icon, 'png');
+      final storageRef = storage.ref().child('ffxiv-data/'+childUrl);
+      print("image reference = ${storageRef}");
+      print("image reference = ${storageRef.bucket}");
+
+      return await storageRef.getDownloadURL();
+    } catch (e) {
+      print("Error getting image URL: $e");
+      return null;
+    }
+  }
+  
   Future<void> fetchItemHeaders(ItemSearchCriteria criteria) async {
     _criteria = criteria; // 현재 검색 조건 저장
     _isLoading = true;
@@ -124,6 +148,8 @@ class ItemViewModel extends ChangeNotifier {
       notifyListeners(); // 상태 업데이트 알림
     }
   }
+
+  
   Future<void> fetchItemsWhereItemID(int itemId) async {
     _isLoading = true;
     notifyListeners();
@@ -153,6 +179,12 @@ class ItemViewModel extends ChangeNotifier {
               .where("ItemUICategory", isEqualTo: itemCategory);
     return query;
   }
+
+
+  String changeFileExtension(String url, String newExtension) {
+    return url.substring(0, url.lastIndexOf('.')) + '.' + newExtension;
+  }
+
 
 /*
   Future<void> changePage(int newPage) async {

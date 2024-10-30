@@ -47,7 +47,6 @@ class DefaultFirebaseOptions {
     projectId: 'ffxiv-database-a42b0',
     authDomain: 'ffxiv-database-a42b0.firebaseapp.com',
     databaseURL: 'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
-//    databaseURL: 'https://127.0.0.1:9000',
     storageBucket: 'ffxiv-database-a42b0.appspot.com',
     measurementId: 'G-0SV4QFCHT7',
   );

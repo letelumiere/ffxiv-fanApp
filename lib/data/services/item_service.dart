@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffixv/data/models/itemSearchCriteria.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ffixv/data/services/item_repository.dart';
 import 'package:ffixv/data/models/itemDTO.dart';
@@ -18,6 +19,7 @@ class ItemService {
   Future<void> initializeFirebase() async {
     await Firebase.initializeApp();
   }
+
 
   Future<ItemDTO?> getItemDetail(int itemId) async {
     try {

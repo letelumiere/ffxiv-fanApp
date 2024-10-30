@@ -1,5 +1,7 @@
 import 'package:ffixv/data/datasources/category_list.dart';
+import 'package:ffixv/viewModel/item_viewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'itemDetailSections/item_header.dart';
 import 'itemDetailSections/item_category_section.dart';
 import 'itemDetailSections/item_stats_section.dart';
@@ -20,8 +22,17 @@ class ItemDetailLayout extends StatefulWidget {
   @override
   State<ItemDetailLayout> createState() => _ItemDetailLayoutState();
 }
-
 class _ItemDetailLayoutState extends State<ItemDetailLayout> {
+  late Future<String?> imageUrlFuture;
+
+
+  @override
+  void initState() {
+    super.initState();
+    final viewModel = Provider.of<ItemViewModel>(context, listen: false);
+    imageUrlFuture = viewModel.getImageUrl(widget.itemDto.icon);
+  }
+
   @override
   Widget build(BuildContext context) {
     final itemDto = widget.itemDto;
@@ -34,7 +45,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ItemHeader(itemDto: itemDto),
+                ItemHeader(itemDto: itemDto, itemImage: imageUrlFuture),
                 ItemCategorySection(itemDto: itemDto),
                 const SizedBox(height: 10),
                 ItemStatsSection(itemDto: itemDto,),
