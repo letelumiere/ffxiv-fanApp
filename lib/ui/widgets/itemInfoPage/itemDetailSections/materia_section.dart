@@ -1,10 +1,10 @@
-import 'package:ffxiv/data/models/itemDTO.dart';
+import 'package:ffxiv/data/models/item_dto.dart';
 import 'package:flutter/material.dart';
 
 class MateriaSection extends StatelessWidget {
   final ItemDTO itemDto;
 
-  const MateriaSection({Key? key, required this.itemDto}) : super(key: key);
+  const MateriaSection({super.key, required this.itemDto});
 
   @override
   Widget build(BuildContext context) {

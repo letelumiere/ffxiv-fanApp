@@ -3,7 +3,7 @@ import 'package:ffxiv/data/services/item_repository.dart';
 import 'package:ffxiv/data/services/item_service.dart';
 import 'package:ffxiv/firebase_options.dart';
 import 'package:ffxiv/ui/pages/main_page.dart';
-import 'package:ffxiv/viewModel/item_viewModel.dart';
+import 'package:ffxiv/viewModel/item_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -61,7 +61,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'FFXIV Fan App',
       theme: ThemeData(
-        colorScheme: const ColorScheme.dark( // 색상 스킴 설정
+        colorScheme: const ColorScheme.dark(
+          // 색상 스킴 설정
 //          primary: Color(0xFF007ACC),
           secondary: Color(0xFFF39C12),
         ),
@@ -72,7 +73,8 @@ class MyApp extends StatelessWidget {
           titleTextStyle: TextStyle(color: Colors.white, fontSize: 18),
         ),
         textTheme: const TextTheme(
-          bodyLarge: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          bodyLarge: TextStyle(
+              color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
           bodyMedium: TextStyle(color: Colors.grey),
           bodySmall: TextStyle(color: Colors.grey),
         ),
@@ -81,4 +83,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

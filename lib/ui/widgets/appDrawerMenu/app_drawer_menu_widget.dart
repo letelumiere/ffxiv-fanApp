@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ffxiv/viewModel/item_viewModel.dart';
 import 'package:ffxiv/data/datasources/category_list.dart';
 
 class AppMenuDrawer extends StatelessWidget {
@@ -22,7 +21,8 @@ class AppMenuDrawer extends StatelessWidget {
                 if (category == "아이템 검색") {
                   // 아이템 검색 중분류의 데이터 가져오기
                   List<Map<String, List<String>>> subItems =
-                      itemCategory3Map[category] as List<Map<String, List<String>>>;
+                      itemCategory3Map[category]
+                          as List<Map<String, List<String>>>;
                   return ExpansionTile(
                     title: Text(category),
                     children: subItems.map((subItem) {
@@ -33,7 +33,8 @@ class AppMenuDrawer extends StatelessWidget {
                         children: items.map((item) {
                           return ListTile(
                             title: Text("   $item"),
-                            onTap: () => onItemTapped(PageType.itemInfoPage, item),
+                            onTap: () =>
+                                onItemTapped(PageType.itemInfoPage, item),
                           );
                         }).toList(),
                       );

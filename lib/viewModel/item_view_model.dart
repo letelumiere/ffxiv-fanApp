@@ -1,8 +1,8 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:ffxiv/data/models/itemDTO.dart';
-import 'package:ffxiv/data/models/itemHeaderDTO.dart';
-import 'package:ffxiv/data/models/itemSearchCriteria.dart';
+import 'package:ffxiv/data/models/item_dto.dart';
+import 'package:ffxiv/data/models/item_header_dto.dart';
+import 'package:ffxiv/data/models/item_search_criteria.dart';
 import 'package:ffxiv/data/services/item_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -25,7 +25,6 @@ class ItemViewModel extends ChangeNotifier {
   List<ItemHeaderDTO> _itemHeaders = [];
   List<String?> _imageUrls = [];
 
-
   // 페이지 관련 변수
   int _page = 0; // 현재 페이지 수
   int _limit = 5; // 한 페이지당 아이템 수
@@ -46,19 +45,19 @@ class ItemViewModel extends ChangeNotifier {
   int get limit => _limit;
 
   // 총 페이지 수 계산
-  int get totalPages => (_itemHeaders.length / _limit).ceil();  
+  int get totalPages => (_itemHeaders.length / _limit).ceil();
 
   //  void setCategory(String category){
   //    _currentCategory = category;
   //    notifyListeners();
   //  }
 
-  void updateSearchTerm(String inputText){
+  void updateSearchTerm(String inputText) {
     _searchTerm = inputText;
     notifyListeners();
   }
 
-  void resetSearchTerm(){
+  void resetSearchTerm() {
     _searchTerm = null;
     notifyListeners();
   }
@@ -69,7 +68,6 @@ class ItemViewModel extends ChangeNotifier {
 
     try {
       await _itemService.initializeFirebase();
-
     } catch (e) {
       _message = "Error during initialization: $e";
     } finally {
@@ -83,7 +81,7 @@ class ItemViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Reference createImageReference(String fullPath){
+  Reference createImageReference(String fullPath) {
     return storage.ref(fullPath);
   }
 
@@ -91,7 +89,7 @@ class ItemViewModel extends ChangeNotifier {
     try {
       // Firebase Storage에서 이미지 URL 가져오기
       String childUrl = changeFileExtension(icon, 'png');
-      final storageRef = storage.ref().child('ffxiv-data/'+childUrl);
+      final storageRef = storage.ref().child('ffxiv-data/' + childUrl);
       print("image reference = ${storageRef}");
       print("image reference = ${storageRef.bucket}");
 
@@ -101,7 +99,7 @@ class ItemViewModel extends ChangeNotifier {
       return null;
     }
   }
-  
+
   Future<void> fetchItemHeaders(ItemSearchCriteria criteria) async {
     _criteria = criteria; // 현재 검색 조건 저장
     _isLoading = true;
@@ -109,11 +107,13 @@ class ItemViewModel extends ChangeNotifier {
 
     try {
       // Repository에서 아이템 헤더를 가져옵니다.
-      print("fetchItems criteria is ${criteria.name}, ${criteria.itemUICategory}");
-      List<ItemHeaderDTO>? fetchedHeaders = await _itemService.getItemHeaders(criteria, _lastDocument, _limit);
+      print(
+          "fetchItems criteria is ${criteria.name}, ${criteria.itemUICategory}");
+      List<ItemHeaderDTO>? fetchedHeaders =
+          await _itemService.getItemHeaders(criteria, _lastDocument, _limit);
 
       if (fetchedHeaders!.isNotEmpty) {
-        _itemHeaders = fetchedHeaders!; // 가져온 헤더를 저장
+        _itemHeaders = fetchedHeaders; // 가져온 헤더를 저장
         _lastDocument = fetchedHeaders.last.documentSnapshot; // 마지막 문서 업데이트
       } else {
         _message = "No more items available."; // 더 이상 아이템이 없는 경우
@@ -126,16 +126,18 @@ class ItemViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchItemHeadersNameCategory(String itemName, String itemCategory) async {
+  Future<void> fetchItemHeadersNameCategory(
+      String itemName, String itemCategory) async {
     _isLoading = true;
     notifyListeners(); // 로딩 시작 알림
     updateSearchTerm(itemName);
     try {
       // Repository에서 아이템 헤더를 가져옵니다.
-      List<ItemHeaderDTO>? fetchedHeaders = await _itemService.getItemHeadersNameCategory(itemName, itemCategory);
+      List<ItemHeaderDTO>? fetchedHeaders =
+          await _itemService.getItemHeadersNameCategory(itemName, itemCategory);
 
       if (fetchedHeaders!.isNotEmpty) {
-        _itemHeaders = fetchedHeaders!; // 가져온 헤더를 저장
+        _itemHeaders = fetchedHeaders; // 가져온 헤더를 저장
         _lastDocument = fetchedHeaders.last.documentSnapshot; // 마지막 문서 업데이트
       } else {
         _message = "No more items available."; // 더 이상 아이템이 없는 경우
@@ -149,14 +151,13 @@ class ItemViewModel extends ChangeNotifier {
     }
   }
 
-  
   Future<void> fetchItemsWhereItemID(int itemId) async {
     _isLoading = true;
     notifyListeners();
 
     try {
       _selectedItem = await _itemService.getItemDetail(itemId);
-        
+
       // 디버깅 출력
       print('Fetched item: $_selectedItem');
 
@@ -170,21 +171,19 @@ class ItemViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-  
+
   Query queryPagination(String itemName, String itemCategory) {
     Query query = FirebaseFirestore.instance
-              .collection("Item")
-              .orderBy("Name", descending: true)
-              .where("Name", isEqualTo: itemName)
-              .where("ItemUICategory", isEqualTo: itemCategory);
+        .collection("Item")
+        .orderBy("Name", descending: true)
+        .where("Name", isEqualTo: itemName)
+        .where("ItemUICategory", isEqualTo: itemCategory);
     return query;
   }
-
 
   String changeFileExtension(String url, String newExtension) {
     return url.substring(0, url.lastIndexOf('.')) + '.' + newExtension;
   }
-
 
 /*
   Future<void> changePage(int newPage) async {

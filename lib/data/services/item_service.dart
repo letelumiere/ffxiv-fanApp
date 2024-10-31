@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ffxiv/data/models/itemSearchCriteria.dart';
+import 'package:ffxiv/data/models/item_search_criteria.dart';
 import 'package:ffxiv/data/services/item_repository.dart';
-import 'package:ffxiv/data/models/itemDTO.dart';
-import 'package:ffxiv/data/models/itemHeaderDTO.dart';
+import 'package:ffxiv/data/models/item_dto.dart';
+import 'package:ffxiv/data/models/item_header_dto.dart';
 
 class ItemService {
   final ItemRepository _itemRepository;
@@ -19,7 +18,6 @@ class ItemService {
   Future<void> initializeFirebase() async {
     await Firebase.initializeApp();
   }
-
 
   Future<ItemDTO?> getItemDetail(int itemId) async {
     try {
@@ -37,9 +35,11 @@ class ItemService {
     }
   }
 
-  Future<List<ItemHeaderDTO>?> getItemHeaders(ItemSearchCriteria criteria, DocumentSnapshot? lastDocument, int limit) async {
+  Future<List<ItemHeaderDTO>?> getItemHeaders(ItemSearchCriteria criteria,
+      DocumentSnapshot? lastDocument, int limit) async {
     try {
-      List<ItemHeaderDTO>? fetchedHeaders = await _itemRepository.getItemHeaders(criteria, lastDocument, limit);
+      List<ItemHeaderDTO>? fetchedHeaders =
+          await _itemRepository.getItemHeaders(criteria, lastDocument, limit);
       return fetchedHeaders;
     } catch (e) {
       _handleServiceError(e);
@@ -47,24 +47,22 @@ class ItemService {
     }
   }
 
-  Future<List<ItemHeaderDTO>?> getItemHeadersNameCategory(String itemName, String itemCategory) async {
-      try {
-        List<ItemHeaderDTO>? fetchedHeaders = await _itemRepository.getItemHeadersNameCategory(itemName, itemCategory);
+  Future<List<ItemHeaderDTO>?> getItemHeadersNameCategory(
+      String itemName, String itemCategory) async {
+    try {
+      List<ItemHeaderDTO>? fetchedHeaders = await _itemRepository
+          .getItemHeadersNameCategory(itemName, itemCategory);
 
-        print("fetchedHeader's get datas");
-        if (fetchedHeaders != null) {
-          for (var header in fetchedHeaders) {
-            print("Fetched Item Header: ${header.name}"); // 원하는 속성을 출력합니다.
-          }
-        } else {
-          print("No headers fetched.");
-        }
-
-        return fetchedHeaders;
-      } catch (e) {
-        _handleServiceError(e);
-        return null;
+      print("fetchedHeader's get datas");
+      for (var header in fetchedHeaders) {
+        print("Fetched Item Header: ${header.name}"); // 원하는 속성을 출력합니다.
       }
+
+      return fetchedHeaders;
+    } catch (e) {
+      _handleServiceError(e);
+      return null;
+    }
   }
 
   void _handleServiceError(dynamic e) {

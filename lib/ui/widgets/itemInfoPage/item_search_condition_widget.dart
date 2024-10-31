@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'package:ffxiv/data/models/itemSearchCriteria.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_color/flutter_color.dart';
 
 class ItemSearchConditionLayout extends StatefulWidget {
   final void Function(String searchTerm) onSubmitted;
@@ -9,7 +7,8 @@ class ItemSearchConditionLayout extends StatefulWidget {
   const ItemSearchConditionLayout({super.key, required this.onSubmitted});
 
   @override
-  State<ItemSearchConditionLayout> createState() => _ItemSearchConditionLayoutState();
+  State<ItemSearchConditionLayout> createState() =>
+      _ItemSearchConditionLayoutState();
 }
 
 class _ItemSearchConditionLayoutState extends State<ItemSearchConditionLayout> {
@@ -56,7 +55,8 @@ class _ItemSearchConditionLayoutState extends State<ItemSearchConditionLayout> {
       padding: const EdgeInsets.all(10.0),
       alignment: Alignment.center,
       child: SearchBar(
-        backgroundColor: const WidgetStatePropertyAll(Color.fromARGB(255, 70, 70, 70)),
+        backgroundColor:
+            const WidgetStatePropertyAll(Color.fromARGB(255, 70, 70, 70)),
         hintText: "검색할 아이템을 입력하세요",
         trailing: [
           IconButton(

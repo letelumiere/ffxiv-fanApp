@@ -1,13 +1,16 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ffxiv/viewModel/item_viewModel.dart';
+import 'package:ffxiv/viewModel/item_view_model.dart';
 import 'package:ffxiv/ui/widgets/itemInfoPage/item_search_condition_widget.dart';
 import 'package:ffxiv/ui/widgets/itemInfoPage/item_detail_widget.dart';
 import 'package:ffxiv/ui/widgets/itemInfoPage/item_pagination_widget.dart';
 
 class ItemInfoPage extends StatelessWidget {
   final String uiCategory;
-  const ItemInfoPage({super.key, required this.callback, required this.uiCategory});
+  const ItemInfoPage(
+      {super.key, required this.callback, required this.uiCategory});
 
   final void Function(String message) callback;
 
@@ -24,7 +27,7 @@ class ItemInfoPage extends StatelessWidget {
             onSubmitted: (String? inputText) async {
               try {
 //                await viewModel.fetchItemHeadersNameCategory(inputText!, uiCategory);
-                  viewModel.updateSearchTerm(inputText!);
+                viewModel.updateSearchTerm(inputText!);
               } catch (e) {
                 callback("Error: $e");
               }
@@ -50,7 +53,8 @@ class ItemInfoPage extends StatelessWidget {
                       barrierDismissible: false,
                       builder: (BuildContext context) {
                         return Dialog(
-                          backgroundColor: const Color.fromARGB(255, 53, 52, 52),
+                          backgroundColor:
+                              const Color.fromARGB(255, 53, 52, 52),
                           child: Stack(
                             children: [
                               ItemDetailLayout(
@@ -65,7 +69,8 @@ class ItemInfoPage extends StatelessWidget {
                                 top: 10,
                                 right: 10,
                                 child: IconButton(
-                                  icon: const Icon(Icons.close, color: Colors.redAccent),
+                                  icon: const Icon(Icons.close,
+                                      color: Colors.redAccent),
                                   onPressed: () {
                                     // 팝업을 닫기 (Pagination 초기화 없음)
                                     viewModel.itemPopup();
@@ -80,7 +85,7 @@ class ItemInfoPage extends StatelessWidget {
                     );
                   });
                   // 선택된 아이템이 있을 때는 아무것도 반환하지 않음 (다이얼로그가 표시됨)
-                  return const SizedBox.shrink(); 
+                  return const SizedBox.shrink();
                 }
                 // 페이지네이션 (아이템이 선택되지 않았을 때)
                 return ItemPaginationView(
@@ -90,7 +95,7 @@ class ItemInfoPage extends StatelessWidget {
                     await viewModel.fetchItemsWhereItemID(itemHeader.itemId!);
                   },
                   uiCategory: uiCategory,
-                  searchTerm : viewModel.searchTerm,                   
+                  searchTerm: viewModel.searchTerm,
                 );
               },
             ),

@@ -1,5 +1,3 @@
-import 'package:json_annotation/json_annotation.dart';
-
 class ItemDTO {
   final String? documentId;
   final String? additionalData;
@@ -193,7 +191,7 @@ class ItemDTO {
   });
 
   // fromJson 메서드
-factory ItemDTO.fromJson(Map<String, dynamic> json) {
+  factory ItemDTO.fromJson(Map<String, dynamic> json) {
     return ItemDTO(
       documentId: json['DocumentID'] ?? '',
       additionalData: json['AdditionalData'] ?? '',

@@ -1,15 +1,29 @@
-import 'package:ffxiv/data/models/itemDTO.dart';
+import 'package:ffxiv/data/models/item_dto.dart';
 import 'package:flutter/material.dart';
 
 class AdditionalStatsSection extends StatelessWidget {
   final ItemDTO itemDto;
 
-  AdditionalStatsSection({Key? key, required this.itemDto}) : super(key: key);
+  const AdditionalStatsSection({super.key, required this.itemDto});
 
   @override
   Widget build(BuildContext context) {
-    final List<String?>? baseParamList = [itemDto.baseParam0, itemDto.baseParam1, itemDto.baseParam2, itemDto.baseParam3, itemDto.baseParam4, itemDto.baseParam5];
-    final List<int?>? baseParamValueList = [itemDto.baseParamValue0, itemDto.baseParamValue1, itemDto.baseParamValue2, itemDto.baseParamValue3 ,itemDto.baseParamValue4, itemDto.baseParamValue5];
+    final List<String?> baseParamList = [
+      itemDto.baseParam0,
+      itemDto.baseParam1,
+      itemDto.baseParam2,
+      itemDto.baseParam3,
+      itemDto.baseParam4,
+      itemDto.baseParam5
+    ];
+    final List<int?> baseParamValueList = [
+      itemDto.baseParamValue0,
+      itemDto.baseParamValue1,
+      itemDto.baseParamValue2,
+      itemDto.baseParamValue3,
+      itemDto.baseParamValue4,
+      itemDto.baseParamValue5
+    ];
 
     if (baseParamValueList == null) return SizedBox.shrink();
 
@@ -23,10 +37,11 @@ class AdditionalStatsSection extends StatelessWidget {
         const SizedBox(height: 10),
         Row(
           children: [
-            ...List.generate(baseParamValueList!.length, (index) {
-              if (baseParamValueList![index] != 0) {
+            ...List.generate(baseParamValueList.length, (index) {
+              if (baseParamValueList[index] != 0) {
                 return Expanded(
-                  child: _buildStatRow('${baseParamList?[index]}', '  +${baseParamValueList[index]}'),
+                  child: _buildStatRow('${baseParamList[index]}',
+                      '  +${baseParamValueList[index]}'),
                 );
               } else {
                 return const SizedBox.shrink();

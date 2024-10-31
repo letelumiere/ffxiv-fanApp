@@ -1,5 +1,4 @@
-import 'package:ffxiv/data/datasources/category_list.dart';
-import 'package:ffxiv/viewModel/item_viewModel.dart';
+import 'package:ffxiv/viewModel/item_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'itemDetailSections/item_header.dart';
@@ -11,20 +10,21 @@ import 'itemDetailSections/materia_section.dart';
 import 'itemDetailSections/repair_section.dart';
 import 'itemDetailSections/description_section.dart';
 import 'itemDetailSections/tradable_section.dart';
-import 'package:ffxiv/data/models/itemDTO.dart';
+import 'package:ffxiv/data/models/item_dto.dart';
 
 class ItemDetailLayout extends StatefulWidget {
   final ItemDTO itemDto;
   final void Function(String message) callback;
 
-  ItemDetailLayout({required this.itemDto, required this.callback, Key? key}) : super(key: key);
+  const ItemDetailLayout(
+      {required this.itemDto, required this.callback, super.key});
 
   @override
   State<ItemDetailLayout> createState() => _ItemDetailLayoutState();
 }
+
 class _ItemDetailLayoutState extends State<ItemDetailLayout> {
   late Future<String?> imageUrlFuture;
-
 
   @override
   void initState() {
@@ -48,11 +48,15 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                 ItemHeader(itemDto: itemDto, itemImage: imageUrlFuture),
                 ItemCategorySection(itemDto: itemDto),
                 const SizedBox(height: 10),
-                ItemStatsSection(itemDto: itemDto,),
+                ItemStatsSection(
+                  itemDto: itemDto,
+                ),
                 ItemRequireSection(itemDto: itemDto),
                 const SizedBox(height: 10),
 //               if (itemDto.baseParamValue0!= null && itemDto.baseParamValue0!.any((value) => value != 0))
-                  AdditionalStatsSection(itemDto: itemDto,),
+                AdditionalStatsSection(
+                  itemDto: itemDto,
+                ),
                 const SizedBox(height: 10),
                 if (itemDto.materiaSlotCount > 0)
                   MateriaSection(itemDto: itemDto),
@@ -60,7 +64,8 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                 if (itemDto.classJobRepair != "")
                   RepairSection(itemDto: itemDto),
                 const SizedBox(height: 10),
-                if (itemDto.description != null && itemDto.description != "No description available")
+                if (itemDto.description != null &&
+                    itemDto.description != "No description available")
                   DescriptionSection(itemDto: itemDto),
                 const SizedBox(height: 10),
                 TradableSection(itemDto: itemDto),
