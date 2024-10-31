@@ -23,7 +23,7 @@ class ItemStatsSection extends StatelessWidget {
       itemDto.delayMs
     ];
 
-    if (baseParamList == null) return SizedBox.shrink();
+//    if (baseParamList == null) return SizedBox.shrink();
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

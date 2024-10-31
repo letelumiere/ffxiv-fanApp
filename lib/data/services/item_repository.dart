@@ -200,6 +200,7 @@ class ItemRepository {
     if (criteria.name != null && criteria.name!.isNotEmpty) {
       query = query
           .where('Name', isGreaterThanOrEqualTo: criteria.name)
+          // ignore: prefer_interpolation_to_compose_strings
           .where('Name', isLessThanOrEqualTo: criteria.name! + '\uf8ff')
           .orderBy('Name');
     }

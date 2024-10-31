@@ -25,7 +25,7 @@ class AdditionalStatsSection extends StatelessWidget {
       itemDto.baseParamValue5
     ];
 
-    if (baseParamValueList == null) return SizedBox.shrink();
+//    if (baseParamValueList == null) return SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
