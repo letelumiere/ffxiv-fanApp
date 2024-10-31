@@ -160,7 +160,7 @@ class ItemRepository {
   Future<List<ItemHeaderDTO>> getItemHeadersNameCategory(
       String itemName, String itemCategory) async {
     print(
-        "Repository's query, 'getItemHeadersNameCategory' parameter = ${itemName} ${itemCategory}");
+        "Repository's query, 'getItemHeadersNameCategory' parameter = $itemName $itemCategory");
     try {
       // 기본 쿼리 설정
       Query query = _itemsCollection.orderBy('Name'); // orderBy를 먼저 호출

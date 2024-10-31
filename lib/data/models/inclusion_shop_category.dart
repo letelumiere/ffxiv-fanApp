@@ -14,10 +14,10 @@ class InclusionShopCategory {
   // Factory constructor to create an InclusionShopCategory from a Firestore document
   factory InclusionShopCategory.fromMap(Map<String, dynamic> data) {
     return InclusionShopCategory(
-      id: data['key'],  // 'key'를 ID로 사용
-      name: data['0'] ?? '',  // '0' 필드가 Name
-      classJobCategory: data['1'] ?? '',  // '1' 필드가 ClassJobCategory
-      inclusionShopSeries: data['2'] ?? '',  // '2' 필드가 InclusionShopSeries
+      id: data['key'], // 'key'를 ID로 사용
+      name: data['0'] ?? '', // '0' 필드가 Name
+      classJobCategory: data['1'] ?? '', // '1' 필드가 ClassJobCategory
+      inclusionShopSeries: data['2'] ?? '', // '2' 필드가 InclusionShopSeries
     );
   }
 

@@ -36,8 +36,7 @@ class ItemHeader extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("${itemDto.name}",
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(itemDto.name, style: TextStyle(fontWeight: FontWeight.bold)),
             Row(
               children: [
                 // 추가 정보가 있다면 여기에 추가

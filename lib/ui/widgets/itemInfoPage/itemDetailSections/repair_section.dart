@@ -8,6 +8,7 @@ class RepairSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unrelated_type_equality_checks
     String desynth = itemDto.desynth == true ? '○' : '✕';
     String dyeable = itemDto.dyeCount == true ? '○' : '✕';
     String materialize = itemDto.materializeType > 0 ? '○' : '✕';
@@ -25,7 +26,7 @@ class RepairSection extends StatelessWidget {
         const SizedBox(height: 10),
         _buildStatRow('수리 레벨    ',
             ' ${itemDto.classJobRepair} ${itemDto.levelEquip} 레벨 이상'),
-        _buildStatRow('수리 재료    ', ' ${repairMaterial}'),
+        _buildStatRow('수리 재료    ', ' $repairMaterial'),
         Row(
           children: [
             Expanded(child: _buildStatRow('마테리아화 : ', materialize)),

@@ -16,18 +16,18 @@ class ItemViewModel extends ChangeNotifier {
   String? _message;
   String? _searchTerm;
   bool _isLoading = false;
-  bool _isInitialized = false;
+  final bool _isInitialized = false;
   FirebaseStorage storage = FirebaseStorage.instance;
 
   // 데이터 리스트
   ItemDTO? _selectedItem;
   ItemSearchCriteria? _criteria;
   List<ItemHeaderDTO> _itemHeaders = [];
-  List<String?> _imageUrls = [];
+  final List<String?> _imageUrls = [];
 
   // 페이지 관련 변수
-  int _page = 0; // 현재 페이지 수
-  int _limit = 5; // 한 페이지당 아이템 수
+  final int _page = 0; // 현재 페이지 수
+  final int _limit = 5; // 한 페이지당 아이템 수
   DocumentSnapshot? _lastDocument; // 마지막 문서 추가
 
   // Getter 메서드
@@ -89,8 +89,8 @@ class ItemViewModel extends ChangeNotifier {
     try {
       // Firebase Storage에서 이미지 URL 가져오기
       String childUrl = changeFileExtension(icon, 'png');
-      final storageRef = storage.ref().child('ffxiv-data/' + childUrl);
-      print("image reference = ${storageRef}");
+      final storageRef = storage.ref().child('ffxiv-data/$childUrl');
+      print("image reference = $storageRef");
       print("image reference = ${storageRef.bucket}");
 
       return await storageRef.getDownloadURL();
@@ -182,7 +182,7 @@ class ItemViewModel extends ChangeNotifier {
   }
 
   String changeFileExtension(String url, String newExtension) {
-    return url.substring(0, url.lastIndexOf('.')) + '.' + newExtension;
+    return '${url.substring(0, url.lastIndexOf('.'))}.$newExtension';
   }
 
 /*

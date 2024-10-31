@@ -34,13 +34,12 @@ class ItemStatsSection extends StatelessWidget {
               flex: 1,
               child: Container(
                 margin: EdgeInsets.only(
-                    right: index != baseParamList!.length - 1 ? 8.0 : 0.0),
-                child:
-                    _buildStatColumn(baseStats[index], baseParamList[index]!),
+                    right: index != baseParamList.length - 1 ? 8.0 : 0.0),
                 decoration: const BoxDecoration(
                   border:
                       Border(bottom: BorderSide(color: Colors.white, width: 1)),
                 ),
+                child: _buildStatColumn(baseStats[index], baseParamList[index]),
               ),
             );
           } else {
@@ -53,7 +52,6 @@ class ItemStatsSection extends StatelessWidget {
   }
 
   Widget _buildStatColumn(String title, int value) {
-    String strTitle = "";
     String strValue = "";
     if (title == "공격 주기") {
       strValue = (value / 1000).toStringAsFixed(2);
