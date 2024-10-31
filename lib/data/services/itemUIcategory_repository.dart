@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffixv/data/models/itemUICategory.dart';
+import 'package:ffxiv/data/models/itemUICategory.dart';
 
 class ItemUICategoryRepository {
   final CollectionReference _itemUICategoryCollection;

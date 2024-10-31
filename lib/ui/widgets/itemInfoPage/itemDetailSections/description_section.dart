@@ -1,5 +1,5 @@
 // description_section.dart
-import 'package:ffixv/data/models/itemDTO.dart';
+import 'package:ffxiv/data/models/itemDTO.dart';
 import 'package:flutter/material.dart';
 
 class DescriptionSection extends StatelessWidget {

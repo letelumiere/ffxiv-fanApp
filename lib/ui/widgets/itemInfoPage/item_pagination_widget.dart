@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffixv/viewModel/item_viewModel.dart';
+import 'package:ffxiv/viewModel/item_viewModel.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:ffixv/data/models/itemHeaderDTO.dart';
+import 'package:ffxiv/data/models/itemHeaderDTO.dart';
 import 'package:firebase_pagination/firebase_pagination.dart';
 import 'package:provider/provider.dart';
 

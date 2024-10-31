@@ -1,5 +1,5 @@
-name: ffixv
-description: "A new Flutter project."
+name: ffxiv
+description: "ItemDatabase 3rd party for Final Fantasy 14. support for korean server data only now."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 environment:

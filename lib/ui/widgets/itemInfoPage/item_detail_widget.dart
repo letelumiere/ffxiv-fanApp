@@ -1,5 +1,5 @@
-import 'package:ffixv/data/datasources/category_list.dart';
-import 'package:ffixv/viewModel/item_viewModel.dart';
+import 'package:ffxiv/data/datasources/category_list.dart';
+import 'package:ffxiv/viewModel/item_viewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'itemDetailSections/item_header.dart';
@@ -11,7 +11,7 @@ import 'itemDetailSections/materia_section.dart';
 import 'itemDetailSections/repair_section.dart';
 import 'itemDetailSections/description_section.dart';
 import 'itemDetailSections/tradable_section.dart';
-import 'package:ffixv/data/models/itemDTO.dart';
+import 'package:ffxiv/data/models/itemDTO.dart';
 
 class ItemDetailLayout extends StatefulWidget {
   final ItemDTO itemDto;

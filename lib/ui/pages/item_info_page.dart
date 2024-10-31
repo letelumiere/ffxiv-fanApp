@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ffixv/viewModel/item_viewModel.dart';
-import 'package:ffixv/ui/widgets/itemInfoPage/item_search_condition_widget.dart';
-import 'package:ffixv/ui/widgets/itemInfoPage/item_detail_widget.dart';
-import 'package:ffixv/ui/widgets/itemInfoPage/item_pagination_widget.dart';
+import 'package:ffxiv/viewModel/item_viewModel.dart';
+import 'package:ffxiv/ui/widgets/itemInfoPage/item_search_condition_widget.dart';
+import 'package:ffxiv/ui/widgets/itemInfoPage/item_detail_widget.dart';
+import 'package:ffxiv/ui/widgets/itemInfoPage/item_pagination_widget.dart';
 
 class ItemInfoPage extends StatelessWidget {
   final String uiCategory;

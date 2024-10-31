@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:ffixv/data/models/itemSearchCriteria.dart';
+import 'package:ffxiv/data/models/itemSearchCriteria.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_color/flutter_color.dart';
 

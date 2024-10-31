@@ -1,4 +1,4 @@
-package com.example.ffixv
+package com.example.ffxiv
 
 import io.flutter.embedding.android.FlutterActivity
 

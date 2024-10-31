@@ -1,3 +1,16 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext.kotlin_version = '1.5.31' // Kotlin 버전
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.4' // Gradle 플러그인 버전
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" // Kotlin Gradle 플러그인
+    }
+}
+
 allprojects {
     repositories {
         google()
@@ -15,4 +28,29 @@ subprojects {
 
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
+}
+
+// Flutter 애플리케이션의 기본 설정
+android {
+    compileSdkVersion 31 // Compile SDK Version
+
+    defaultConfig {
+        applicationId "com.letelumiere.ffxiv" // 패키지 이름
+        minSdkVersion 21 // 최소 SDK 버전
+        targetSdkVersion 31 // 목표 SDK 버전
+        versionCode 1 // 버전 코드
+        versionName "1.0" // 버전 이름
+    }
+
+    buildTypes {
+        release {
+            // 릴리스 빌드 설정
+            minifyEnabled false // 코드 압축 여부
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro' // Proguard 설정 파일
+        }
+    }
+}
+
+flutter {
+    source '../..' // Flutter 소스 경로
 }

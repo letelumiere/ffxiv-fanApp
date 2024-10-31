@@ -1,8 +1,8 @@
 
 import 'dart:convert';
 
-import 'package:ffixv/data/models/classJobCategory.dart';
-import 'package:ffixv/data/services/classJobCategory_repository.dart';
+import 'package:ffxiv/data/models/classJobCategory.dart';
+import 'package:ffxiv/data/services/classJobCategory_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

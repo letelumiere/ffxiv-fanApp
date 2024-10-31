@@ -1,9 +1,9 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:ffixv/data/models/itemDTO.dart';
-import 'package:ffixv/data/models/itemHeaderDTO.dart';
-import 'package:ffixv/data/models/itemSearchCriteria.dart';
-import 'package:ffixv/data/services/item_service.dart';
+import 'package:ffxiv/data/models/itemDTO.dart';
+import 'package:ffxiv/data/models/itemHeaderDTO.dart';
+import 'package:ffxiv/data/models/itemSearchCriteria.dart';
+import 'package:ffxiv/data/services/item_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ItemViewModel extends ChangeNotifier {

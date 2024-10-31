@@ -1,6 +1,6 @@
-import 'package:ffixv/viewModel/item_viewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:ffixv/data/datasources/category_list.dart';
+import 'package:ffxiv/viewModel/item_viewModel.dart';
+import 'package:ffxiv/data/datasources/category_list.dart';
 
 class AppMenuDrawer extends StatelessWidget {
   final Function(PageType, String) onItemTapped;

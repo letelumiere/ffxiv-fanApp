@@ -1,8 +1,8 @@
-import 'package:ffixv/data/datasources/category_list.dart';
-import 'package:ffixv/ui/pages/index_page.dart';
-import 'package:ffixv/ui/pages/item_info_page.dart';
-import 'package:ffixv/ui/widgets/appDrawerMenu/app_drawer_menu_widget.dart';
-import 'package:ffixv/viewModel/item_viewModel.dart';
+import 'package:ffxiv/data/datasources/category_list.dart';
+import 'package:ffxiv/ui/pages/index_page.dart';
+import 'package:ffxiv/ui/pages/item_info_page.dart';
+import 'package:ffxiv/ui/widgets/appDrawerMenu/app_drawer_menu_widget.dart';
+import 'package:ffxiv/viewModel/item_viewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

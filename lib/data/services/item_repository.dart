@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffixv/data/models/itemDTO.dart';
-import 'package:ffixv/data/models/itemHeaderDTO.dart';
-import 'package:ffixv/data/models/itemSearchCriteria.dart';
+import 'package:ffxiv/data/models/itemDTO.dart';
+import 'package:ffxiv/data/models/itemHeaderDTO.dart';
+import 'package:ffxiv/data/models/itemSearchCriteria.dart';
  
 class ItemRepository {
   final CollectionReference _itemsCollection;

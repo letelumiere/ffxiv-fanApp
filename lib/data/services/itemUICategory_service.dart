@@ -1,5 +1,5 @@
-import 'package:ffixv/data/models/itemUICategory.dart';
-import 'package:ffixv/data/services/itemUIcategory_repository.dart';
+import 'package:ffxiv/data/models/itemUICategory.dart';
+import 'package:ffxiv/data/services/itemUIcategory_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
