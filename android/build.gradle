@@ -1,28 +1,16 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = '1.8.0' // Kotlin 버전 (최신으로 업데이트)
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:8.0.2" // Android Gradle 플러그인
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" // Kotlin Gradle 플러그인
+        classpath "com.android.tools.build:gradle:8.0.2" // Android Gradle Plugin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0" // Kotlin Gradle Plugin
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+plugins {
+    id "com.android.application" version "8.0.2" apply false
+    id "com.google.gms.google-services" version "4.3.15" apply false
 }
 
-rootProject.buildDir = "../build"
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
-}

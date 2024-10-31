@@ -18,8 +18,7 @@ def flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "
 
 android {
     namespace = "com.letelumiere.ffxiv" // 패키지 이름
-    compileSdk = flutter.compileSdkVersion // Flutter SDK 버전 사용
-    ndkVersion = flutter.ndkVersion // NDK 버전 설정
+    compileSdk = 34 // Flutter SDK 버전 사용 (최신으로 설정)
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -29,7 +28,7 @@ android {
     defaultConfig {
         applicationId = "com.letelumiere.ffxiv" // 애플리케이션 ID
         minSdk = 23 // 최소 SDK 버전
-        targetSdk = flutter.targetSdkVersion // 목표 SDK 버전
+        targetSdk = 34 // 목표 SDK 버전 (최신으로 설정)
         versionCode = flutterVersionCode.toInteger() // 버전 코드
         versionName = flutterVersionName // 버전 이름
     }
@@ -46,13 +45,14 @@ flutter {
 }
 
 dependencies {
-    // 여기에 필요한 의존성 추가
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.0" // Kotlin 표준 라이브러리
-    // 예를 들어, Firebase 라이브러리 추가
-    // implementation platform('com.google.firebase:firebase-bom:31.0.0')
-    // implementation 'com.google.firebase:firebase-analytics'
-}
 
-tasks.withType(Report) {
-    destination = outputLocation
+    // Firebase BOM 추가
+    implementation platform('com.google.firebase:firebase-bom:32.1.1') // Firebase BOM 버전 확인 후 업데이트
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth' // 추가할 Firebase 서비스
+    implementation 'com.google.firebase:firebase-storage' // Firebase Storage 추가
+    implementation 'com.google.firebase:firebase-database' // Firebase Database 추가
+
+    // 필요에 따라 다른 Firebase 서비스 추가
 }
