@@ -1,4 +1,10 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "commentTranslate.hover.enabled": true,
+    "java.format.settings.url": ".vscode/java-formatter.xml",
+    "cSpell.words": [
+        "firestore"
+    ],
+    "jdk.jdkhome": ""
 }
