@@ -1,9 +1,10 @@
-import 'package:ffxiv/data/services/classjob_category_repository.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:ffxiv/data/services/classjob_category_repository.dart';
+//import 'package:firebase_core/firebase_core.dart';
+//import 'package:flutter/material.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 
-class ClassJobCategoryService extends ChangeNotifier {
+class ClassJobCategoryService /*extends ChangeNotifier*/ {
+  /*
   final ClassJobCategoryRepository _classJobCategoryRepository;
   final SharedPreferences sharedPreferences;
 
@@ -48,4 +49,5 @@ class ClassJobCategoryService extends ChangeNotifier {
       return null;
     }
   }
+  */
 }

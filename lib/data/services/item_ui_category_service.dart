@@ -1,9 +1,10 @@
-import 'package:ffxiv/data/services/item_ui_category_repository.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:ffxiv/data/services/item_ui_category_repository.dart';
+//import 'package:firebase_core/firebase_core.dart';
+//import 'package:flutter/material.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 
-class ItemUICategoryService extends ChangeNotifier {
+class ItemUICategoryService /*extends ChangeNotifier*/ {
+/*
   final ItemUICategoryRepository _itemUICategoryRepository;
   final SharedPreferences sharedPreferences;
 
@@ -34,4 +35,5 @@ class ItemUICategoryService extends ChangeNotifier {
       return null;
     }
   }
+  */
 }

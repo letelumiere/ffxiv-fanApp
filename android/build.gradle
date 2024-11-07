@@ -5,13 +5,14 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:8.9" // Android Gradle Plugin
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.24" // Kotlin Gradle Plugin 최신 버전
+        classpath "com.android.tools.build:gradle:8.1.0" // Android Gradle Plugin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23" // Kotlin Gradle Plugin 최신 버전
         classpath "com.google.gms:google-services:4.3.15" // Google Services Plugin
     }
 }
 
 plugins {
-    id "com.android.application" version "8.9" apply false
+    id "com.android.application" version "8.7.0" apply false
+    id 'com.android.library' version '8.7.0' apply false
     id "com.google.gms.google-services" version "4.3.15" apply false
 }

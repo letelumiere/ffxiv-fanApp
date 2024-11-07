@@ -22,14 +22,14 @@ android {
     ndkVersion = "28.0.12433566"      // NDK 버전 설정 (Flutter에 설정된 NDK 버전 사용)
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21 // Java 21로 변경
-        targetCompatibility = JavaVersion.VERSION_21 // Java 21로 변경
+        sourceCompatibility = JavaVersion.VERSION_17 // Java 21로 변경
+        targetCompatibility = JavaVersion.VERSION_17 // Java 21로 변경
     }
 
     defaultConfig {
         applicationId = "com.letelumiere.ffxiv" // 애플리케이션 ID
-        minSdk = 23     //flutter.minSdkVersion // 최소 SDK 버전
-        targetSdk = flutter.targetSdkVersion // 목표 SDK 버전 (최신으로 설정)
+        minSdk = 24     //flutter.minSdkVersion // 최소 SDK 버전
+        targetSdk = 34 //flutter.targetSdkVersion // 목표 SDK 버전 (최신으로 설정)
         versionCode = flutterVersionCode.toInteger() // 버전 코드
         versionName = flutterVersionName // 버전 이름
     }
@@ -46,7 +46,7 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.24" // 최신 Kotlin 표준 라이브러리로 업데이트
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.23" // 최신 Kotlin 표준 라이브러리로 업데이트
 
     // Firebase BOM 추가
     implementation platform('com.google.firebase:firebase-bom:32.1.1') // Firebase BOM 버전 확인 후 업데이트

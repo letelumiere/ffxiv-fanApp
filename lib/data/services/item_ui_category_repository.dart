@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffxiv/data/models/item_ui_category.dart';
-
 class ItemUICategoryRepository {
+  /*
   final CollectionReference _itemUICategoryCollection;
 
   ItemUICategoryRepository(FirebaseFirestore firestore)
@@ -32,4 +30,5 @@ class ItemUICategoryRepository {
     // 에러 처리 로직을 개선할 수 있습니다.
     print('Error: $e');
   }
+  */
 }
