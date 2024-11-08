@@ -25,8 +25,6 @@ class AdditionalStatsSection extends StatelessWidget {
       itemDto.baseParamValue5
     ];
 
-//    if (baseParamValueList == null) return SizedBox.shrink();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -35,19 +33,23 @@ class AdditionalStatsSection extends StatelessWidget {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
-        Row(
-          children: [
-            ...List.generate(baseParamValueList.length, (index) {
-              if (baseParamValueList[index] != 0) {
-                return Expanded(
-                  child: _buildStatRow('${baseParamList[index]}',
-                      '  +${baseParamValueList[index]}'),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            }),
-          ],
+        Wrap(
+          spacing: 4.0, // 아이템 간의 가로 간격
+          runSpacing: 10.0, // 줄 바꿈 시 세로 간격
+          children: List.generate(baseParamValueList.length, (index) {
+            if (baseParamValueList[index] != null &&
+                baseParamValueList[index] != 0) {
+              return SizedBox(
+                width: (MediaQuery.of(context).size.width / 2) - 20, // 2열 형식 유지
+                child: _buildStatRow(
+                  '${baseParamList[index]}',
+                  '  +${baseParamValueList[index]}',
+                ),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          }),
         ),
       ],
     );
@@ -55,6 +57,7 @@ class AdditionalStatsSection extends StatelessWidget {
 
   Widget _buildStatRow(String title, String value) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(title),
         Text(value, textAlign: TextAlign.end),

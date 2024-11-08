@@ -10,7 +10,7 @@ class ItemCategorySection extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> categoryWidgets = [
       Expanded(
-        flex: 6,
+        flex: 3,
         child: Text(
           itemDto.itemUICategory, // <- 여기에 xivString 대입
           style: TextStyle(fontWeight: FontWeight.bold),
