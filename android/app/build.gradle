@@ -18,7 +18,7 @@ def flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "
 
 android {
     namespace = "com.letelumiere.ffxiv" // 패키지 이름
-    compileSdk = flutter.compileSdkVersion // Flutter SDK 버전 사용 (최신으로 설정)
+    compileSdk = 34 // Flutter SDK 버전 사용 (최신으로 설정)
     ndkVersion = "28.0.12433566"      // NDK 버전 설정 (Flutter에 설정된 NDK 버전 사용)
 
     compileOptions {
@@ -29,7 +29,7 @@ android {
     defaultConfig {
         applicationId = "com.letelumiere.ffxiv" // 애플리케이션 ID
         minSdk = 24     // 최소 SDK 버전
-        targetSdk = 35 // 목표 SDK 버전 (최신으로 설정)
+        targetSdk = 34 // 목표 SDK 버전 (최신으로 설정)
         versionCode = flutterVersionCode.toInteger() // 버전 코드
         versionName = flutterVersionName // 버전 이름
     }

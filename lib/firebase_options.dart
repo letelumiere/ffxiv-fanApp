@@ -67,7 +67,7 @@ class DefaultFirebaseOptions {
     projectId: 'ffxiv-database-a42b0',
     databaseURL: 'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'ffxiv-database-a42b0.appspot.com',
-    iosBundleId: 'com.example.ffixv',
+    iosBundleId: 'com.letelumiere.ffxiv',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -77,7 +77,7 @@ class DefaultFirebaseOptions {
     projectId: 'ffxiv-database-a42b0',
     databaseURL: 'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'ffxiv-database-a42b0.appspot.com',
-    iosBundleId: 'com.example.ffixv',
+    iosBundleId: 'com.letelumiere.ffxiv',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
