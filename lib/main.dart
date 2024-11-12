@@ -66,21 +66,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-/*
-  const FirebaseOptions firebaseOptions_emulator = FirebaseOptions(
-
-    apiKey: 'AIzaSyCpX9N9lkJk2FVz31pTZUyIVo92mRoNNps',
-    appId: '1:961203961599:web:a5f09d549da183ec1516ca',
-    messagingSenderId: '961203961599',
-    projectId: 'ffxiv-database-a42b0',
-    storageBucket: 'ffxiv-database-a42b0.appspot.com',
-    authDomain: 'ffxiv-database-a42b0.firebaseapp.com',
-    databaseURL: 'https://127.0.0.1:9000',
-//    measurementId: 'G-0SV4QFCHT7',
-  );
-
-  await Firebase.initializeApp(options: firebaseOptions_emulator);
-  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
-*/

@@ -46,7 +46,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '961203961599',
     projectId: 'ffxiv-database-a42b0',
     authDomain: 'ffxiv-database-a42b0.firebaseapp.com',
-    databaseURL: 'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'ffxiv-database-a42b0.appspot.com',
     measurementId: 'G-0SV4QFCHT7',
   );
@@ -56,7 +57,8 @@ class DefaultFirebaseOptions {
     appId: '1:961203961599:android:480b0df5b92f6e8b1516ca',
     messagingSenderId: '961203961599',
     projectId: 'ffxiv-database-a42b0',
-    databaseURL: 'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'ffxiv-database-a42b0.appspot.com',
   );
 
@@ -65,7 +67,8 @@ class DefaultFirebaseOptions {
     appId: '1:961203961599:ios:8ad6d3d21d37cb601516ca',
     messagingSenderId: '961203961599',
     projectId: 'ffxiv-database-a42b0',
-    databaseURL: 'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'ffxiv-database-a42b0.appspot.com',
     iosBundleId: 'com.letelumiere.ffxiv',
   );
@@ -75,7 +78,8 @@ class DefaultFirebaseOptions {
     appId: '1:961203961599:ios:8ad6d3d21d37cb601516ca',
     messagingSenderId: '961203961599',
     projectId: 'ffxiv-database-a42b0',
-    databaseURL: 'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'ffxiv-database-a42b0.appspot.com',
     iosBundleId: 'com.letelumiere.ffxiv',
   );
@@ -86,8 +90,26 @@ class DefaultFirebaseOptions {
     messagingSenderId: '961203961599',
     projectId: 'ffxiv-database-a42b0',
     authDomain: 'ffxiv-database-a42b0.firebaseapp.com',
-    databaseURL: 'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://ffxiv-database-a42b0-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'ffxiv-database-a42b0.appspot.com',
     measurementId: 'G-GEH3K5R2N1',
   );
 }
+
+/*
+  const FirebaseOptions firebaseOptions_emulator = FirebaseOptions(
+
+    apiKey: 'AIzaSyCpX9N9lkJk2FVz31pTZUyIVo92mRoNNps',
+    appId: '1:961203961599:web:a5f09d549da183ec1516ca',
+    messagingSenderId: '961203961599',
+    projectId: 'ffxiv-database-a42b0',
+    storageBucket: 'ffxiv-database-a42b0.appspot.com',
+    authDomain: 'ffxiv-database-a42b0.firebaseapp.com',
+    databaseURL: 'https://127.0.0.1:9000',
+//    measurementId: 'G-0SV4QFCHT7',
+  );
+
+  await Firebase.initializeApp(options: firebaseOptions_emulator);
+  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
+*/
