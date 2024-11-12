@@ -18,55 +18,71 @@ def flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "
 
 android {
     namespace = "com.letelumiere.ffxiv" // 패키지 이름
-    compileSdk = 34 // Flutter SDK 버전 사용 (최신으로 설정)
-    ndkVersion = "28.0.12433566"      // NDK 버전 설정 (Flutter에 설정된 NDK 버전 사용)
+    compileSdk = 34 // 최신 SDK 버전
+    ndkVersion = "28.0.12433566" // 필요 여부 확인
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17 // Java 17 설정
-        targetCompatibility = JavaVersion.VERSION_17 // Java 17 설정
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     defaultConfig {
-        applicationId = "com.letelumiere.ffxiv" // 애플리케이션 ID
-        minSdk = 24     // 최소 SDK 버전
-        targetSdk = 34 // 목표 SDK 버전 (최신으로 설정)
-        versionCode = flutterVersionCode.toInteger() // 버전 코드
-        versionName = flutterVersionName // 버전 이름
+        applicationId = "com.letelumiere.ffxiv"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = flutterVersionCode.toInteger()
+        versionName = flutterVersionName
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    signingConfigs {
+        release {
+            // 서명 설정 추가
+            storeFile file("your-keystore.jks")
+            storePassword "your-store-password"
+            keyAlias "your-key-alias"
+            keyPassword "your-key-password"
+        }
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.debug // 릴리스 빌드 서명 설정 (디버그 키 사용)
+            minifyEnabled true // ProGuard 또는 R8 활성화
+            shrinkResources true // 사용되지 않는 리소스 제거
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
-    // 수정된 부분: 테스트 제외 방법 변경
     testOptions {
         unitTests.all {
-            it.enabled = false  // 모든 유닛 테스트를 비활성화
+            it.enabled = false
             it.failFast = false
-            it.ignoreFailures = true // 실패한 테스트를 무시하고 계속 진행
+            it.ignoreFailures = true
         }
     }
 
-    // Lint 설정 비활성화
-    lintOptions {
-        checkReleaseBuilds false // 릴리스 빌드에서 Lint 검사 생략
-        abortOnError false       // 오류 발생 시 빌드를 중단하지 않음
+    lint {
+        checkReleaseBuilds = false
+        abortOnError = false
     }
 }
 
 flutter {
-    source = "../.." // Flutter 소스 경로
+    source = "../.."
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.23" // 최신 Kotlin 표준 라이브러리로 업데이트
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.23" // 최신 Kotlin 표준 라이브러리
 
     // Firebase BOM 추가
-    implementation platform('com.google.firebase:firebase-bom:32.1.1') // Firebase BOM 버전 확인 후 업데이트
+    implementation platform('com.google.firebase:firebase-bom:32.1.1')
+    implementation 'androidx.annotation:annotation:1.9.1'
+    implementation 'com.android.support:support-annotations:28.0.0'
     implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-auth' // Firebase 인증
-    implementation 'com.google.firebase:firebase-storage' // Firebase Storage
-    implementation 'com.google.firebase:firebase-database' // Firebase Database
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.google.firebase:firebase-database'
 }
