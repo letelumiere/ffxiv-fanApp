@@ -54,3 +54,7 @@ app.*.map.json
 /android/gradle/
 
 node_modules
+
+#authentification
+key.properties
+ffxiv-release-key.jks

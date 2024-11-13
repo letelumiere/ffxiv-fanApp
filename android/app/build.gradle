@@ -5,6 +5,14 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin" // Flutter Gradle Plugin
 }
 
+// key.properties 파일을 불러오는 코드
+def keyProperties = new Properties()
+
+def keyPropertiesFile = rootProject.file("../key.properties")
+if (keyPropertiesFile.exists()) {
+    keyProperties.load(new FileInputStream(keyPropertiesFile))
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
@@ -19,11 +27,15 @@ def flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "
 android {
     namespace = "com.letelumiere.ffxiv" // 패키지 이름
     compileSdk = 34 // 최신 SDK 버전
-    ndkVersion = "28.0.12433566" // 필요 여부 확인
+    ndkVersion = "28.0.12433566" // 필요 여부 확인 (불필요하면 삭제)
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17" // Kotlin JVM Target 설정
     }
 
     defaultConfig {
@@ -32,6 +44,7 @@ android {
         targetSdk = 34
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
+        multiDexEnabled true
     }
 
     buildFeatures {
@@ -40,19 +53,19 @@ android {
 
     signingConfigs {
         release {
-            // 서명 설정 추가
-            storeFile file("your-keystore.jks")
-            storePassword "your-store-password"
-            keyAlias "your-key-alias"
-            keyPassword "your-key-password"
+            storeFile file(keyProperties.getProperty("storeFile"))
+            storePassword keyProperties.getProperty("storePassword")
+            keyAlias keyProperties.getProperty("keyAlias")
+            keyPassword keyProperties.getProperty("keyPassword")
         }
     }
 
     buildTypes {
         release {
-            minifyEnabled true // ProGuard 또는 R8 활성화
-            shrinkResources true // 사용되지 않는 리소스 제거
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            //minifyEnabled true // ProGuard 또는 R8 활성화
+            //shrinkResources true // 사용되지 않는 리소스 제거
+            //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -70,17 +83,26 @@ android {
     }
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 flutter {
     source = "../.."
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.23" // 최신 Kotlin 표준 라이브러리
+    // 최신 Kotlin 표준 라이브러리
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.23"
 
-    // Firebase BOM 추가
+    // Firebase BOM 추가 (Firebase 라이브러리 버전 관리 통합)
     implementation platform('com.google.firebase:firebase-bom:32.1.1')
     implementation 'androidx.annotation:annotation:1.9.1'
-    implementation 'com.android.support:support-annotations:28.0.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    // Firebase 관련 의존성
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-storage'
