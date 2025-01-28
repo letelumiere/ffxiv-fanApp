@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ffxiv/data/models/item_search_criteria.dart';
-import 'package:ffxiv/data/services/item_repository.dart';
-import 'package:ffxiv/data/models/item_dto.dart';
-import 'package:ffxiv/data/models/item_header_dto.dart';
+import 'package:ffxiv/models/item_search_criteria.dart';
+import 'package:ffxiv/services/item_repository.dart';
+import 'package:ffxiv/models/item_dto.dart';
+import 'package:ffxiv/models/item_header_dto.dart';
 
 class ItemService {
   final ItemRepository _itemRepository;

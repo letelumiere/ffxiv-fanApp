@@ -1,4 +1,4 @@
-import 'package:ffxiv/data/models/item_dto.dart';
+import 'package:ffxiv/models/item_dto.dart';
 import 'package:flutter/material.dart';
 
 class AdditionalStatsSection extends StatelessWidget {

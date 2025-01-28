@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffxiv/data/services/item_repository.dart';
-import 'package:ffxiv/data/services/item_service.dart';
+import 'package:ffxiv/services/item_repository.dart';
+import 'package:ffxiv/services/item_service.dart';
 import 'package:ffxiv/firebase_options.dart';
 import 'package:ffxiv/ui/pages/main_page.dart';
 import 'package:ffxiv/viewModel/item_view_model.dart';
