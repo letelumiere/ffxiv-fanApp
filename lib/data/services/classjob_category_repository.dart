@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffxiv/models/classjob_category.dart';
+import 'package:ffxiv/data/models/classjob_category.dart';
 
 class ClassJobCategoryRepository {
   final CollectionReference _classJobCategoryCollection;

@@ -10,7 +10,7 @@ import 'itemDetailSections/materia_section.dart';
 import 'itemDetailSections/repair_section.dart';
 import 'itemDetailSections/description_section.dart';
 import 'itemDetailSections/tradable_section.dart';
-import 'package:ffxiv/models/item_dto.dart';
+import 'package:ffxiv/data/models/item_dto.dart';
 
 class ItemDetailLayout extends StatefulWidget {
   final ItemDTO itemDto;
