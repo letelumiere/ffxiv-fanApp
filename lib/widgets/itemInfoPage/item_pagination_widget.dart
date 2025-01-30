@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffxiv/viewModel/item_view_model.dart';
+import 'package:ffxiv/providers/item_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ffxiv/data/models/item_header_dto.dart';
 import 'package:firebase_pagination/firebase_pagination.dart';

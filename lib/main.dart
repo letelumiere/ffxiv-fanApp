@@ -3,7 +3,7 @@ import 'package:ffxiv/data/services/item_repository.dart';
 import 'package:ffxiv/data/services/item_service.dart';
 import 'package:ffxiv/firebase_options.dart';
 import 'package:ffxiv/views/main_page.dart';
-import 'package:ffxiv/viewModel/item_view_model.dart';
+import 'package:ffxiv/providers/item_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';

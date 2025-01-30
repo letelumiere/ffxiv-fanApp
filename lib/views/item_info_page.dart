@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ffxiv/viewModel/item_view_model.dart';
-import 'package:ffxiv/ui/widgets/itemInfoPage/item_search_condition_widget.dart';
-import 'package:ffxiv/ui/widgets/itemInfoPage/item_detail_widget.dart';
-import 'package:ffxiv/ui/widgets/itemInfoPage/item_pagination_widget.dart';
+import 'package:ffxiv/providers/item_view_model.dart';
+import 'package:ffxiv/widgets/itemInfoPage/item_search_condition_widget.dart';
+import 'package:ffxiv/widgets/itemInfoPage/item_detail_widget.dart';
+import 'package:ffxiv/widgets/itemInfoPage/item_pagination_widget.dart';
 
 class ItemInfoPage extends StatelessWidget {
   final String uiCategory;

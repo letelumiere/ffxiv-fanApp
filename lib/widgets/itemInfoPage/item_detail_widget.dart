@@ -1,15 +1,15 @@
-import 'package:ffxiv/viewModel/item_view_model.dart';
+import 'package:ffxiv/providers/item_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'itemDetailSections/item_header.dart';
-import 'itemDetailSections/item_category_section.dart';
-import 'itemDetailSections/item_stats_section.dart';
-import 'itemDetailSections/item_require_section.dart';
-import 'itemDetailSections/additional_stats_section.dart';
-import 'itemDetailSections/materia_section.dart';
-import 'itemDetailSections/repair_section.dart';
-import 'itemDetailSections/description_section.dart';
-import 'itemDetailSections/tradable_section.dart';
+import '../itemDetailSections/item_header.dart';
+import '../itemDetailSections/item_category_section.dart';
+import '../itemDetailSections/item_stats_section.dart';
+import '../itemDetailSections/item_require_section.dart';
+import '../itemDetailSections/additional_stats_section.dart';
+import '../itemDetailSections/materia_section.dart';
+import '../itemDetailSections/repair_section.dart';
+import '../itemDetailSections/description_section.dart';
+import '../itemDetailSections/tradable_section.dart';
 import 'package:ffxiv/data/models/item_dto.dart';
 
 class ItemDetailLayout extends StatefulWidget {
