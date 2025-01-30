@@ -30,6 +30,15 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+/lib/data/datasources/
+/generated
+/dataconnect
+/generated
+
+.firebaserc
+firebase.json
+firestore.rules
+firestore.indexes.json
 
 # Symbolication related
 app.*.symbols
@@ -41,3 +50,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/app/build
+/android/gradle/
+
+node_modules
+
+#authentification
+key.properties
+ffxiv-release-key.jks

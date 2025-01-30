@@ -1,5 +1,0 @@
-
-//temporary`
-class ItemService{
-  
-}

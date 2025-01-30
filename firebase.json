@@ -1,0 +1,65 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "ffxiv-database-a42b0",
+          "appId": "1:961203961599:android:480b0df5b92f6e8b1516ca",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "ffxiv-database-a42b0",
+          "configurations": {
+            "android": "1:961203961599:android:480b0df5b92f6e8b1516ca",
+            "ios": "1:961203961599:ios:8ad6d3d21d37cb601516ca",
+            "macos": "1:961203961599:ios:8ad6d3d21d37cb601516ca",
+            "web": "1:961203961599:web:a5f09d549da183ec1516ca",
+            "windows": "1:961203961599:web:a4198b36bbaae8851516ca"
+          }
+        }
+      }
+    }
+  },
+  "emulators": {
+    "firestore": {
+      "host": "localhost",
+      "port": 8080,
+      "export_on_exit": "emulator-data",
+      "import_on_startup": "emulator-data"
+    },
+    "database": {
+      "host": "localhost",
+      "port": 9000
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    },
+    "singleProjectMode": true
+  },
+  "dataconnect": {
+    "source": "dataconnect"
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}
