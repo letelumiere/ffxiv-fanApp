@@ -1,0 +1,37 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "Item",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "Level{Equip}",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "Level{Item}",
+          "order": "DESCENDING"
+        },
+        {
+         "fieldPath": "Name",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "lodestone",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "ID",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "Name",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
