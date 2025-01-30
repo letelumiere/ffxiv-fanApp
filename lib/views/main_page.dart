@@ -1,6 +1,6 @@
 import 'package:ffxiv/data/datasources/category_list.dart';
-import 'package:ffxiv/ui/pages/index_page.dart';
-import 'package:ffxiv/ui/pages/item_info_page.dart';
+import 'package:ffxiv/views/index_page.dart';
+import 'package:ffxiv/views/item_info_page.dart';
 import 'package:ffxiv/ui/widgets/appDrawerMenu/app_drawer_menu_widget.dart';
 import 'package:ffxiv/viewModel/item_view_model.dart';
 import 'package:flutter/material.dart';
