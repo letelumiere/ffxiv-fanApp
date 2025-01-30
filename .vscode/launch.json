@@ -5,7 +5,7 @@
             "type": "android",
             "request": "launch",
             "name": "App Build & Launch",
-            "preLaunchTask": "run gradle",
+//            "preLaunchTask": "run gradle",
         }
     ]
 }
