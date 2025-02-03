@@ -1,4 +1,4 @@
-import 'package:ffxiv/viewModel/item_view_model.dart';
+import 'package:ffxiv/providers/item_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'itemDetailSections/item_header.dart';
