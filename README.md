@@ -1,4 +1,4 @@
-# ffixv
+# ffxiv
 
 A new Flutter project.
 
