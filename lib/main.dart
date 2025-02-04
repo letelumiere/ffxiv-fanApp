@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffxiv/data/services/item_repository.dart';
 import 'package:ffxiv/data/services/item_service.dart';
+import 'package:ffxiv/data/services/notice_repository.dart';
+import 'package:ffxiv/data/services/notice_service.dart';
 import 'package:ffxiv/firebase_options.dart';
 import 'package:ffxiv/views/main_page.dart';
 import 'package:ffxiv/providers/item_view_model.dart';
@@ -22,6 +24,12 @@ void main() async {
         Provider<ItemService>(
           create: (_) => ItemService(
             itemRepository: ItemRepository(FirebaseFirestore.instance),
+            sharedPreferences: sharedPreferences,
+          ),
+        ),
+        Provider<NoticeService>(
+          create: (_) => NoticeService(
+            noticeRepository: NoticeRepository(FirebaseFirestore.instance),
             sharedPreferences: sharedPreferences,
           ),
         ),

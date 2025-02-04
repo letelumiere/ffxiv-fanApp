@@ -1,6 +1,7 @@
 import 'package:ffxiv/data/datasources/category_list.dart';
 import 'package:ffxiv/views/index_page.dart';
 import 'package:ffxiv/views/item_info_page.dart';
+import 'package:ffxiv/views/notice_page.dart';
 import 'package:ffxiv/widgets/mainPage/app_drawer_menu_widget.dart';
 import 'package:ffxiv/providers/item_view_model.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,8 @@ class _MainPageState extends State<MainPage> {
       case PageType.itemInfoPage:
         return ItemInfoPage(
             callback: _showMessage, uiCategory: _selectedCategory);
+      case PageType.noticePage:
+        return NoticePage();
       default:
         return IndexPage(callback: _showMessage);
     }
