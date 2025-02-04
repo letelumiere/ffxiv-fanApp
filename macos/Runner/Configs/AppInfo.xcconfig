@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = ffixv
+PRODUCT_NAME = ffxiv
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.ffixv
+PRODUCT_BUNDLE_IDENTIFIER = com.letelumiere.ffxiv
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2024 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 com.letelumiere. All rights reserved.
