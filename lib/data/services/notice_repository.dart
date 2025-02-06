@@ -9,7 +9,6 @@ class NoticeRepository{
 
   Future<List<Notice>> getNoticeList() async {
     Query query = _noticeCollection.orderBy('createdAt', descending: true);
-
     List<Notice> list = [];
 
     try{

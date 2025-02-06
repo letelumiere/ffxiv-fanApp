@@ -5,6 +5,7 @@ enum PageType {
   mainPage,
   itemInfoPage,
   noticePage,
+  loginPage,
 }
 
 enum itemCategory {
