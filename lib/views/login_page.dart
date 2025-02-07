@@ -1,19 +1,84 @@
-
-
 import 'package:ffxiv/utilities/components/my_button.dart';
 import 'package:ffxiv/utilities/components/my_textfield.dart';
 import 'package:ffxiv/utilities/components/square_tile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   //text editing controllers
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   //sign user in method
-  void signUserIn(){}
+  void signUserIn() async {
+    //show loading circle
+    showDialog(context: context, builder: (context) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    });
+
+    //try sign in
+    try{
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      //pop the loading Circle
+      Navigator.pop(context);
+      print('login successful');
+    } on FirebaseAuthException catch(e){
+      //pop the loading Circle
+      Navigator.pop(context);
+
+      print(e.code.toString());
+
+      switch (e.code) {
+        case 'user-not-found':
+          print('this user not found.');
+          break;
+        case 'email-already-in-use':
+          print('The email is already in use.');
+          break;
+        case 'invalid-email':
+          print('The email address is badly formatted.');
+          break;
+        case 'invalid-credential':
+          print('invalid-credential.');
+          break;
+        case 'wrong-password':
+          print('this password is wrong.');
+          break;
+        default:
+          print('Unknown error: ${e.code}');
+      }
+    }
+  }
+
+  //wrong email message group
+  void wrongEmailMessage() {
+    showDialog(context: context, builder: (context){
+      return const AlertDialog(
+        title: Text("Incorrect email"),
+      );
+    });
+  }
+  //wrong password message pop-up
+  void wrongPasswordMessage() {
+    showDialog(context: context, builder: (context){
+      return const AlertDialog(
+          title: Text("Incorrect password"),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +106,8 @@ class LoginPage extends StatelessWidget {
 
           //username textField
           MyTextfield(
-              controller: usernameController,
-              hintText: 'Username',
+              controller: emailController,
+              hintText: 'email',
               obscureText: false),
           const SizedBox(height: 25),
           //password textField
@@ -77,27 +142,27 @@ class LoginPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child:  Row(
-                children: [
-                  Expanded(
-                    child: Divider(
-                      thickness: 0.5,
-                      color: Colors.grey[400],
-                    ),
+              children: [
+                Expanded(
+                  child: Divider(
+                    thickness: 0.5,
+                    color: Colors.grey[400],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('or continue with',
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('or continue with',
+                    style: TextStyle(color: Colors.grey[700]),
                   ),
-                  Expanded(
-                    child: Divider(
-                      thickness: 0.5,
-                      color: Colors.grey[400],
-                    ),
+                ),
+                Expanded(
+                  child: Divider(
+                    thickness: 0.5,
+                    color: Colors.grey[400],
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
 
           ),
           // google + apple sign in buttons
@@ -132,3 +197,5 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
+
+

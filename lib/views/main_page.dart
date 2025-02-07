@@ -5,6 +5,7 @@ import 'package:ffxiv/views/login_page.dart';
 import 'package:ffxiv/views/notice_page.dart';
 import 'package:ffxiv/widgets/mainPage/app_drawer_menu_widget.dart';
 import 'package:ffxiv/providers/item_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,10 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void signUserOut(){
+    FirebaseAuth.instance.currentUser;
   }
 
   void _onItemTapped(PageType selectedPage, String uiCategory) {
@@ -49,6 +54,9 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("FFXIV Item Database"),
+        actions: [
+          IconButton(onPressed: signUserOut, icon: Icon(Icons.logout)),
+        ],
       ),
       drawer: AppMenuDrawer(onItemTapped: _onItemTapped),
       body: _getPage(_selectedPage),

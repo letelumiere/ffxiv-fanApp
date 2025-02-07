@@ -4,6 +4,7 @@ import 'package:ffxiv/data/services/item_service.dart';
 import 'package:ffxiv/data/services/notice_repository.dart';
 import 'package:ffxiv/data/services/notice_service.dart';
 import 'package:ffxiv/firebase_options.dart';
+import 'package:ffxiv/views/auth_page.dart';
 import 'package:ffxiv/views/login_page.dart';
 import 'package:ffxiv/views/main_page.dart';
 import 'package:ffxiv/providers/item_view_model.dart';
@@ -71,7 +72,9 @@ class MyApp extends StatelessWidget {
           bodySmall: TextStyle(color: Colors.grey),
         ),
       ),
-      home: LoginPage(),
+      debugShowCheckedModeBanner: false,
+//      home: AuthPage(),
+      home:MainPage(),
     );
   }
 }
