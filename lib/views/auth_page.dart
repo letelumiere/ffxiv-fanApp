@@ -1,4 +1,5 @@
 import 'package:ffxiv/views/home_page.dart';
+import 'package:ffxiv/views/login_or_register_page.dart';
 import 'package:ffxiv/views/login_page.dart';
 import 'package:ffxiv/views/main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,7 +17,7 @@ class AuthPage extends StatelessWidget {
             if(snapshot.hasData){
               return HomePage();
             }else{
-              return LoginPage();
+              return LoginOrRegisterPage();
             }
          },
       ),

@@ -1,6 +1,7 @@
 import 'package:ffxiv/data/datasources/category_list.dart';
 import 'package:ffxiv/views/index_page.dart';
 import 'package:ffxiv/views/item_info_page.dart';
+import 'package:ffxiv/views/login_or_register_page.dart';
 import 'package:ffxiv/views/login_page.dart';
 import 'package:ffxiv/views/notice_page.dart';
 import 'package:ffxiv/widgets/mainPage/app_drawer_menu_widget.dart';
@@ -73,9 +74,10 @@ class _MainPageState extends State<MainPage> {
       case PageType.noticePage:
         return NoticePage();
       case PageType.loginPage:
-        return LoginPage();
+        return LoginOrRegisterPage();
       default:
         return IndexPage(callback: _showMessage);
     }
   }
 }
+

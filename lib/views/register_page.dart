@@ -4,25 +4,25 @@ import 'package:ffxiv/utilities/components/my_textfield.dart';
 import 'package:ffxiv/utilities/components/square_tile.dart';
 import 'package:ffxiv/views/login_or_register_page.dart';
 import 'package:ffxiv/views/main_page.dart';
-import 'package:ffxiv/views/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   final Function()? onTap;
-  const LoginPage({super.key, required void Function() this.onTap});
+  const RegisterPage({super.key, required void Function() this.onTap});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   //text editing controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   //sign user in method
-  void signUserIn() async {
+  void signUserUp() async {
     //show loading circle
     showDialog(context: context, builder: (context) {
       return const Center(
@@ -32,10 +32,17 @@ class _LoginPageState extends State<LoginPage> {
 
     //try sign in
     try{
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
+      //check if password is confirmed
+      if(passwordController.text == confirmPasswordController){
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+      }else{
+        //show error message, password don't match.
+//        showErrorMessage("password don't match.");
+      }
+
 
       //pop the loading Circle
       Navigator.pop(context);
@@ -49,7 +56,6 @@ class _LoginPageState extends State<LoginPage> {
       print(e.code.toString());
       switch (e.code) {
         case 'user-not-found':
-          //put wrong###message method instead print later
           print('this user not found.');
           break;
         case 'email-already-in-use':
@@ -74,10 +80,10 @@ class _LoginPageState extends State<LoginPage> {
   void wrongEmailMessage() {
     showDialog(context: context, builder: (context){
       return const AlertDialog(
-        backgroundColor: Colors.deepPurple,
-        title: Center(
-          child: Text("Incorrect email", style: TextStyle(color: Colors.white)),
-      ));
+          backgroundColor: Colors.deepPurple,
+          title: Center(
+            child: Text("Incorrect email", style: TextStyle(color: Colors.white)),
+          ));
     });
   }
   //wrong password message pop-up
@@ -85,8 +91,8 @@ class _LoginPageState extends State<LoginPage> {
     showDialog(context: context, builder: (context){
       return const AlertDialog(
           title: Center(
-          child: Text("Incorrect password", style: TextStyle(color: Colors.white)),
-      ));
+            child: Text("Incorrect password", style: TextStyle(color: Colors.white)),
+          ));
     });
   }
 
@@ -125,6 +131,12 @@ class _LoginPageState extends State<LoginPage> {
               controller: passwordController,
               hintText: 'Password',
               obscureText: true),
+          //confirm password textField
+          MyTextfield(
+              controller: passwordController,
+              hintText: 'confirm password',
+              obscureText: true),
+
           //forget password?
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -143,8 +155,8 @@ class _LoginPageState extends State<LoginPage> {
 
           //sign in button
           MyButton(
-            text:  "Sign in",
-            onTap: signUserIn,
+            text: "Sign Up",
+            onTap: signUserUp,
           ),
 
           const SizedBox(height: 25),
@@ -182,7 +194,6 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               //google button
               SquareTile(
-                  onTap: () => AuthService().signInWithGoogle(),
                   imagePath: "icons/google_icon.png"),
               const SizedBox(width: 10),
 //              SquareTile(imagePath: "icons/google_icon.png"),
@@ -203,12 +214,12 @@ class _LoginPageState extends State<LoginPage> {
                       context,
                       MaterialPageRoute(builder: (context) => LoginOrRegisterPage()));
                 },
-                  child: const Text('Register now',
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold
-                    ),
+                child: const Text('Register now',
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold
                   ),
+                ),
               ),
             ],
           ),
