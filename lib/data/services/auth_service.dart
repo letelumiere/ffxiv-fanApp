@@ -1,16 +1,17 @@
 
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
-class AuthService{
-  
-
+class AuthService extends ChangeNotifier{
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
   //google Sign In
   signInWithGoogle() async {
     //begin interactive sign in process
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+    final GoogleSignInAccount? gUser = await googleSignIn.signIn();
 
     //obtain auth details from request
     final GoogleSignInAuthentication gAuth = await gUser!.authentication;
@@ -25,6 +26,8 @@ class AuthService{
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-
+  Future<void> signOutGoogle() async{
+    googleSignIn.signOut();
+  }
 
 }
