@@ -1,22 +1,27 @@
-
-
-import 'package:ffxiv/views/login_or_register_page.dart';
-import 'package:ffxiv/views/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:provider/provider.dart';
 
-class AuthService extends ChangeNotifier{
-  late final AuthService _authService;
-  AuthService(this._authService);
+class AuthService extends ChangeNotifier {
+  User? authUser = FirebaseAuth.instance.currentUser;
 
-  bool loginStatus = false;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    clientId: '1:961203961599:web:a5f09d549da183ec1516ca',
+  );
 
-  changeLoginStatus() async {
-    loginStatus = !loginStatus;
+  loginStatus() async {
+    return authUser != null ? true : false;
+  }
+
+  //google user create
+
+  createUserWithGoogle(String email, String password) async {
+    try {
+      FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+    } catch (e) {}
   }
 
   //google Sign In
@@ -29,16 +34,18 @@ class AuthService extends ChangeNotifier{
 
     //create a new credential for user
     final credential = GoogleAuthProvider.credential(
-      accessToken : gAuth.accessToken,
-      idToken : gAuth.idToken,
+      accessToken: gAuth.accessToken,
+      idToken: gAuth.idToken,
     );
 
     //finally, let's sign in
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<void> signOutGoogle() async{
+  Future<void> signOutGoogle() async {
     googleSignIn.signOut();
+    authUser!;
   }
 
+  loginWithGoogle() async {}
 }

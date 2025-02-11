@@ -1,9 +1,9 @@
 import 'package:ffxiv/data/datasources/category_list.dart';
 import 'package:ffxiv/data/services/auth_service.dart';
+import 'package:ffxiv/providers/login_provider.dart';
 import 'package:ffxiv/views/index_page.dart';
 import 'package:ffxiv/views/item_info_page.dart';
 import 'package:ffxiv/views/login_or_register_page.dart';
-import 'package:ffxiv/views/login_page.dart';
 import 'package:ffxiv/providers/item_view_model.dart';
 import 'package:ffxiv/views/notice_page.dart';
 import 'package:ffxiv/widgets/mainPage/app_drawer_menu_widget.dart';
@@ -28,12 +28,14 @@ class _MainPageState extends State<MainPage> {
     super.initState();
   }
 
-  void toggleLoginStatus(){
+  void toggleLoginStatus() {
     setState(() {
       //로그인이 필요한 상태 시, 페이지를 바꾼다
-      if(!_isLoggedIn){
+      if (!_isLoggedIn) {
+        //로그인이 아니므로 로그인 화면으로
         _selectedPage = PageType.loginPage;
-      }else{
+      } else {
+        //로그인 상태이므로 로그아웃으로
         _selectedPage = PageType.mainPage;
       }
       //로그인 토글
@@ -41,7 +43,13 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  void signUserOut(){
+  //google 계정으로 로그인 => 해당 팝업 뜨나, token 관련 오류 있음
+  Future<void> signinWithGoogle() async {
+    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    loginProvider.authService.signInWithGoogle();
+  }
+
+  void signUserOut() {
     FirebaseAuth.instance.currentUser;
   }
 
@@ -71,10 +79,12 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: const Text("FFXIV Item Database"),
         actions: [
-          if(_isLoggedIn) ...[
-            Text("로그아웃"), IconButton(onPressed: toggleLoginStatus, icon: Icon(Icons.logout)),
+          if (_isLoggedIn) ...[
+            Text("로그아웃"),
+            IconButton(onPressed: toggleLoginStatus, icon: Icon(Icons.logout)),
           ] else ...[
-            Text("로그인"), IconButton(onPressed: toggleLoginStatus, icon: Icon(Icons.login)),
+            Text("로그인"),
+            IconButton(onPressed: signinWithGoogle, icon: Icon(Icons.login)),
           ],
         ],
       ),
@@ -99,4 +109,3 @@ class _MainPageState extends State<MainPage> {
     }
   }
 }
-

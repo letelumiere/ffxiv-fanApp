@@ -22,6 +22,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
       provider.fetchData();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<NoticeProvider>(context); // 상태를 구독
@@ -52,7 +53,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
           },
           child: Card(
             child: ListTile(
-              title: Text(notice!.createdAt.toString() ?? ""),
+              title: Text(notice!.createdAt.toString()),
               subtitle: Text(notice!.content ?? "null"),
             ),
           ),

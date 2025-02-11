@@ -1,10 +1,8 @@
-import 'package:ffxiv/data/services/auth_service.dart';
 import 'package:ffxiv/utilities/components/my_button.dart';
 import 'package:ffxiv/utilities/components/my_textfield.dart';
 import 'package:ffxiv/utilities/components/square_tile.dart';
 import 'package:ffxiv/views/login_or_register_page.dart';
 import 'package:ffxiv/views/main_page.dart';
-import 'package:ffxiv/views/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -24,14 +22,16 @@ class _LoginPageState extends State<LoginPage> {
   //sign user in method
   void signUserIn() async {
     //show loading circle
-    showDialog(context: context, builder: (context) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    });
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
 
     //try sign in
-    try{
+    try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
@@ -41,8 +41,9 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pop(context);
       print('login successful');
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage()));
-    } on FirebaseAuthException catch(e){
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => MainPage()));
+    } on FirebaseAuthException catch (e) {
       //pop the loading Circle
       Navigator.pop(context);
 
@@ -72,30 +73,37 @@ class _LoginPageState extends State<LoginPage> {
 
   //wrong email message group
   void wrongEmailMessage() {
-    showDialog(context: context, builder: (context){
-      return const AlertDialog(
-        backgroundColor: Colors.deepPurple,
-        title: Center(
-          child: Text("Incorrect email", style: TextStyle(color: Colors.white)),
-      ));
-    });
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+              backgroundColor: Colors.deepPurple,
+              title: Center(
+                child: Text("Incorrect email",
+                    style: TextStyle(color: Colors.white)),
+              ));
+        });
   }
+
   //wrong password message pop-up
   void wrongPasswordMessage() {
-    showDialog(context: context, builder: (context){
-      return const AlertDialog(
-          title: Center(
-          child: Text("Incorrect password", style: TextStyle(color: Colors.white)),
-      ));
-    });
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+              title: Center(
+            child: Text("Incorrect password",
+                style: TextStyle(color: Colors.white)),
+          ));
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white10,
-      body:Column(
-        children:[
+      body: Column(
+        children: [
           //logo
           const SizedBox(height: 50),
           const Icon(
@@ -143,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
 
           //sign in button
           MyButton(
-            text:  "Sign in",
+            text: "Sign in",
             onTap: signUserIn,
           ),
 
@@ -152,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
           //or continue with
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child:  Row(
+            child: Row(
               children: [
                 Expanded(
                   child: Divider(
@@ -162,7 +170,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('or continue with',
+                  child: Text(
+                    'or continue with',
                     style: TextStyle(color: Colors.grey[700]),
                   ),
                 ),
@@ -174,7 +183,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
-
           ),
           // google + apple sign in buttons
           Row(
@@ -186,11 +194,10 @@ class _LoginPageState extends State<LoginPage> {
                   imagePath: "icons/google_icon.png"),
               const SizedBox(width: 10),
 //              SquareTile(imagePath: "icons/google_icon.png"),
-
             ],
           ),
 
-          const SizedBox(height:50),
+          const SizedBox(height: 50),
           // not a member? register now
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -198,17 +205,17 @@ class _LoginPageState extends State<LoginPage> {
               Text('Not in member?'),
               const SizedBox(width: 4),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginOrRegisterPage()));
+                      MaterialPageRoute(
+                          builder: (context) => LoginOrRegisterPage()));
                 },
-                  child: const Text('Register now',
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
+                child: const Text(
+                  'Register now',
+                  style: TextStyle(
+                      color: Colors.blue, fontWeight: FontWeight.bold),
+                ),
               ),
             ],
           ),
@@ -217,5 +224,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-

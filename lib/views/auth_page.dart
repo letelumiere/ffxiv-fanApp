@@ -1,7 +1,5 @@
 import 'package:ffxiv/views/home_page.dart';
 import 'package:ffxiv/views/login_or_register_page.dart';
-import 'package:ffxiv/views/login_page.dart';
-import 'package:ffxiv/views/main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,16 +8,16 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
+    return Scaffold(
       body: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot){
-            if(snapshot.hasData){
-              return HomePage();
-            }else{
-              return LoginOrRegisterPage();
-            }
-         },
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return HomePage();
+          } else {
+            return LoginOrRegisterPage();
+          }
+        },
       ),
     );
   }

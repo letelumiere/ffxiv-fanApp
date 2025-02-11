@@ -5,9 +5,7 @@ import 'package:ffxiv/data/services/item_service.dart';
 import 'package:ffxiv/data/services/notice_repository.dart';
 import 'package:ffxiv/data/services/notice_service.dart';
 import 'package:ffxiv/firebase_options.dart';
-import 'package:ffxiv/views/auth_page.dart';
-import 'package:ffxiv/views/login_or_register_page.dart';
-import 'package:ffxiv/views/login_page.dart';
+import 'package:ffxiv/providers/login_provider.dart';
 import 'package:ffxiv/views/main_page.dart';
 import 'package:ffxiv/providers/item_view_model.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +23,6 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        Provider<AuthService>(
-          create: (context) => AuthService(
-            Provider.of<AuthService>(context, listen: false),
-          ),
-       ),
         Provider<ItemService>(
           create: (_) => ItemService(
             itemRepository: ItemRepository(FirebaseFirestore.instance),
@@ -41,6 +34,9 @@ void main() async {
             noticeRepository: NoticeRepository(FirebaseFirestore.instance),
             sharedPreferences: sharedPreferences,
           ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LoginProvider(),
         ),
         ChangeNotifierProvider<ItemViewModel>(
           create: (context) => ItemViewModel(
@@ -81,7 +77,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 //      home: AuthPage(),
-      home:MainPage(),
+      home: MainPage(),
     );
   }
 }

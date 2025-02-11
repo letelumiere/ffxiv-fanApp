@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffxiv/data/models/notice.dart';
 
-class NoticeRepository{
+class NoticeRepository {
   final CollectionReference _noticeCollection;
 
   NoticeRepository(FirebaseFirestore firestore)
@@ -9,14 +9,13 @@ class NoticeRepository{
 
   Future<List<Notice>> getNoticeList() async {
     Query query = _noticeCollection.orderBy('createdAt', descending: true);
-    List<Notice> list = [];
 
-    try{
+    try {
       QuerySnapshot snapshot = await query.limit(10).get();
       return snapshot.docs.map((doc) {
         return Notice.fromJson(doc.data() as Map<String, dynamic>);
       }).toList();
-    }catch(e){
+    } catch (e) {
       _handleError(e);
       return [];
     }
