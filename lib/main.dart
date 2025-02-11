@@ -25,6 +25,11 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        Provider<AuthService>(
+          create: (context) => AuthService(
+            Provider.of<AuthService>(context, listen: false),
+          ),
+       ),
         Provider<ItemService>(
           create: (_) => ItemService(
             itemRepository: ItemRepository(FirebaseFirestore.instance),

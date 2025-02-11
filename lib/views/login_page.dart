@@ -182,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               //google button
               SquareTile(
-                  onTap: () => AuthService().signInWithGoogle(),
+//                  onTap: () => AuthService.signInWithGoogle(),
                   imagePath: "icons/google_icon.png"),
               const SizedBox(width: 10),
 //              SquareTile(imagePath: "icons/google_icon.png"),
