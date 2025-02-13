@@ -15,22 +15,34 @@ class AuthService extends ChangeNotifier {
     return await _googleSignIn.isSignedIn();
   }
 
-  //google Sign In
-  Future signInWithGoogle() async {
-    //begin interactive sign in process
-    final GoogleSignInAccount? gUser = await _googleSignIn.signIn();
+  Future<User?> signInWithGoogle() async {
+    try {
+      // Google Sign In 시작
+      final GoogleSignInAccount? gUser = await _googleSignIn.signIn();
 
-    //obtain auth details from request
-    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+      // 사용자가 로그인 취소한 경우
+      if (gUser == null) {
+        return null; // 로그인 취소 시 null 반환
+      }
 
-    //create a new credential for user
-    final credential = GoogleAuthProvider.credential(
-      accessToken: gAuth.accessToken,
-      idToken: gAuth.idToken,
-    );
+      // 로그인 정보 받아오기
+      final GoogleSignInAuthentication gAuth = await gUser.authentication;
 
-    //finally, let's sign in
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      // Google 인증 정보를 사용해 Firebase 자격 증명 생성
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: gAuth.accessToken,
+        idToken: gAuth.idToken,
+      );
+
+      // Firebase 인증 진행
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      return userCredential.user; // 인증 성공 후 사용자 반환
+    } catch (e) {
+      print("Google 로그인 실패: $e");
+      return null; // 오류 발생 시 null 반환
+    }
   }
 
   // OAuth logout process.
