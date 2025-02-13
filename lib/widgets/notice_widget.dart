@@ -54,7 +54,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
           child: Card(
             child: ListTile(
               title: Text(notice!.createdAt.toString()),
-              subtitle: Text(notice!.content ?? "null"),
+              subtitle: Text(notice.content ?? "null"),
             ),
           ),
         );

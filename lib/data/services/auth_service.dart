@@ -5,29 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService extends ChangeNotifier {
-  User? authUser = FirebaseAuth.instance.currentUser;
-
-  final GoogleSignIn googleSignIn = GoogleSignIn(
-    clientId: '1:961203961599:web:a5f09d549da183ec1516ca',
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId:
+        '961203961599-efnr9kb2vj5us1qaql1hddad52s0vjl2.apps.googleusercontent.com',
+    scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
   );
 
-  loginStatus() async {
-    return authUser != null ? true : false;
-  }
-
-  //google user create
-
-  createUserWithGoogle(String email, String password) async {
-    try {
-      FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-    } catch (e) {}
+  Future<bool> isUserSignIn() async {
+    return await _googleSignIn.isSignedIn();
   }
 
   //google Sign In
-  signInWithGoogle() async {
+  Future signInWithGoogle() async {
     //begin interactive sign in process
-    final GoogleSignInAccount? gUser = await googleSignIn.signIn();
+    final GoogleSignInAccount? gUser = await _googleSignIn.signIn();
 
     //obtain auth details from request
     final GoogleSignInAuthentication gAuth = await gUser!.authentication;
@@ -42,10 +33,24 @@ class AuthService extends ChangeNotifier {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
+  // OAuth logout process.
   Future<void> signOutGoogle() async {
-    googleSignIn.signOut();
-    authUser!;
+    await FirebaseAuth.instance.signOut();
+    await _googleSignIn.disconnect();
+    await _googleSignIn.signOut();
   }
 
-  loginWithGoogle() async {}
+  // account disconnect (accessToken expired)
+  Future<void> revokeAccess() async {
+    await _googleSignIn.disconnect();
+    print("Google OAuth 토큰 만료 완료");
+  }
+
+  //state check
+  Future<bool> isUserSignedIn() async {
+    bool _googleSiginIn = await GoogleSignIn().isSignedIn();
+    bool _firebaseSignedIn = FirebaseAuth.instance.currentUser != null;
+
+    return _googleSiginIn && _firebaseSignedIn;
+  }
 }

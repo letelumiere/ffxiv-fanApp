@@ -1,4 +1,3 @@
-import 'package:ffxiv/data/datasources/category_list.dart';
 import 'package:ffxiv/data/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,23 +5,40 @@ import 'package:flutter/material.dart';
 class LoginProvider extends ChangeNotifier {
   final AuthService _authService = AuthService();
   bool _isLoggedIn = false;
-  PageType _selectedPage = PageType.indexPage;
 
-  AuthService get authService => _authService;
   bool get isLoggedIn => _isLoggedIn;
-  PageType get selectedPage => _selectedPage;
+  AuthService get authService => _authService;
 
-  void toggleLoginStatus() {
-    //로그인이 필요한 상태 시, 페이지를 바꾼다
-    if (authService.loginStatus()) {
-      //로그인이 아니므로 로그인 화면으로
-      _selectedPage = PageType.loginPage;
-    } else {
-      //로그인 상태이므로 로그아웃으로
-      _selectedPage = PageType.mainPage;
+  LoginProvider() {
+    _checkAuthState(); // 초기 로그인 상태 체크
+  }
+
+  /// Firebase 인증 상태를 실시간 감지하여 isLoggedIn 업데이트
+  void _checkAuthState() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      _isLoggedIn = user != null;
+      notifyListeners(); // 상태 변경 감지 시 UI 업데이트
+    });
+  }
+
+  Future<void> signInWithGoogle() async {
+    try {
+      User? user = await _authService.signInWithGoogle();
+      if (user != null) {
+        _isLoggedIn = true; // Firebase 인증 성공 후 업데이트
+        notifyListeners();
+      }
+    } catch (e) {
+      print("Google 로그인 실패: $e");
     }
-    //로그인 토글
-    _isLoggedIn = !_isLoggedIn;
-    notifyListeners();
+  }
+
+  Future<void> signOutGoogle() async {
+    try {
+      await _authService.signOutGoogle();
+      // Firebase에서 authStateChanges()가 감지하여 자동 업데이트됨
+    } catch (e) {
+      print("로그아웃 실패: $e");
+    }
   }
 }

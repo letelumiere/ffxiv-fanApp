@@ -1,5 +1,4 @@
 import 'package:ffxiv/data/datasources/category_list.dart';
-import 'package:ffxiv/data/services/auth_service.dart';
 import 'package:ffxiv/providers/login_provider.dart';
 import 'package:ffxiv/views/index_page.dart';
 import 'package:ffxiv/views/item_info_page.dart';
@@ -21,36 +20,19 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   PageType _selectedPage = PageType.indexPage;
   String _selectedCategory = ""; // 초기 선택된 카테고리
-  bool _isLoggedIn = false;
 
   @override
   void initState() {
     super.initState();
   }
 
-  void toggleLoginStatus() {
-    setState(() {
-      //로그인이 필요한 상태 시, 페이지를 바꾼다
-      if (!_isLoggedIn) {
-        //로그인이 아니므로 로그인 화면으로
-        _selectedPage = PageType.loginPage;
-      } else {
-        //로그인 상태이므로 로그아웃으로
-        _selectedPage = PageType.mainPage;
-      }
-      //로그인 토글
-      _isLoggedIn = !_isLoggedIn;
-    });
-  }
-
-  //google 계정으로 로그인 => 해당 팝업 뜨나, token 관련 오류 있음
+  //google 계정으로 로그인 => 401 + 403 에러는 각각 google Console에서 clientId의 설정, people API enable로 해결
   Future<void> signinWithGoogle() async {
-    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    loginProvider.authService.signInWithGoogle();
+    await context.read<LoginProvider>().signInWithGoogle();
   }
 
-  void signUserOut() {
-    FirebaseAuth.instance.currentUser;
+  Future<void> signUserOut() async {
+    await context.read<LoginProvider>().signOutGoogle();
   }
 
   void _onItemTapped(PageType selectedPage, String uiCategory) {
@@ -75,13 +57,15 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = context.watch<LoginProvider>().isLoggedIn;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("FFXIV Item Database"),
         actions: [
-          if (_isLoggedIn) ...[
+          if (isLoggedIn) ...[
             Text("로그아웃"),
-            IconButton(onPressed: toggleLoginStatus, icon: Icon(Icons.logout)),
+            IconButton(onPressed: signUserOut, icon: Icon(Icons.logout)),
           ] else ...[
             Text("로그인"),
             IconButton(onPressed: signinWithGoogle, icon: Icon(Icons.login)),
