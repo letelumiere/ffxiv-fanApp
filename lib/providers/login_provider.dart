@@ -41,4 +41,12 @@ class LoginProvider extends ChangeNotifier {
       print("로그아웃 실패: $e");
     }
   }
+
+  Future<void> resignGoogle() async {
+    try {
+      await _authService.resign();
+    } catch (e) {
+      print("user resigned failed!");
+    }
+  }
 }

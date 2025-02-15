@@ -5,6 +5,7 @@ import 'package:ffxiv/views/item_info_page.dart';
 import 'package:ffxiv/views/login_or_register_page.dart';
 import 'package:ffxiv/providers/item_view_model.dart';
 import 'package:ffxiv/views/notice_page.dart';
+import 'package:ffxiv/views/test_page.dart';
 import 'package:ffxiv/widgets/mainPage/app_drawer_menu_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -88,6 +89,8 @@ class _MainPageState extends State<MainPage> {
         return NoticePage();
       case PageType.loginPage:
         return LoginOrRegisterPage();
+      case PageType.testPage:
+        return TestPage();
       default:
         return IndexPage(callback: _showMessage);
     }

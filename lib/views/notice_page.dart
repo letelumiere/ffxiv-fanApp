@@ -11,7 +11,7 @@ class NoticePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => NoticeProvider(
-          noticeService: Provider.of<NoticeService>(context,listen: false)),
+          noticeService: Provider.of<NoticeService>(context, listen: false)),
       child: Scaffold(
         body: NoticeWidget(),
       ),
