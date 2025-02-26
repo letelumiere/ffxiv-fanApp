@@ -7,6 +7,7 @@ import 'package:ffxiv/providers/item_view_model.dart';
 import 'package:ffxiv/views/notice_page.dart';
 import 'package:ffxiv/views/test_page.dart';
 import 'package:ffxiv/widgets/mainPage/app_drawer_menu_widget.dart';
+import 'package:ffxiv/widgets/mainPage/profile_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,17 +60,35 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final isLoggedIn = context.watch<LoginProvider>().isLoggedIn;
+//    final email = context.watch<LoginProvider>().authService
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("FFXIV Item Database"),
         actions: [
           if (isLoggedIn) ...[
-            Text("로그아웃"),
-            IconButton(onPressed: signUserOut, icon: Icon(Icons.logout)),
+            PopupMenuButton<String>(
+              icon: const Icon(Icons.account_circle), // 사용자 아이콘
+              onSelected: (value) {
+                if (value == "logout") {
+                  signUserOut();
+                }
+              },
+              itemBuilder: (context) => [
+                const PopupMenuItem<String>(
+                  value: "profile",
+                  child: Text("프로필 보기"),
+                ),
+                const PopupMenuItem<String>(
+                  value: "logout",
+                  child: Text("로그아웃"),
+                ),
+              ],
+            ),
           ] else ...[
-            Text("로그인"),
-            IconButton(onPressed: signinWithGoogle, icon: Icon(Icons.login)),
+            const Text("로그인"),
+            IconButton(
+                onPressed: signinWithGoogle, icon: const Icon(Icons.login)),
           ],
         ],
       ),
