@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffxiv/data/models/user.dart';
+import 'package:ffxiv/data/models/user_profile.dart';
+import 'package:ffxiv/enum/authorization_type.dart';
 
-class UserRepository {
+class UserProfileRepository {
   final CollectionReference _userCollection;
 
-  UserRepository(FirebaseFirestore firestore)
-      : _userCollection = firestore.collection('User');
+  UserProfileRepository(FirebaseFirestore firestore)
+      : _userCollection = firestore.collection('UserProfile');
 
-  Future<User?> getUserOne(String uid) async {
+  Future<UserProfile?> getUserOne(String uid) async {
     Query query = _userCollection.where('uid', isEqualTo: uid);
     try {
       QuerySnapshot snapshot = await query.get();
@@ -18,7 +19,7 @@ class UserRepository {
         // 🔹 Firestore에서 null 데이터 방지
         if (doc.data() != null) {
           var data = doc.data() as Map<String, dynamic>;
-          return User.fromJson(data);
+          return UserProfile.fromJson(data);
         } else {
           print('Document data is null for uid: $uid');
           return null;
@@ -33,11 +34,17 @@ class UserRepository {
     }
   }
 
-  Future<void> updateUserOne(String uid) async {
+  Future<void> makeUserProfile(UserProfile user) async {
     try {
-      Query querySnapshot;
+      _userCollection.add(({
+        'uid': user.uid,
+        'email': user.email,
+        'authorizationType': AuthorizationType.USER,
+      }));
     } catch (e) {}
   }
+
+  Future<void> updateUserProfile(String uid) async {}
 
   /*
    void updateDoc(String docID, String name, String description) {
