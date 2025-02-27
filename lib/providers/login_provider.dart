@@ -1,9 +1,15 @@
 import 'package:ffxiv/data/services/auth_service.dart';
+import 'package:ffxiv/data/services/user_repository.dart';
+import 'package:ffxiv/data/services/user_service.dart';
+import 'package:ffxiv/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginProvider extends ChangeNotifier {
   final AuthService _authService = AuthService();
+  final UserService _userService =
+      UserService(sharedPreferences: sharedPreferences);
+
   bool _isLoggedIn = false;
 
   bool get isLoggedIn => _isLoggedIn;
