@@ -1,24 +1,20 @@
 import 'package:ffxiv/enum/authorization_type.dart';
 
 class User {
-  String? _uid;
-  String? _nickname;
-  String? _email;
-  late AuthorizationType _authType;
+  final String? uid;
+  final String? nickname;
+  final String? email;
+  final AuthorizationType authType;
 
-  // Constructor
-  User(
-      {String? uid,
-      String? nickname,
-      String? email,
-      required AuthorizationType authType}) {
-    _uid = uid;
-    _nickname = nickname;
-    _email = email;
-    _authType = authType;
-  }
+  // Named parameters 사용하여 올바르게 초기화
+  User({
+    required this.uid,
+    required this.nickname,
+    required this.email,
+    required this.authType,
+  });
 
-  // Named constructor for JSON deserialization
+  // JSON -> User 변환
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       uid: json['uid'] as String?,
@@ -31,13 +27,13 @@ class User {
     );
   }
 
-  // Method to serialize object to JSON
+  // User -> JSON 변환
   Map<String, dynamic> toJson() {
     return {
-      'uid': _uid,
-      'nickname': _nickname,
-      'email': _email,
-      'authType': _authType.toString().split('.').last,
+      'uid': uid,
+      'nickname': nickname,
+      'email': email,
+      'authType': authType.toString().split('.').last,
     };
   }
 }

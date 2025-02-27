@@ -1,5 +1,5 @@
 import 'package:ffxiv/data/services/auth_service.dart';
-import 'package:ffxiv/data/services/user_repository.dart';
+import 'package:ffxiv/data/repositories/user_repository.dart';
 import 'package:ffxiv/data/services/user_service.dart';
 import 'package:ffxiv/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';

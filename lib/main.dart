@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffxiv/data/services/item_repository.dart';
+import 'package:ffxiv/data/repositories/item_repository.dart';
 import 'package:ffxiv/data/services/item_service.dart';
-import 'package:ffxiv/data/services/notice_repository.dart';
+import 'package:ffxiv/data/repositories/notice_repository.dart';
 import 'package:ffxiv/data/services/notice_service.dart';
 import 'package:ffxiv/firebase_options.dart';
 import 'package:ffxiv/providers/login_provider.dart';

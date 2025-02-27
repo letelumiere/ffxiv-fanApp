@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffxiv/data/services/user_repository.dart';
+import 'package:ffxiv/data/models/user.dart';
+import 'package:ffxiv/data/repositories/user_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,4 +19,16 @@ class UserService extends ChangeNotifier {
     sharedPreferences = await SharedPreferences.getInstance();
     notifyListeners(); // UI 업데이트
   }
+
+  Future<void> checkWithUid(String uid) async {
+    var user = await userRepository.getUserOne(uid);
+    if (user != null) {
+      print("this profile has not yet.");
+      makeUserProfile(uid, user);
+    } else {
+      print("this profile has already it.");
+    }
+  }
+
+  Future<void> makeUserProfile(String uid, User user) async {}
 }
