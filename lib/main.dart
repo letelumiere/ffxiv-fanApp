@@ -3,6 +3,7 @@ import 'package:ffxiv/data/repositories/item_repository.dart';
 import 'package:ffxiv/data/services/item_service.dart';
 import 'package:ffxiv/data/repositories/notice_repository.dart';
 import 'package:ffxiv/data/services/notice_service.dart';
+import 'package:ffxiv/data/services/user_profile_service.dart';
 import 'package:ffxiv/firebase_options.dart';
 import 'package:ffxiv/providers/login_provider.dart';
 import 'package:ffxiv/views/main_page.dart';
@@ -36,6 +37,10 @@ void main() async {
             noticeRepository: NoticeRepository(FirebaseFirestore.instance),
             sharedPreferences: sharedPreferences,
           ),
+        ),
+        ChangeNotifierProvider<UserProfileService>(
+          create: (context) =>
+              UserProfileService(sharedPreferences: sharedPreferences),
         ),
         ChangeNotifierProvider(
           create: (context) => LoginProvider(),

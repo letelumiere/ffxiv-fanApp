@@ -1,4 +1,6 @@
 import 'package:ffxiv/data/datasources/category_list.dart';
+import 'package:ffxiv/data/models/user_profile.dart';
+import 'package:ffxiv/data/services/user_profile_service.dart';
 import 'package:ffxiv/providers/login_provider.dart';
 import 'package:ffxiv/views/index_page.dart';
 import 'package:ffxiv/views/item_info_page.dart';
@@ -60,13 +62,14 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final isLoggedIn = context.watch<LoginProvider>().isLoggedIn;
-//    final email = context.watch<LoginProvider>().authService
+    final userProfile = context.watch<LoginProvider>().userProfile;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("FFXIV Item Database"),
         actions: [
-          if (isLoggedIn) ...[
+          if (isLoggedIn && userProfile != null) ...[
+            Text("안녕하세요 ${userProfile.nickname} 님!"),
             PopupMenuButton<String>(
               icon: const Icon(Icons.account_circle), // 사용자 아이콘
               onSelected: (value) {
