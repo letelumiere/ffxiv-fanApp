@@ -64,6 +64,9 @@ class LoginProvider extends ChangeNotifier {
 
   Future<void> resignGoogle() async {
     try {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      await _userProfileService.deleteUserProfile(user);
       await _authService.resign();
     } catch (e) {
       print("user resigned failed!");

@@ -39,6 +39,10 @@ class _MainPageState extends State<MainPage> {
     await context.read<LoginProvider>().signOutGoogle();
   }
 
+  Future<void> userResign() async {
+    await context.read<LoginProvider>().resignGoogle();
+  }
+
   void _onItemTapped(PageType selectedPage, String uiCategory) {
     final itemViewModel = Provider.of<ItemViewModel>(context, listen: false);
 
@@ -75,12 +79,18 @@ class _MainPageState extends State<MainPage> {
               onSelected: (value) {
                 if (value == "logout") {
                   signUserOut();
+                } else if (value == "resign") {
+                  userResign();
                 }
               },
               itemBuilder: (context) => [
                 const PopupMenuItem<String>(
                   value: "profile",
                   child: Text("프로필 보기"),
+                ),
+                const PopupMenuItem<String>(
+                  value: "resign",
+                  child: Text("회원 탈퇴"),
                 ),
                 const PopupMenuItem<String>(
                   value: "logout",

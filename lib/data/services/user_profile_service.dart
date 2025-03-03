@@ -51,4 +51,8 @@ class UserProfileService extends ChangeNotifier {
 
   //임시
   Future<void> updateUserProfile() async {}
+
+  Future<void> deleteUserProfile(User? authUser) async {
+    await userRepository.deleteUserByEmail(authUser!.email.toString());
+  }
 }

@@ -61,27 +61,12 @@ class AuthService extends ChangeNotifier {
   //사용자 삭제
   Future<void> resign() async {
     try {
-      // 현재 사용자가 로그인된 상태여야 삭제 가능
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
-        // 사용자 재인증 (Google을 예로 듦)
-        final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-        if (gUser == null) {
-          print("Google 로그인 취소됨");
-          return;
-        }
-
-        final GoogleSignInAuthentication gAuth = await gUser.authentication;
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: gAuth.accessToken,
-          idToken: gAuth.idToken,
-        );
-
-        // 재인증 수행
-        await user.reauthenticateWithCredential(credential);
-
-        // 사용자 삭제
+        await FirebaseAuth.instance.signOut();
+        await _googleSignIn.disconnect();
+        await _googleSignIn.signOut();
         await user.delete();
         print("사용자 계정 삭제됨");
       }
