@@ -1,4 +1,5 @@
 import 'package:ffxiv/providers/item_view_model.dart';
+import 'package:ffxiv/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'itemDetailSections/item_header.dart';
@@ -70,6 +71,13 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                 const SizedBox(height: 10),
                 TradableSection(itemDto: itemDto),
                 const SizedBox(height: 10),
+                const SizedBox(
+                  height: 40,
+                ),
+                CommentWidget(
+                  isLoggedIn: true,
+                ),
+                const SizedBox(height: 20),
               ],
             ),
           ),
