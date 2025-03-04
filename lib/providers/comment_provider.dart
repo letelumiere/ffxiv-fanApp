@@ -1,7 +1,42 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:ffxiv/data/models/comment.dart';
+import 'package:ffxiv/data/services/comment_service.dart';
+import 'package:flutter/foundation.dart';
 
-class CommentProvider {}
+class CommentProvider extends ChangeNotifier {
+  final List<Comment> _list = [];
+  bool _isLoading = false;
+  int? _itemNo;
+
+  late final CommentService commentService;
+
+  List<Comment> get list => _list;
+  bool get isLoading => _isLoading;
+  int? get itemNo => _itemNo;
+
+  CommentProvider({required this.commentService}) {
+    fetchData(itemNo);
+  }
+
+  Future<void> fetchData(int? itemNo) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      final result = await commentService.showCommentList(itemNo!);
+      if (result != null && result.isNotEmpty) {
+        _list.clear();
+        _list.addAll(result); // 데이터를 리스트에 추가
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error fetching data: $e");
+      }
+    } finally {
+      _isLoading = false;
+      notifyListeners(); // 상태 변경 알림
+    }
+  }
+}
+
 
 
 // ... CommentRepository, Comment 클래스 ...

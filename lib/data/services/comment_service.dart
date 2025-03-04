@@ -20,7 +20,7 @@ class CommentService extends ChangeNotifier {
     notifyListeners(); // UI 업데이트
   }
 
-  Future<List<Comment?>> showCommentList(int itemNo) async {
+  Future<List<Comment>?> showCommentList(int itemNo) async {
     return await commentRepository.getCommentList(itemNo);
   }
 

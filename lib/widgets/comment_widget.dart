@@ -13,10 +13,6 @@ class CommentWidget extends StatefulWidget {
 class _CommentWidgetState extends State<CommentWidget> {
   final commentController = TextEditingController();
 
-  void writeComment() {}
-
-  void deleteComment() {}
-
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 
 class NoticeProvider extends ChangeNotifier {
   final List<Notice> _list = [];
-  List<Notice> get list => _list;
+  bool _isLoading = false;
 
   final NoticeService noticeService;
 
-  bool _isLoading = false;
+  List<Notice> get list => _list;
   bool get isLoading => _isLoading;
 
   NoticeProvider({required this.noticeService}) {
