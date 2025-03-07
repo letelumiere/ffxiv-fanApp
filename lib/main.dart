@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffxiv/data/repositories/item_repository.dart';
+import 'package:ffxiv/data/services/comment_service.dart';
 import 'package:ffxiv/data/services/item_service.dart';
 import 'package:ffxiv/data/repositories/notice_repository.dart';
 import 'package:ffxiv/data/services/notice_service.dart';
 import 'package:ffxiv/data/services/user_profile_service.dart';
 import 'package:ffxiv/firebase_options.dart';
+import 'package:ffxiv/providers/comment_provider.dart';
 import 'package:ffxiv/providers/login_provider.dart';
 import 'package:ffxiv/views/main_page.dart';
 import 'package:ffxiv/providers/item_view_model.dart';
@@ -49,6 +51,10 @@ void main() async {
           create: (context) => ItemViewModel(
             Provider.of<ItemService>(context, listen: false),
           ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CommentProvider(
+              CommentService(sharedPreferences: sharedPreferences)),
         ),
       ],
       child: const MyApp(),

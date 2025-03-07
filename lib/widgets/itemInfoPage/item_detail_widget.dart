@@ -74,9 +74,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                 const SizedBox(
                   height: 40,
                 ),
-                CommentWidget(
-                  isLoggedIn: true,
-                ),
+                CommentWidget(itemDto: itemDto),
                 const SizedBox(height: 20),
               ],
             ),

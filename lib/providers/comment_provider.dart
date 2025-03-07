@@ -7,13 +7,13 @@ class CommentProvider extends ChangeNotifier {
   bool _isLoading = false;
   int? _itemNo;
 
-  late final CommentService commentService;
+  final CommentService commentService;
 
   List<Comment> get list => _list;
   bool get isLoading => _isLoading;
   int? get itemNo => _itemNo;
 
-  CommentProvider({required this.commentService}) {
+  CommentProvider(this.commentService) {
     fetchData(itemNo);
   }
 
@@ -23,8 +23,8 @@ class CommentProvider extends ChangeNotifier {
     try {
       final result = await commentService.showCommentList(itemNo!);
       if (result != null && result.isNotEmpty) {
-        _list.clear();
-        _list.addAll(result); // 데이터를 리스트에 추가
+        list.clear();
+        list.addAll(result); // 데이터를 리스트에 추가
       }
     } catch (e) {
       if (kDebugMode) {
@@ -34,6 +34,10 @@ class CommentProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners(); // 상태 변경 알림
     }
+  }
+
+  Future<void> writeComment() async {
+    await commentService.writeComment(030524, '심영', '사회주의낙원');
   }
 }
 

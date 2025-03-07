@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ffxiv/data/models/comment.dart';
 import 'package:ffxiv/data/repositories/comment_repository.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +16,7 @@ class CommentService extends ChangeNotifier {
         commentRepository = CommmentRepository(
             firestore ?? FirebaseFirestore.instance); // 기본값 제공
 
-  Future<void> _initializeSharedPreferences() async {
+  Future<void> initializeSharedPreferences() async {
     sharedPreferences = await SharedPreferences.getInstance();
     notifyListeners(); // UI 업데이트
   }

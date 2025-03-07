@@ -32,7 +32,7 @@ class CommmentRepository {
         'itemNo': comment.itemNo,
         'writer': comment.writer,
         'content': comment.content,
-        'createdAt': Timestamp.now(),
+        'createdAt': comment.createdAt,
         'type': comment.type,
       }));
     } catch (e) {
