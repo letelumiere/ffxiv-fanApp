@@ -1,5 +1,5 @@
-import 'package:ffxiv/views/home_page.dart';
-import 'package:ffxiv/views/login_or_register_page.dart';
+import 'package:ffxiv/views/snippetViews/home_page.dart';
+import 'package:ffxiv/views/snippetViews/login_or_register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

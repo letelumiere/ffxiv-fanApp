@@ -1,5 +1,5 @@
-import 'package:ffxiv/views/login_page.dart';
-import 'package:ffxiv/views/register_page.dart';
+import 'package:ffxiv/views/snippetViews/login_page.dart';
+import 'package:ffxiv/views/snippetViews/register_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginOrRegisterPage extends StatefulWidget {
@@ -14,7 +14,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
   bool showLoginPage = true;
 
   //toggle between login and register page
-  void togglePages(){
+  void togglePages() {
     setState(() {
       showLoginPage = !showLoginPage;
     });
@@ -22,7 +22,8 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return showLoginPage != true ?
-      LoginPage(onTap: togglePages) : RegisterPage(onTap: togglePages);
+    return showLoginPage != true
+        ? LoginPage(onTap: togglePages)
+        : RegisterPage(onTap: togglePages);
   }
 }

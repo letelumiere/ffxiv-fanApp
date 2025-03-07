@@ -1,7 +1,7 @@
 import 'package:ffxiv/utilities/components/my_button.dart';
 import 'package:ffxiv/utilities/components/my_textfield.dart';
 import 'package:ffxiv/utilities/components/square_tile.dart';
-import 'package:ffxiv/views/login_or_register_page.dart';
+import 'package:ffxiv/views/snippetViews/login_or_register_page.dart';
 import 'package:ffxiv/views/main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
