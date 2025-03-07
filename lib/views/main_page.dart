@@ -4,10 +4,10 @@ import 'package:ffxiv/data/services/user_profile_service.dart';
 import 'package:ffxiv/providers/login_provider.dart';
 import 'package:ffxiv/views/index_page.dart';
 import 'package:ffxiv/views/item_info_page.dart';
-import 'package:ffxiv/views/login_or_register_page.dart';
+import 'package:ffxiv/views/snippetViews/login_or_register_page.dart';
 import 'package:ffxiv/providers/item_view_model.dart';
 import 'package:ffxiv/views/notice_page.dart';
-import 'package:ffxiv/views/test_page.dart';
+import 'package:ffxiv/views/snippetViews/test_page.dart';
 import 'package:ffxiv/widgets/mainPage/app_drawer_menu_widget.dart';
 import 'package:ffxiv/widgets/mainPage/profile_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -119,10 +119,6 @@ class _MainPageState extends State<MainPage> {
             callback: _showMessage, uiCategory: _selectedCategory);
       case PageType.noticePage:
         return NoticePage();
-      case PageType.loginPage:
-        return LoginOrRegisterPage();
-      case PageType.testPage:
-        return TestPage();
       default:
         return IndexPage(callback: _showMessage);
     }

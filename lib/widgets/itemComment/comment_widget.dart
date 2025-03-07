@@ -1,5 +1,5 @@
-import 'package:ffxiv/widgets/comment_list_widget.dart';
-import 'package:ffxiv/widgets/comment_text_widget.dart';
+import 'package:ffxiv/widgets/itemComment/comment_list_widget.dart';
+import 'package:ffxiv/widgets/itemComment/comment_text_widget.dart';
 import 'package:flutter/material.dart';
 
 class CommentWidget extends StatelessWidget {

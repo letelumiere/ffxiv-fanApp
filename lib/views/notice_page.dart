@@ -1,7 +1,7 @@
 import 'package:ffxiv/data/services/notice_service.dart';
 import 'package:ffxiv/providers/notice_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:ffxiv/widgets/notice_widget.dart';
+import 'package:ffxiv/widgets/noticePage/notice_widget.dart';
 import 'package:provider/provider.dart';
 
 class NoticePage extends StatelessWidget {
