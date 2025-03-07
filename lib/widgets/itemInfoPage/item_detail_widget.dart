@@ -1,4 +1,5 @@
 import 'package:ffxiv/providers/item_view_model.dart';
+import 'package:ffxiv/widgets/comment_text_widget.dart';
 import 'package:ffxiv/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

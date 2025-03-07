@@ -7,7 +7,7 @@ class CommmentRepository {
   final CollectionReference _commentCollection;
 
   CommmentRepository(FirebaseFirestore firestore)
-      : _commentCollection = firestore.collection('comment');
+      : _commentCollection = firestore.collection('Comment');
 
   Future<List<Comment>> getCommentList(int itemId) async {
     Query query = _commentCollection
