@@ -21,13 +21,13 @@ class CommentService extends ChangeNotifier {
     notifyListeners(); // UI 업데이트
   }
 
-  Future<List<Comment>?> showCommentList(int itemNo) async {
-    return await commentRepository.getCommentList(itemNo);
+  Future<List<Comment>?> showCommentList(int itemId) async {
+    return await commentRepository.getCommentList(itemId);
   }
 
-  Future<void> writeComment(int itemNo, String writer, String content) async {
+  Future<void> writeComment(int itemId, String writer, String content) async {
     var data = Comment(
-      itemNo: itemNo,
+      itemId: itemId,
       writer: writer,
       content: content,
       createdAt: Timestamp.now().toDate(),

@@ -9,10 +9,10 @@ class CommmentRepository {
   CommmentRepository(FirebaseFirestore firestore)
       : _commentCollection = firestore.collection('comment');
 
-  Future<List<Comment>> getCommentList(int itemNo) async {
+  Future<List<Comment>> getCommentList(int itemId) async {
     Query query = _commentCollection
-        .where('itemNo', isEqualTo: itemNo)
-        .orderBy('createdAt', descending: true);
+        .where('itemId', isEqualTo: itemId)
+        .orderBy('createdAt', descending: false);
 
     try {
       QuerySnapshot snapshot = await query.get();
@@ -29,7 +29,7 @@ class CommmentRepository {
   Future<void> writeComment(Comment comment) async {
     try {
       _commentCollection.add(({
-        'itemNo': comment.itemNo,
+        'itemId': comment.itemId,
         'writer': comment.writer,
         'content': comment.content,
         'createdAt': comment.createdAt,

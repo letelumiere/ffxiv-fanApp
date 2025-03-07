@@ -1,3 +1,4 @@
+import 'package:ffxiv/data/models/comment.dart';
 import 'package:ffxiv/data/models/item_dto.dart';
 import 'package:ffxiv/providers/comment_provider.dart';
 import 'package:ffxiv/utilities/components/my_textfield.dart';
@@ -17,12 +18,12 @@ class CommentWidget extends StatefulWidget {
 class _CommentWidgetState extends State<CommentWidget> {
   final commentController = TextEditingController();
   final currentUser = FirebaseAuth.instance.currentUser;
-  var commentList;
+  late var commentList = [];
 
   @override
   void initState() {
-    showCommentList(widget.itemDto.itemId);
     super.initState();
+    Future.microtask(() => {showCommentList()});
   }
 
   @override
@@ -30,8 +31,9 @@ class _CommentWidgetState extends State<CommentWidget> {
     super.didUpdateWidget(oldWidget);
   }
 
-  Future<void> showCommentList(int itemNo) async {
-    await context.read<CommentProvider>().fetchData(itemNo);
+  Future<void> showCommentList() async {
+    commentList =
+        await context.read<CommentProvider>().fetchData(widget.itemDto.itemId);
   }
 
   Future<void> writeComment() async {

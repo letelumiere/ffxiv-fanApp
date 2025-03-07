@@ -13,18 +13,26 @@ class CommentProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   int? get itemNo => _itemNo;
 
-  CommentProvider(this.commentService) {
-    fetchData(itemNo);
-  }
+  CommentProvider(this.commentService);
 
-  Future<void> fetchData(int? itemNo) async {
+  Future<List<Comment>> fetchData(int? itemNo) async {
+    print("fetchData() 변수 ${itemNo}");
+
+    if (itemNo == null) {
+      if (kDebugMode) {
+        print("fetchData() 호출 실패: itemNo가 null입니다.");
+      }
+      return []; // 🚀 itemNo가 null이면 실행 중단
+    }
+
     _isLoading = true;
     notifyListeners();
+
     try {
-      final result = await commentService.showCommentList(itemNo!);
+      final result = await commentService.showCommentList(itemNo);
       if (result != null && result.isNotEmpty) {
         list.clear();
-        list.addAll(result); // 데이터를 리스트에 추가
+        list.addAll(result);
       }
     } catch (e) {
       if (kDebugMode) {
@@ -32,44 +40,12 @@ class CommentProvider extends ChangeNotifier {
       }
     } finally {
       _isLoading = false;
-      notifyListeners(); // 상태 변경 알림
+      notifyListeners();
     }
+    return list;
   }
 
   Future<void> writeComment() async {
-    await commentService.writeComment(030524, '심영', '사회주의낙원');
+    await commentService.writeComment(10590, '심영', '사회주의낙원');
   }
 }
-
-
-
-// ... CommentRepository, Comment 클래스 ...
-
-/*
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => CommentRepository(),
-      child: MyApp(),
-    ),
-  );
-}
-
-class MyApp extends StatelessWidget {
-  // ...
-}
-
-// 댓글 삭제 버튼 예시
-ElevatedButton(
-  onPressed: () async {
-    try {
-      await context.read<CommentRepository>().deleteComment("yourDocumentId");
-      // 삭제 성공 후 처리
-    } catch (e) {
-      // 에러 처리 (예: 스낵바 표시)
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
-    }
-  },
-  child: Text('댓글 삭제'),
-),
-*/
