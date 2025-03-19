@@ -46,7 +46,7 @@ class CommentProvider extends ChangeNotifier {
   }
 
   Future<void> writeComment() async {
-    await commentService.writeComment(10590, '심영', '사회주의낙원');
+    await commentService.writeComment(10590, '심영', '나좀살려주시오');
     notifyListeners();
   }
 }

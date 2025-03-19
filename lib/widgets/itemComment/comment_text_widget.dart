@@ -22,7 +22,7 @@ class _CommentTextWidgetState extends State<CommentTextWidget> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => {showCommentList()});
+//    Future.microtask(() => {showCommentList()});
   }
 
   @override

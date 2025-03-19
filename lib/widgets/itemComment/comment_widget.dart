@@ -11,7 +11,7 @@ class CommentWidget extends StatelessWidget {
     return Column(
       children: [
         CommentTextWidget(itemDto: itemDto),
-        CommentListWidget(itemDto: itemDto)
+        CommentListWidget(itemDto: itemDto),
       ],
     );
   }

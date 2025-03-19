@@ -1,5 +1,7 @@
 import 'package:ffxiv/data/models/item_dto.dart';
+import 'package:ffxiv/providers/comment_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CommentListWidget extends StatefulWidget {
   final ItemDTO itemDto;
@@ -14,7 +16,7 @@ class _CommentListWidgetState extends State<CommentListWidget> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => {showCommentList()});
+    Future.microtask(() => {showCommentList(widget.itemDto.itemId)});
   }
 
   @override
@@ -22,10 +24,23 @@ class _CommentListWidgetState extends State<CommentListWidget> {
     super.didUpdateWidget(oldWidget);
   }
 
-  Future<void> showCommentList() async {}
+  Future<void> showCommentList(itemId) async {
+    await context.watch<CommentProvider>().fetchData(itemId);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column();
+    return Consumer<CommentProvider>(builder: (context, provider, child) {
+      return ListView.builder(
+          shrinkWrap: true, // 💡 ListView가 필요한 높이만 차지하도록 설정
+          physics:
+              NeverScrollableScrollPhysics(), // 💡 부모(SingleChildScrollView)가 스크롤을 담당하도록 설정
+          itemCount: provider.list.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(provider.list[index].content.toString()),
+            );
+          });
+    });
   }
 }

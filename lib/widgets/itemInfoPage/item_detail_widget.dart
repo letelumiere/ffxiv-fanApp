@@ -1,4 +1,5 @@
 import 'package:ffxiv/providers/item_view_model.dart';
+import 'package:ffxiv/widgets/itemComment/comment_list_widget.dart';
 import 'package:ffxiv/widgets/itemComment/comment_text_widget.dart';
 import 'package:ffxiv/widgets/itemComment/comment_widget.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,9 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                 const SizedBox(
                   height: 40,
                 ),
-                CommentWidget(itemDto: itemDto),
+//                CommentWidget(itemDto: itemDto),
+                CommentTextWidget(itemDto: itemDto),
+                CommentListWidget(itemDto: itemDto),
                 const SizedBox(height: 20),
               ],
             ),
