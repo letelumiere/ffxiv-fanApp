@@ -45,8 +45,13 @@ class CommentProvider extends ChangeNotifier {
     return list;
   }
 
-  Future<void> writeComment() async {
-    await commentService.writeComment(10590, '심영', '나좀살려주시오');
+  Future<void> writeComment(int itemId, String nickname, String content) async {
+    await commentService.writeComment(itemId, nickname, content);
+    notifyListeners();
+  }
+
+  Future<void> deleteComment(String documentId) async {
+    await commentService.deleteComment(documentId);
     notifyListeners();
   }
 }

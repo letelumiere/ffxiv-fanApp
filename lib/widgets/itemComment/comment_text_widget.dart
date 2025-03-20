@@ -1,5 +1,6 @@
 import 'package:ffxiv/data/models/item_dto.dart';
 import 'package:ffxiv/providers/comment_provider.dart';
+import 'package:ffxiv/providers/login_provider.dart';
 import 'package:ffxiv/utilities/components/my_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -36,19 +37,40 @@ class _CommentTextWidgetState extends State<CommentTextWidget> {
   }
 
   Future<void> writeComment() async {
-    await context.read<CommentProvider>().writeComment();
-    await showCommentList();
-    print(commentList.length);
-  }
+    var nickname = context.read<LoginProvider>().userProfile?.nickname;
+    String comment = commentController.text.trim(); // 공백 제거
 
-  Future<void> deleteComment() async {
-    print('delete');
+    if (nickname == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("로그인이 필요합니다.")),
+      );
+      return;
+    }
+
+    if (comment.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("댓글을 입력해주세요.")),
+      );
+      return;
+    }
+
+    try {
+      await context
+          .read<CommentProvider>()
+          .writeComment(widget.itemDto.itemId, nickname, comment);
+
+      showCommentList(); // `await` 없이 실행 (필요하면 `await` 추가 가능)
+      commentController.clear();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("댓글 작성 중 오류 발생: $e")),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     commentList = context.read<CommentProvider>().list;
-    print(commentList.length);
 
     return Column(
       children: [
@@ -68,10 +90,6 @@ class _CommentTextWidgetState extends State<CommentTextWidget> {
               ),
               Column(
                 children: [
-                  IconButton(
-                    onPressed: deleteComment,
-                    icon: const Icon(Icons.delete),
-                  ),
                   IconButton(
                     onPressed: writeComment,
                     icon: const Icon(Icons.input),

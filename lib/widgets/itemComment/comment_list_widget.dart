@@ -1,6 +1,8 @@
 import 'package:ffxiv/data/models/item_dto.dart';
 import 'package:ffxiv/providers/comment_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CommentListWidget extends StatefulWidget {
@@ -22,10 +24,14 @@ class _CommentListWidgetState extends State<CommentListWidget> {
   @override
   Future<void> didUpdateWidget(covariant CommentListWidget oldWidget) async {
     super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.itemDto.itemId != widget.itemDto.itemId) {
+      showCommentList(widget.itemDto.itemId);
+    }
   }
 
   Future<void> showCommentList(itemId) async {
-    await context.watch<CommentProvider>().fetchData(itemId);
+    await context.read<CommentProvider>().fetchData(itemId);
   }
 
   @override
@@ -38,7 +44,30 @@ class _CommentListWidgetState extends State<CommentListWidget> {
           itemCount: provider.list.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(provider.list[index].content.toString()),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    provider.list[index].writer.toString(),
+                    textAlign: TextAlign.start,
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  SizedBox(width: 20),
+                  Expanded(
+                    child: Text(
+                      provider.list[index].content.toString(),
+                      textAlign: TextAlign.start,
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                  Text(
+                    DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse(
+                        provider.list[index].createdAt.toString())),
+                    textAlign: TextAlign.end,
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
             );
           });
     });
