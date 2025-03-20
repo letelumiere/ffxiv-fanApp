@@ -36,7 +36,10 @@ class _CommentListWidgetState extends State<CommentListWidget> {
   }
 
   //해당 comment의 문서Id를 통해 삭제
-  Future<void> deleteComment(String documentId) async {}
+  Future<void> deleteComment(String documentId) async {
+    await context.read<CommentProvider>().deleteComment(documentId);
+    print(documentId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +47,7 @@ class _CommentListWidgetState extends State<CommentListWidget> {
         builder: (context, commentProvider, loginProvider, child) {
       var currentUser =
           loginProvider.userProfile?.nickname; // 현재 로그인한 사용자 닉네임 가져오기
+      var isLoggedIn = loginProvider.isLoggedIn;
 
       return ListView.builder(
           shrinkWrap: true, // 💡 ListView가 필요한 높이만 차지하도록 설정
@@ -79,12 +83,12 @@ class _CommentListWidgetState extends State<CommentListWidget> {
                     textAlign: TextAlign.end,
                     style: TextStyle(fontSize: 12),
                   ),
-                  if (isMyComment)
+                  if (isMyComment && isLoggedIn)
                     IconButton(
-                        icon: Icon(Icons.delete, size: 18, color: Colors.red),
-                        onPressed: () => {}
-//                          deleteComment(), // 댓글 삭제 함수 호출
-                        ),
+                      icon: Icon(Icons.delete, size: 18, color: Colors.red),
+                      onPressed: () => deleteComment(
+                          comment.documentId.toString()), // 댓글 삭제 함수 호출
+                    )
                 ],
               ),
             );

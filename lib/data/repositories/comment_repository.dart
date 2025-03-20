@@ -18,7 +18,7 @@ class CommmentRepository {
       QuerySnapshot snapshot = await query.get();
 
       return snapshot.docs.map((doc) {
-        return Comment.fromJson(doc.data() as Map<String, dynamic>);
+        return Comment.fromJson(doc.data() as Map<String, dynamic>, doc.id);
       }).toList();
     } catch (e) {
       _handleError(e);
@@ -47,7 +47,7 @@ class CommmentRepository {
       throw Exception("사용자가 로그인되어 있지 않습니다.");
     }
 
-    final userId = currentUser.uid;
+//    final userId = currentUser.uid;
 
     try {
       final commentRef = _commentCollection.doc(documentId);
@@ -56,11 +56,11 @@ class CommmentRepository {
       if (!commentSnapshot.exists) {
         throw Exception("댓글이 존재하지 않습니다.");
       }
-
+/*
       if (commentSnapshot.get('userId') != userId) {
         throw Exception("권한이 없습니다.");
       }
-
+*/
       await commentRef.delete();
       print('댓글이 성공적으로 삭제되었습니다.');
     } on FirebaseException catch (e) {

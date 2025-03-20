@@ -4,12 +4,14 @@ import 'package:flutter/foundation.dart';
 
 class CommentProvider extends ChangeNotifier {
   final List<Comment> _list = [];
+  final List<String> _documentIds = [];
   bool _isLoading = false;
   int? _itemId;
 
   final CommentService commentService;
 
   List<Comment> get list => _list;
+  List<String> get documentIds => _documentIds;
   bool get isLoading => _isLoading;
   int? get itemId => _itemId;
 
@@ -52,6 +54,7 @@ class CommentProvider extends ChangeNotifier {
 
   Future<void> deleteComment(String documentId) async {
     await commentService.deleteComment(documentId);
+    list.removeWhere((comment) => comment.documentId == documentId);
     notifyListeners();
   }
 }
