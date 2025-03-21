@@ -12,12 +12,14 @@ class LoginProvider extends ChangeNotifier {
       UserProfileService(sharedPreferences: sharedPreferences);
 
   bool _isLoggedIn = false;
+  User? _loginUser;
   UserProfile? _userProfile;
 
   AuthService get authService => _authService;
   UserProfileService get userProfileService => _userProfileService;
 
   bool get isLoggedIn => _isLoggedIn;
+  User? get user => _loginUser;
   UserProfile? get userProfile => _userProfile;
 
   LoginProvider() {
@@ -26,8 +28,15 @@ class LoginProvider extends ChangeNotifier {
 
   /// Firebase 인증 상태를 실시간 감지하여 isLoggedIn 업데이트
   void _checkAuthState() {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+      _loginUser = user;
       _isLoggedIn = user != null;
+
+      if (_loginUser != null) {
+        _userProfile = await _userProfileService.getUserOne(_loginUser!);
+      } else {
+        _userProfile = null;
+      }
 
       notifyListeners(); // 상태 변경 감지 시 UI 업데이트
     });

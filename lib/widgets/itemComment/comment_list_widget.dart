@@ -61,6 +61,7 @@ class _CommentListWidgetState extends State<CommentListWidget> {
                 (currentUser != null && comment.writer == currentUser);
 
             return ListTile(
+              contentPadding: EdgeInsets.zero,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -69,7 +70,7 @@ class _CommentListWidgetState extends State<CommentListWidget> {
                     textAlign: TextAlign.start,
                     style: TextStyle(fontSize: 12),
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       comment.content.toString(),
@@ -88,6 +89,14 @@ class _CommentListWidgetState extends State<CommentListWidget> {
                       icon: Icon(Icons.delete, size: 18, color: Colors.red),
                       onPressed: () => deleteComment(
                           comment.documentId.toString()), // 댓글 삭제 함수 호출
+                    )
+                  else
+                    IgnorePointer(
+                      child: IconButton(
+                        icon: Icon(Icons.delete,
+                            size: 18, color: Colors.transparent),
+                        onPressed: null, // 댓글 삭제 함수 호출
+                      ),
                     )
                 ],
               ),

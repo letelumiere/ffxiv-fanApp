@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class MyTextfield extends StatelessWidget {
@@ -7,18 +5,19 @@ class MyTextfield extends StatelessWidget {
   final String hintText;
   final bool obscureText;
 
-  const MyTextfield({
-    super.key,
-    required this.controller,
-    required this.hintText,
-    required this.obscureText
-  });
+  const MyTextfield(
+      {super.key,
+      required this.controller,
+      required this.hintText,
+      required this.obscureText});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+//        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        padding: EdgeInsets.zero,
         child: TextField(
+          style: TextStyle(fontSize: 12),
           controller: controller,
           obscureText: obscureText,
           decoration: InputDecoration(
@@ -33,7 +32,6 @@ class MyTextfield extends StatelessWidget {
             hintText: hintText,
             hintStyle: TextStyle(color: Colors.grey[500]),
           ),
-        )
-    );
+        ));
   }
 }

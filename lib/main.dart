@@ -46,6 +46,7 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => LoginProvider(),
+          lazy: false,
         ),
         ChangeNotifierProvider<ItemViewModel>(
           create: (context) => ItemViewModel(

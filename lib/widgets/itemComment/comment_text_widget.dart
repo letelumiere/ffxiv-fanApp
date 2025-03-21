@@ -42,7 +42,7 @@ class _CommentTextWidgetState extends State<CommentTextWidget> {
 
     if (nickname == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("로그인이 필요합니다.")),
+        SnackBar(content: Text("댓글 작성에는 로그인이 필요합니다.")),
       );
       return;
     }
@@ -76,7 +76,12 @@ class _CommentTextWidgetState extends State<CommentTextWidget> {
       children: [
         if (currentUser == null)
           Row(
-            children: [Text("로그인이 필요합니다.")],
+            children: [
+              Text("댓글 작성에는 로그인이 필요합니다.",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ))
+            ],
           )
         else
           Row(
@@ -92,7 +97,11 @@ class _CommentTextWidgetState extends State<CommentTextWidget> {
                 children: [
                   IconButton(
                     onPressed: writeComment,
-                    icon: const Icon(Icons.input),
+                    icon: const Icon(
+                      Icons.input,
+                      size: 18,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
