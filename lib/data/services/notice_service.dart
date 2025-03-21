@@ -36,4 +36,10 @@ class NoticeService {
   void _handleServiceError(dynamic e) {
     print('Service error: $e');
   }
+
+  Future<void> writeNotice() async {}
+
+  Future<void> modifyNotice() async {}
+
+  Future<void> deleteNotice() async {}
 }
