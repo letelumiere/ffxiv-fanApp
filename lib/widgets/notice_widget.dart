@@ -23,6 +23,10 @@ class _NoticeWidgetState extends State<NoticeWidget> {
     });
   }
 
+  Future<void> writeNotice() async {}
+  Future<void> modifyNotice() async {}
+  Future<void> deleteNotice() async {}
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<NoticeProvider>(context); // 상태를 구독
@@ -43,22 +47,76 @@ class _NoticeWidgetState extends State<NoticeWidget> {
     }
 
     // 공지사항 목록 표시
-    return ListView.builder(
-      itemCount: _noticeList.length,
-      itemBuilder: (context, index) {
-        final notice = _noticeList[index];
-        return GestureDetector(
-          onTap: () {
-            // 클릭 시 액션 처리 (예: 상세 페이지로 이동)
-          },
-          child: Card(
-            child: ListTile(
-              title: Text(notice!.createdAt.toString()),
-              subtitle: Text(notice.content ?? "null"),
-            ),
+    return Stack(
+      children: [
+        Consumer<NoticeProvider>(builder: (context, provider, child) {
+          return ListView.builder(
+            itemCount: _noticeList.length,
+            itemBuilder: (context, index) {
+              final notice = _noticeList[index];
+              return Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      // 클릭 시 액션 처리 (예: 상세 페이지로 이동)
+                    },
+                    child: Card(
+                      margin: EdgeInsets.only(
+                          top: 24, left: 24, right: 24, bottom: 0),
+                      child: ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 6,
+                              child: Text(
+                                notice!.createdAt.toString(),
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            Expanded(
+                                flex: 4,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                      iconSize: 18,
+                                      onPressed: modifyNotice,
+                                      icon: const Icon(Icons.update),
+                                      tooltip: "modify",
+                                    ),
+                                    IconButton(
+                                      iconSize: 18,
+                                      onPressed: deleteNotice,
+                                      icon: const Icon(Icons.delete),
+                                      tooltip: "delete",
+                                    ),
+                                  ],
+                                ))
+                          ],
+                        ),
+                        subtitle: Text(notice.content ?? "null"),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        }),
+        Positioned(
+          bottom: 16.0,
+          right: 16.0,
+          child: FloatingActionButton(
+            onPressed: writeNotice,
+            child: const Icon(Icons.add),
+            tooltip: "Write Notice",
           ),
-        );
-      },
+        ),
+      ],
     );
   }
 }

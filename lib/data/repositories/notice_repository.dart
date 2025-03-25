@@ -13,7 +13,7 @@ class NoticeRepository {
     try {
       QuerySnapshot snapshot = await query.limit(10).get();
       return snapshot.docs.map((doc) {
-        return Notice.fromJson(doc.data() as Map<String, dynamic>);
+        return Notice.fromJson(doc.data() as Map<String, dynamic>, doc.id);
       }).toList();
     } catch (e) {
       _handleError(e);

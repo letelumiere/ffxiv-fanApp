@@ -33,13 +33,20 @@ class NoticeService {
     }
   }
 
+  Future<void> writeNotice(String authType, String content) async {
+    await _noticeRepository.writeNotice(authType, content);
+  }
+
+  Future<void> modifyNotice(
+      String authType, String content, String documentId) async {
+    await _noticeRepository.modifyNotice(authType, content, documentId);
+  }
+
+  Future<void> deleteNotice(String authType, String documentId) async {
+    await _noticeRepository.deleteNotice(authType, documentId);
+  }
+
   void _handleServiceError(dynamic e) {
     print('Service error: $e');
   }
-
-  Future<void> writeNotice() async {}
-
-  Future<void> modifyNotice() async {}
-
-  Future<void> deleteNotice() async {}
 }
