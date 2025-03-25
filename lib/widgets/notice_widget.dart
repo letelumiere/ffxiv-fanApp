@@ -1,5 +1,6 @@
 import 'package:ffxiv/data/models/notice.dart';
 import 'package:ffxiv/providers/notice_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,8 @@ class NoticeWidget extends StatefulWidget {
 }
 
 class _NoticeWidgetState extends State<NoticeWidget> {
-  late List<Notice?> _noticeList; //공지사항 리스트를 로컬 변수로 관리
+  late List<Notice?> _noticeList = []; //공지사항 리스트를 로컬 변수로 관리
+  final currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
@@ -23,9 +25,15 @@ class _NoticeWidgetState extends State<NoticeWidget> {
     });
   }
 
-  Future<void> writeNotice() async {}
-  Future<void> modifyNotice() async {}
-  Future<void> deleteNotice() async {}
+  Future<void> writeNotice(String content) async {}
+
+  Future<void> modifyNotice(String content, String documentId) async {
+    await context.read<NoticeProvider>().modifyNotice(content, documentId);
+  }
+
+  Future<void> deleteNotice(String documentId) async {
+    await context.read<NoticeProvider>().deleteNotice(documentId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +61,8 @@ class _NoticeWidgetState extends State<NoticeWidget> {
           return ListView.builder(
             itemCount: _noticeList.length,
             itemBuilder: (context, index) {
-              final notice = _noticeList[index];
+              var notice = _noticeList[index];
+              var noticeId = notice?.documentId;
               return Column(
                 children: [
                   GestureDetector(
@@ -84,13 +93,14 @@ class _NoticeWidgetState extends State<NoticeWidget> {
                                   children: [
                                     IconButton(
                                       iconSize: 18,
-                                      onPressed: modifyNotice,
+                                      onPressed: () =>
+                                          modifyNotice("", noticeId!),
                                       icon: const Icon(Icons.update),
                                       tooltip: "modify",
                                     ),
                                     IconButton(
                                       iconSize: 18,
-                                      onPressed: deleteNotice,
+                                      onPressed: () => deleteNotice(noticeId!),
                                       icon: const Icon(Icons.delete),
                                       tooltip: "delete",
                                     ),
@@ -111,7 +121,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
           bottom: 16.0,
           right: 16.0,
           child: FloatingActionButton(
-            onPressed: writeNotice,
+            onPressed: () => writeNotice,
             child: const Icon(Icons.add),
             tooltip: "Write Notice",
           ),

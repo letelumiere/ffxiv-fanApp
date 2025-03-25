@@ -34,4 +34,8 @@ class NoticeProvider extends ChangeNotifier {
       notifyListeners(); // 상태 변경 알림
     }
   }
+
+  Future<void> writeNotice(String authType, String content) async {}
+  Future<void> modifyNotice(String content, String documentId) async {}
+  Future<void> deleteNotice(String documentId) async {}
 }
