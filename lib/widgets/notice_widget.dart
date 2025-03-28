@@ -86,10 +86,11 @@ class _NoticeWidgetState extends State<NoticeWidget> {
                             const SizedBox(
                               height: 24,
                             ),
+                            /*
                             Expanded(
                                 flex: 4,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                              *    mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     IconButton(
                                       iconSize: 18,
@@ -106,6 +107,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
                                     ),
                                   ],
                                 ))
+                                */
                           ],
                         ),
                         subtitle: Text(notice.content ?? "null"),
@@ -117,6 +119,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
             },
           );
         }),
+        /*
         Positioned(
           bottom: 16.0,
           right: 16.0,
@@ -126,6 +129,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
             tooltip: "Write Notice",
           ),
         ),
+        */
       ],
     );
   }

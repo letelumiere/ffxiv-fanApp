@@ -45,6 +45,7 @@ class AppMenuDrawer extends StatelessWidget {
               },
             ),
           ),
+/*
           ListTile(
             leading: const Icon(Icons.airline_seat_individual_suite),
             title: const Text("공지"),
@@ -55,6 +56,7 @@ class AppMenuDrawer extends StatelessWidget {
             title: const Text("테스트"),
             onTap: () => onItemTapped(PageType.testPage, ""),
           ),
+          */
           ListTile(
             leading: const Icon(Icons.airline_seat_individual_suite),
             title: const Text("메인"),
