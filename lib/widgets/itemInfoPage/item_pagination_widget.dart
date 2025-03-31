@@ -57,7 +57,8 @@ class _ItemPaginationViewState extends State<ItemPaginationView> {
     // 기본 쿼리 설정
     _query = FirebaseFirestore.instance
         .collection('Item')
-        .where('ItemUICategory', isEqualTo: category);
+        .where('ItemUICategory', isEqualTo: category)
+        .where('Name', isEqualTo: "아다만 브로드소드");
 
     // 검색어가 있을 경우 추가 조건 적용
     if (searchTerm != null && searchTerm.isNotEmpty) {

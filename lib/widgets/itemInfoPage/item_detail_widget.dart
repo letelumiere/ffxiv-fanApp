@@ -1,4 +1,7 @@
 import 'package:ffxiv/providers/item_view_model.dart';
+import 'package:ffxiv/widgets/itemComment/comment_list_widget.dart';
+import 'package:ffxiv/widgets/itemComment/comment_text_widget.dart';
+import 'package:ffxiv/widgets/itemComment/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'itemDetailSections/item_header.dart';
@@ -41,7 +44,7 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(24.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -70,6 +73,13 @@ class _ItemDetailLayoutState extends State<ItemDetailLayout> {
                 const SizedBox(height: 10),
                 TradableSection(itemDto: itemDto),
                 const SizedBox(height: 10),
+                const SizedBox(
+                  height: 40,
+                ),
+//                CommentWidget(itemDto: itemDto),
+                CommentTextWidget(itemDto: itemDto),
+                CommentListWidget(itemDto: itemDto),
+                const SizedBox(height: 20),
               ],
             ),
           ),

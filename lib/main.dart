@@ -1,7 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffxiv/data/services/item_repository.dart';
+import 'package:ffxiv/data/repositories/item_repository.dart';
+import 'package:ffxiv/data/services/comment_service.dart';
 import 'package:ffxiv/data/services/item_service.dart';
+import 'package:ffxiv/data/repositories/notice_repository.dart';
+import 'package:ffxiv/data/services/notice_service.dart';
+import 'package:ffxiv/data/services/user_profile_service.dart';
 import 'package:ffxiv/firebase_options.dart';
+import 'package:ffxiv/providers/comment_provider.dart';
+import 'package:ffxiv/providers/login_provider.dart';
 import 'package:ffxiv/views/main_page.dart';
 import 'package:ffxiv/providers/item_view_model.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +15,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+late SharedPreferences sharedPreferences;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform, // FirebaseOptions를 제공
   );
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+  sharedPreferences = await SharedPreferences.getInstance();
 
   runApp(
     MultiProvider(
@@ -25,10 +34,28 @@ void main() async {
             sharedPreferences: sharedPreferences,
           ),
         ),
+        Provider<NoticeService>(
+          create: (_) => NoticeService(
+            noticeRepository: NoticeRepository(FirebaseFirestore.instance),
+            sharedPreferences: sharedPreferences,
+          ),
+        ),
+        ChangeNotifierProvider<UserProfileService>(
+          create: (context) =>
+              UserProfileService(sharedPreferences: sharedPreferences),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LoginProvider(),
+          lazy: false,
+        ),
         ChangeNotifierProvider<ItemViewModel>(
           create: (context) => ItemViewModel(
             Provider.of<ItemService>(context, listen: false),
           ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CommentProvider(
+              CommentService(sharedPreferences: sharedPreferences)),
         ),
       ],
       child: const MyApp(),
@@ -62,7 +89,9 @@ class MyApp extends StatelessWidget {
           bodySmall: TextStyle(color: Colors.grey),
         ),
       ),
-      home: const MainPage(),
+      debugShowCheckedModeBanner: false,
+//      home: AuthPage(),
+      home: MainPage(),
     );
   }
 }
