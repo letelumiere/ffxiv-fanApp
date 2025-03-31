@@ -2,6 +2,7 @@ import 'package:ffxiv/data/models/notice.dart';
 import 'package:ffxiv/providers/notice_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class NoticeWidget extends StatefulWidget {
@@ -79,12 +80,13 @@ class _NoticeWidgetState extends State<NoticeWidget> {
                             Expanded(
                               flex: 6,
                               child: Text(
-                                notice!.createdAt.toString(),
-                                style: TextStyle(fontSize: 14),
+                                DateFormat('yyyy-MM-dd').format(DateTime.parse(
+                                    notice!.createdAt.toString())),
+                                style: TextStyle(fontSize: 16),
                               ),
                             ),
                             const SizedBox(
-                              height: 24,
+                              height: 36,
                             ),
                             /*
                             Expanded(
@@ -110,7 +112,10 @@ class _NoticeWidgetState extends State<NoticeWidget> {
                                 */
                           ],
                         ),
-                        subtitle: Text(notice.content ?? "null"),
+                        subtitle: Text(
+                          style: TextStyle(fontSize: 14),
+                          notice.content ?? "null",
+                        ),
                       ),
                     ),
                   ),

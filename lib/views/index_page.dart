@@ -1,7 +1,7 @@
 import 'package:ffxiv/data/services/notice_service.dart';
 import 'package:ffxiv/providers/notice_provider.dart';
 import 'package:ffxiv/widgets/copyright_footer.dart';
-import 'package:ffxiv/widgets/notice_widget.dart';
+import 'package:ffxiv/widgets/indexPage/notice_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
