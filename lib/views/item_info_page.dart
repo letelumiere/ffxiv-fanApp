@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:ffxiv/widgets/copyright_footer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ffxiv/providers/item_view_model.dart';
@@ -100,6 +101,7 @@ class ItemInfoPage extends StatelessWidget {
               },
             ),
           ),
+          CopyrightFooter(),
         ],
       ),
     );

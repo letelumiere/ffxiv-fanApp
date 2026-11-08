@@ -1,0 +1,60 @@
+import 'package:ffxiv/data/models/comment.dart';
+import 'package:ffxiv/data/services/comment_service.dart';
+import 'package:flutter/foundation.dart';
+
+class CommentProvider extends ChangeNotifier {
+  final List<Comment> _list = [];
+  final List<String> _documentIds = [];
+  bool _isLoading = false;
+  int? _itemId;
+
+  final CommentService commentService;
+
+  List<Comment> get list => _list;
+  List<String> get documentIds => _documentIds;
+  bool get isLoading => _isLoading;
+  int? get itemId => _itemId;
+
+  CommentProvider(this.commentService);
+
+  Future<List<Comment>> fetchData(int? itemId) async {
+    print("fetchData() 변수 ${itemId}");
+
+    if (itemId == null) {
+      if (kDebugMode) {
+        print("fetchData() 호출 실패: itemId가 null입니다.");
+      }
+      return []; // 🚀 itemId가 null이면 실행 중단
+    }
+
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      final result = await commentService.showCommentList(itemId);
+      if (result != null && result.isNotEmpty) {
+        list.clear();
+        list.addAll(result);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error fetching data: $e");
+      }
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+    return list;
+  }
+
+  Future<void> writeComment(int itemId, String nickname, String content) async {
+    await commentService.writeComment(itemId, nickname, content);
+    notifyListeners();
+  }
+
+  Future<void> deleteComment(String documentId) async {
+    await commentService.deleteComment(documentId);
+    list.removeWhere((comment) => comment.documentId == documentId);
+    notifyListeners();
+  }
+}

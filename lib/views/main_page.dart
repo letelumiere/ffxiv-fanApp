@@ -1,8 +1,16 @@
 import 'package:ffxiv/data/datasources/category_list.dart';
+import 'package:ffxiv/data/models/user_profile.dart';
+import 'package:ffxiv/data/services/user_profile_service.dart';
+import 'package:ffxiv/providers/login_provider.dart';
 import 'package:ffxiv/views/index_page.dart';
 import 'package:ffxiv/views/item_info_page.dart';
-import 'package:ffxiv/widgets/mainPage/app_drawer_menu_widget.dart';
+import 'package:ffxiv/views/snippetViews/login_or_register_page.dart';
 import 'package:ffxiv/providers/item_view_model.dart';
+import 'package:ffxiv/views/notice_page.dart';
+import 'package:ffxiv/views/snippetViews/test_page.dart';
+import 'package:ffxiv/widgets/mainPage/app_drawer_menu_widget.dart';
+import 'package:ffxiv/widgets/mainPage/profile_drawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +28,19 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  //google 계정으로 로그인 => 401 + 403 에러는 각각 google Console에서 clientId의 설정, people API enable로 해결
+  Future<void> signinWithGoogle() async {
+    await context.read<LoginProvider>().signInWithGoogle();
+  }
+
+  Future<void> signUserOut() async {
+    await context.read<LoginProvider>().signOutGoogle();
+  }
+
+  Future<void> userResign() async {
+    await context.read<LoginProvider>().resignGoogle();
   }
 
   void _onItemTapped(PageType selectedPage, String uiCategory) {
@@ -44,9 +65,45 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = context.watch<LoginProvider>().isLoggedIn;
+    final userProfile = context.watch<LoginProvider>().userProfile;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("FFXIV Item Database"),
+        actions: [
+          if (isLoggedIn && userProfile != null) ...[
+            Text("안녕하세요 ${userProfile.nickname} 님!"),
+            PopupMenuButton<String>(
+              icon: const Icon(Icons.account_circle), // 사용자 아이콘
+              onSelected: (value) {
+                if (value == "logout") {
+                  signUserOut();
+                } else if (value == "resign") {
+                  userResign();
+                }
+              },
+              itemBuilder: (context) => [
+                const PopupMenuItem<String>(
+                  value: "profile",
+                  child: Text("프로필 보기"),
+                ),
+                const PopupMenuItem<String>(
+                  value: "resign",
+                  child: Text("회원 탈퇴"),
+                ),
+                const PopupMenuItem<String>(
+                  value: "logout",
+                  child: Text("로그아웃"),
+                ),
+              ],
+            ),
+          ] else ...[
+            const Text("로그인"),
+            IconButton(
+                onPressed: signinWithGoogle, icon: const Icon(Icons.login)),
+          ],
+        ],
       ),
       drawer: AppMenuDrawer(onItemTapped: _onItemTapped),
       body: _getPage(_selectedPage),
@@ -60,6 +117,8 @@ class _MainPageState extends State<MainPage> {
       case PageType.itemInfoPage:
         return ItemInfoPage(
             callback: _showMessage, uiCategory: _selectedCategory);
+      case PageType.noticePage:
+        return NoticePage();
       default:
         return IndexPage(callback: _showMessage);
     }
