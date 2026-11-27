@@ -5,14 +5,28 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:8.1.0" // Android Gradle Plugin
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23" // Kotlin Gradle Plugin 최신 버전
+        classpath "com.android.tools.build:gradle:9.1.1" // Android Gradle Plugin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.10" // Kotlin Gradle Plugin 최신 버전
         classpath "com.google.gms:google-services:4.3.15" // Google Services Plugin
     }
 }
 
 plugins {
-    id "com.android.application" version "8.7.0" apply false
-    id 'com.android.library' version '8.7.0' apply false
+    id "com.android.application" version "9.1.1" apply false
+    id 'com.android.library' version '9.1.1' apply false
     id "com.google.gms.google-services" version "4.3.15" apply false
+}
+
+rootProject.layout.buildDirectory.set(file("../build"))
+
+subprojects {
+    layout.buildDirectory.set(rootProject.layout.buildDirectory.dir(project.name))
+}
+
+subprojects {
+    afterEvaluate { project ->
+        if (project.name == "flutter_native_splash") {
+            project.android.compileSdk = 36
+        }
+    }
 }

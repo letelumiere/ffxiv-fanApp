@@ -1,8 +1,8 @@
 <manifest 
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.letelumiere.ffxiv">
+    package="com.letelumiere.ffxivdb">
     <application
-        android:label="ffxiv"
+        android:label="ffxivdb"
         android:name="${applicationName}"
         android:icon="@mipmap/dig">
         <activity
