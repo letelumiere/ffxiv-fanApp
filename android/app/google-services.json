@@ -8,12 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:961203961599:android:480b0df5b92f6e8b1516ca",
+        "mobilesdk_app_id": "1:961203961599:android:fa169995a2ae603d1516ca",
         "android_client_info": {
-          "package_name": "com.letelumiere.ffxiv"
+          "package_name": "com.letelumiere.ffxivdb"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "961203961599-efnr9kb2vj5us1qaql1hddad52s0vjl2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCSTD0IV3E9ps4dbFyyPqXkcm079CbN0dI"
@@ -21,7 +26,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116937267268989362349",
+              "client_type": 3
+            },
+            {
+              "client_id": "961203961599-77pot32ijbh02srci19e5g8bt7jp56qq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ffixv"
+              } 
+            }
+          ]
         }
       }
     }
