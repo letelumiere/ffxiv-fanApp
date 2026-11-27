@@ -4,7 +4,16 @@ enum PageType {
   indexPage,
   mainPage,
   itemInfoPage,
+  noticePage,
+  loginPage,
+  userPage,
+  testPage,
 }
+
+var profileMenu = [
+  "프로필 설정",
+  "로그아웃",
+];
 
 enum itemCategory {
   Arms,
